@@ -146,7 +146,7 @@ import os, sys, shutil, getopt, subprocess, codecs
 
 import path
 import train
-import mallet2
+import mallet
 import config
 import find_mallet_field_value_column
 import sum_scores
@@ -327,13 +327,13 @@ class Classifier(TrainerClassifier):
         self._create_mallet_file()
         print "[--classify] creating results file - %s" % \
               os.path.basename(self.results_file)
-        mconfig = mallet2.MalletConfig(
+        mconfig = mallet.MalletConfig(
             config.MALLET_DIR, 'train', 'classify', self.batch,
             self.train_dir, self.classify_dir,
             # TODO: probably need to replace xval with 0
             classifier_type=self.classifier, number_xval=xval, training_portion=0,
             prune_p=False, infogain_pruning="5000", count_pruning="3")
-        mtest = mallet2.MalletClassifier(mconfig)
+        mtest = mallet.MalletClassifier(mconfig)
         mtest.mallet_test_classifier()
         self._calculate_scores()
         mtest.compress_files()
