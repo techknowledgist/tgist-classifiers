@@ -144,7 +144,8 @@ system score. List of options:
 
 import os, sys, shutil, getopt, subprocess, codecs
 
-import path
+sys.path.append(os.path.abspath('../..'))
+
 import train
 import mallet
 import config
