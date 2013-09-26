@@ -480,7 +480,7 @@ def read_opts():
 if __name__ == '__main__':
 
     # default values of options
-    target_path = config.WORKING_PATENT_PATH
+    corpus_path = None
     file_list = 'files.txt'
     features = 'standard'
     pipeline_config = 'pipeline-default.txt'
@@ -496,10 +496,10 @@ if __name__ == '__main__':
 
     for opt, val in opts:
 
-        if opt in ALL_MODES: # --train
+        if opt in ALL_MODES:
             mode = opt
 
-        elif opt == '--corpus': target_path = val
+        elif opt == '--corpus': corpus_path = val
         elif opt == '--model': model = val
         elif opt == '--batch': batch = val
         elif opt == '--filelist': file_list = val
@@ -522,9 +522,12 @@ if __name__ == '__main__':
         elif opt == '--verbose': VERBOSE = True
         elif opt == '--eval-on-unseen-terms': use_all_chunks = False
 
+    if corpus_path is None and not show_batches_p:
+        exit("WARNING: no corpus specified, exiting...\n")
+
     # there is no language to hand in to the runtime config, but it will be
     # plucked from the general configuration if needed
-    rconfig = RuntimeConfig(target_path, None, pipeline_config)
+    rconfig = RuntimeConfig(corpus_path, None, pipeline_config)
     if VERBOSE:
         rconfig.pp()
 
