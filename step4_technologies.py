@@ -193,7 +193,7 @@ class Trainer(TrainerClassifier):
         self.model = model
         self.xval = xval
         self.data_dir = os.path.join(rconfig.corpus, 'data')
-        self.train_dir = os.path.join(self.data_dir, 't1_train', model)
+        self.train_dir = rconfig.model
         self.info_file_general = os.path.join(self.train_dir, "train.info.general.txt")
         self.info_file_annotation = os.path.join(self.train_dir, "train.info.annotation.txt")
         self.info_file_config = os.path.join(self.train_dir, "train.info.config.txt")
@@ -531,7 +531,6 @@ if __name__ == '__main__':
     rconfig = RuntimeConfig(corpus_path, model, None, pipeline_config)
     if VERBOSE:
         rconfig.pp()
-        exit()
 
     if show_data_p:
         show_datasets(rconfig, config.DATA_TYPES)
