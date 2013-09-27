@@ -39,40 +39,44 @@ For training, you typically want to pick the best pipeline settings as it became
 apparent from all previous testing and create a model for a sufficiently large
 training set. Below is an example invocation:
 
-  $ python step4_technologies.py \
+  $ python run_classifier.py \
       --train \
       --corpus data/patents/201305-en \
-      --pipeline pipeline-default.txt \
-      --filelist files-training.txt \
+      --pipeline data/patents/201305-en/pipeline-default.txt \
+      --filelist data/patents/201305-en/files-training.txt \
       --annotation-file ../annotation/en/technology/phr_occ.lab \
       --annotation-count 2000 \
-      --model standard \
+      --model data/models/standard \
       --features extint \
       --xval 0 \
       --verbose
 
-This creates a set of files in data/t1_train/standard in the corpus directory,
-where the last part of the directory name is given by the --model option (which
-basically gives a name to the model created). Additional options:
+This takes the corpus in data/patents/201305-en (the --corpus option) and
+creates a set of files in data/models/standard (the --model option, which
+basically gives a path to the model to be created). A model is always identified
+by the path, so good naming conventions are useful.
 
-  --pipeline FILENAME - file with pipeline configuration; this is used to select
-      the data set, picking out the data set created with that pipeline; the
-      default is 'pipeline-default.txt'.
+Additional options:
+
+  --pipeline FILENAME - file with pipeline configuration; this is used to pick
+      out the data set created with that pipeline; the file is assumed to be in
+      the config directory of the corpus; the default is 'pipeline-default.txt'.
 
   --filelist FILENAME - contains files to process, that is, the elements from
-      the data set used to create the model
+      the data set used to create the model; this is an absolute or relative
+      path to a file
 
-  --annotation-file FILENAME - this specifies file with labeled terms, these
-      terms are used to created positive and negative instances from terms and
-      contexts in the --filelist file
+  --annotation-file FILENAME - this specifies a path to the file with labeled
+      terms, these terms are used to created positive and negative instances
+      from terms and contexts in the --filelist file
 
   --annotation-count INTEGER - number of lines to take from the annotation file,
       the default is to use all labeled terms
 
   --features FILENAME - file with features to use for the model, the name refers
-      to the basename of a file in the features directory (all files there are
-      expected to have the .features extension), the default is to use the
-      features in standard.features
+      to the basename of a file in the features directory (all files in that
+      directory are expected to have the .features extension), the default is to
+      use the features in standard.features
 
   --xval INTEGER - cross-validation setting for classifier, if set to 0 (which
       is the default) then no cross-validation will be performed
@@ -80,17 +84,18 @@ basically gives a name to the model created). Additional options:
 
 CLASSIFICATION
 
-For running the classifier, you just pick your model with the --model option,
-which picks out a model created by the trainer, and run the classifier on a set
-of files defined by a pipeline and a file list. Here is a typical invocation:
+For running the classifier, you just pick your corpus with the --corpus option
+and a model with the --model option, which picks out a model created by the
+trainer, and run the classifier on a set of files defined by a pipeline and a
+file list. Here is a typical invocation:
 
-  $ python step4_technologies.py \
+  $ python run_classifier.py \
       --classify \
       --corpus data/patents/201305-en \
       --pipeline pipeline-default.txt \
-      --filelist files-testing.txt \
-      --model standard \
-      --batch standard.batch1 \
+      --filelist data/patents/201305-en/files-testing.txt \
+      --model data/models/standard \
+      --batch data/classifications/standard.batch1 \
       --verbose
 
 Other options:
@@ -103,11 +108,11 @@ Other options:
 
   --batch STRING - name of the current batch
 
-You may have to run the classifier many times when you have a large dataset,
-hence the --batch options which allows you to number all these batches. It is a
-good idea to reflect the model used in the names of the batches. For example, if
-you use the standard model and you run three batches, you should name them
-something like standard-batch1, standard-batch2, and standard-batch3.
+You may have to run the classifier many times when you have a large corpus. The
+--batch option allows you to number all these batches. It is a good idea to
+reflect the model used in the names of the batches. For example, if you use the
+standard model and you run three batches, you should name them something like
+standard-batch1, standard-batch2, and standard-batch3.
 
 
 EVALUATION
@@ -119,7 +124,7 @@ standard file.
   $ python step4_technologies.py \
       --evaluate \
       --corpus data/patents/201305-en \
-      --batch standard.batch1 \
+      --batch data/classifications/standard.batch1 \
       --gold-standard ../annotation/en/technology/phr_occ.eval.lab \
       --logfile log-evaluation.txt \
       --threshold 0.9
@@ -289,8 +294,8 @@ class Classifier(TrainerClassifier):
         self.use_all_chunks_p = use_all_chunks_p
         
         self.data_dir = os.path.join(self.rconfig.target_path, 'data')
-        self.train_dir = os.path.join(self.data_dir, 't1_train', model)
-        self.classify_dir = os.path.join(self.data_dir, 't2_classify', batch)
+        self.train_dir = rconfig.model
+        self.classify_dir = rconfig.classification
         self.label_file = os.path.join(self.train_dir, "train.info.annotation.txt")
         self.mallet_file = os.path.join(self.classify_dir, "classify.mallet")
         self.results_file = os.path.join(self.classify_dir,
@@ -532,9 +537,10 @@ if __name__ == '__main__':
 
     # there is no language to hand in to the runtime config, but it will be
     # plucked from the general configuration if needed
-    rconfig = RuntimeConfig(corpus_path, model, None, pipeline_config)
+    rconfig = RuntimeConfig(corpus_path, model, batch, None, pipeline_config)
     if VERBOSE:
         rconfig.pp()
+    rconfig.pp()
 
     if show_data_p:
         show_datasets(rconfig, config.DATA_TYPES, VERBOSE)
