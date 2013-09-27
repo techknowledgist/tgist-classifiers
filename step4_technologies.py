@@ -174,6 +174,10 @@ class TrainerClassifier(object):
         self.input_dataset = find_input_dataset(self.rconfig, 'd3_phr_feats')
         check_file_availability(self.input_dataset, self.file_list)
 
+    def _find_filelist(self, file_list):
+        if os.path.exists(file_list):
+            return file_list
+        return os.path.join(self.rconfig.config_dir, file_list)
 
 
 class Trainer(TrainerClassifier):
@@ -187,7 +191,7 @@ class Trainer(TrainerClassifier):
         """Store parameters and initialize file names."""
         self.rconfig = rconfig
         self.features = features
-        self.file_list = os.path.join(rconfig.config_dir, file_list)
+        self.file_list = self._find_filelist(file_list)
         self.annotation_file = annotation_file
         self.annotation_count = annotation_count
         self.model = model
@@ -278,7 +282,7 @@ class Classifier(TrainerClassifier):
         of the run and model refers to a previously created training model."""
 
         self.rconfig = rconfig
-        self.file_list = os.path.join(rconfig.config_dir, file_list)
+        self.file_list = self._find_filelist(file_list)
         self.model = model
         self.batch = batch
         self.classifier = classifier
@@ -533,7 +537,7 @@ if __name__ == '__main__':
         rconfig.pp()
 
     if show_data_p:
-        show_datasets(rconfig, config.DATA_TYPES)
+        show_datasets(rconfig, config.DATA_TYPES, VERBOSE)
     elif show_batches_p:
         show_batches(rconfig)
     elif show_pipelines_p:
