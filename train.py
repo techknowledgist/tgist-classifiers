@@ -244,7 +244,7 @@ def patent_utraining_data3(mallet_file, annotation_file, annotation_count, fname
     mtr = mallet.MalletTraining(mconfig, features)
     mtr.make_utraining_file3(fnames, d_phr2label)
     mtr.mallet_train_classifier()
-    write_training_statistics(stats_file, mtr)
+    #write_training_statistics(stats_file, mtr)
 
 
 def make_utraining_test_file(patent_dir, lang, version, d_phr2label, use_all_chunks_p=True):

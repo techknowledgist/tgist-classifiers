@@ -222,7 +222,7 @@ class Trainer(TrainerClassifier):
         self._find_datasets()
         self._create_info_files()
         self._build_model()
-        
+
     def _create_info_files(self):
         """Create the info files that together give a complete picture of the
         configuration of the classifier as it ran. This is partially done by copying
