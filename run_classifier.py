@@ -129,7 +129,7 @@ standard file.
       --logfile log-evaluation.txt \
       --threshold 0.9
 
-The system will select classify.MaxEnt.out.s5.scores.sum.nr in the selected
+The system will select classify.MaxEnt.out.s4.scores.sum.nr in the selected
 batch of the corpus and consider that file to be the system response. Ideally,
 the gold standard was manually created over the same files as the one in the
 batch. The log file will contain all terms with gold label, system response and
@@ -323,10 +323,9 @@ class Classifier(TrainerClassifier):
         base = os.path.join(self.classify_dir, "classify.%s.out" % (classifier))
         self.classifier_output = base
         self.scores_s1 = base + ".s1.all_scores"
-        self.scores_s2 = base + ".s2.y.nr"
-        self.scores_s3 = base + ".s3.scores"
-        self.scores_s4 = base + ".s4.scores.sum"
-        self.scores_s5 = base + ".s5.scores.sum.nr"
+        self.scores_s2 = base + ".s2.y_scores"
+        self.scores_s3 = base + ".s3.scores.sum"
+        self.scores_s4 = base + ".s4.scores.sum.nr"
 
 
     def run(self):
@@ -393,9 +392,8 @@ class Classifier(TrainerClassifier):
         patent_tech_scores.sh."""
         self._scores_s1_select_score_lines()
         self._scores_s2_select_scores()
-        self._scores_s3_remove_tiny_scores()
-        self._scores_s4_summing_scores()
-        self._scores_s5_sort_scores()
+        self._scores_s3_summing_scores()
+        self._scores_s4_sort_scores()
 
     def run_score_command(self, command, message):
         if VERBOSE:
@@ -411,30 +409,26 @@ class Classifier(TrainerClassifier):
         self.run_score_command(command, message)
 
     def _scores_s2_select_scores(self):
-        # TODO: is the sorting truly needed?
-        if VERBOSE:
-            print "[--scores] select 'y' scores and sort"
         column = find_mallet_field_value_column.find_column(self.scores_s1, 'y')
-        message = "'y' score is in column %s of %s" % \
-                  (column, os.path.basename(self.scores_s1))
-        command = "cat %s | cut -f1,%s | sort -k2 -nr > %s" % \
-                  (self.scores_s1, column, self.scores_s2)
-        self.run_score_command(command, message)
-
-    def _scores_s3_remove_tiny_scores(self):
-        # TODO: what motivated this step?
-        message = "remove tiny scores (that is, scores like 8.833699651282083E-6)"
-        command = "cat %s | grep -v \"E-\" > %s" % (self.scores_s2, self.scores_s3)
-        self.run_score_command(command, message)
-
-    def _scores_s4_summing_scores(self):
         if VERBOSE:
-            print "[--scores] summing scores into", os.path.basename(self.scores_s4)
-        sum_scores.sum_scores(self.scores_s3, self.scores_s4)
+            print "[--scores] select 'y' score from column %s of %s" % \
+                  (column, os.path.basename(self.scores_s1))
+        fh_in = codecs.open(self.scores_s1)
+        fh_out = codecs.open(self.scores_s2, 'w')
+        for line in fh_in:
+            fields = line.split()
+            id = fields[0]
+            score = float(fields[int(column)-1])
+            fh_out.write("%s\t%.6f\n" % (id, score))
 
-    def _scores_s5_sort_scores(self):
+    def _scores_s3_summing_scores(self):
+        if VERBOSE:
+            print "[--scores] summing scores into", os.path.basename(self.scores_s3)
+        sum_scores.sum_scores(self.scores_s2, self.scores_s3)
+
+    def _scores_s4_sort_scores(self):
         message = "sort on average scores"
-        command = "cat %s | sort -k2,2 -nr -t\"\t\" > %s" % (self.scores_s4, self.scores_s5)
+        command = "cat %s | sort -k2,2 -nr -t\"\t\" > %s" % (self.scores_s3, self.scores_s4)
         self.run_score_command(command, message)
 
 
@@ -444,7 +438,7 @@ def run_evaluation(rconfig, batch, gold_standard, threshold, log_file, command):
     standard. """
     corpus_dir = rconfig.target_path
     system_file = os.path.join(corpus_dir, 'data', 't2_classify', batch,
-                               'classify.MaxEnt.out.s5.scores.sum.nr')
+                               'classify.MaxEnt.out.s4.scores.sum.nr')
     if threshold is not None:
         evaluation.test(gold_standard, system_file, threshold, log_file,
                         debug_c=True, command=command)
@@ -540,7 +534,6 @@ if __name__ == '__main__':
     rconfig = RuntimeConfig(corpus_path, model, batch, None, pipeline_config)
     if VERBOSE:
         rconfig.pp()
-    rconfig.pp()
 
     if show_data_p:
         show_datasets(rconfig, config.DATA_TYPES, VERBOSE)
