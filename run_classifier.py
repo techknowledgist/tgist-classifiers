@@ -326,6 +326,7 @@ class Classifier(TrainerClassifier):
         self.scores_s2 = base + ".s2.y_scores"
         self.scores_s3 = base + ".s3.scores.sum"
         self.scores_s4 = base + ".s4.scores.sum.nr"
+        self.scores_s5 = base + ".s4.scores.sum.az"
 
 
     def run(self):
@@ -427,9 +428,12 @@ class Classifier(TrainerClassifier):
         sum_scores.sum_scores(self.scores_s2, self.scores_s3)
 
     def _scores_s4_sort_scores(self):
-        message = "sort on average scores"
-        command = "cat %s | sort -k2,2 -nr -t\"\t\" > %s" % (self.scores_s3, self.scores_s4)
-        self.run_score_command(command, message)
+        message1 = "sort on average scores"
+        message2 = "sort on terms"
+        command1 = "cat %s | sort -k2,2 -nr -t\"\t\" > %s" % (self.scores_s3, self.scores_s4)
+        command2 = "cat %s | sort > %s" % (self.scores_s3, self.scores_s5)
+        self.run_score_command(command1, message1)
+        self.run_score_command(command2, message2)
 
 
 
