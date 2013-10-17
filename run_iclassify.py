@@ -501,7 +501,6 @@ def merge_scores(source_path, iclassify_path, label_file):
     s_cat.close()
 
 
-    
 # read in data from manual and iclassify files, index by key (file + chunk-id)
 # generate raw comparison of categories for chunks.
 # Then extract invention type terms and post-process the other iclassify chunks by keeping only the first
@@ -831,7 +830,7 @@ def test_encoding():
 
 def read_opts():
     # copied from run_classifier, but most options are not used here
-    longopts = ['corpus=', 'language=', 'train', 'classify', 'evaluate', 
+    longopts = ['corpus=', 'language=', 'train', 'classify', 'evaluate', 'bae',
                 'pipeline=', 'filelist=', 'annotation-file=', 'annotation-count=',
                 'batch=', 'features=', 'xval=', 'model=', 'eval-on-unseen-terms',
                 'verbose', 'show-batches', 'show-data', 'show-pipelines',
@@ -865,12 +864,69 @@ def run_iclassifier(corpus, filelist, model, classification, mallet_file, label_
 def create_info_file(corpus, model, filelist, classification):
     with open(os.path.join(classification, 'iclassify.info.general'), 'w') as fh:
         fh.write("$ python %s\n\n" % ' '.join(sys.argv))
-        fh.write("corpus       =  %s\n" % corpus)
-        fh.write("file_list    =  %s\n" % filelist)
-        fh.write("model        =  %s\n" % model)
-        fh.write("git_commit   =  %s" % get_git_commit())
+        fh.write("corpus          =  %s\n" % corpus)
+        fh.write("file_list       =  %s\n" % filelist)
+        fh.write("model           =  %s\n" % model)
+        fh.write("classification  =  %s\n" % classification)
+        fh.write("git_commit      =  %s" % get_git_commit())
 
-        
+
+def generate_bae_tab_format(classification, patent_idx_file):
+    """CReates the format that is input to the BAE triple store. Should probbaly
+    just be added to run_iclassifier """
+
+    with open(os.path.join(classification, 'iclassify.info.merged.tab'), 'w') as fh:
+        fh.write("$ python %s\n\n" % ' '.join(sys.argv))
+        fh.write("classification        =  %s\n" % classification)
+        fh.write("patent_id_idx_source  =  %s\n" % patent_idx_file)
+        fh.write("git_commit            =  %s\n" % get_git_commit())
+
+    idx = read_patent_id_idx(patent_idx_file)
+
+    infile = os.path.join(classification, 'iclassify.MaxEnt.label.merged')
+    outfile = os.path.join(classification, 'iclassify.MaxEnt.label.merged.tab')
+    fh_in = codecs.open(infile)
+    fh_out = codecs.open(outfile, 'w')
+
+    patent_id = None
+    c = 0
+    for line in fh_in:
+        c += 1
+        if c % 10000 == 0: print c
+        #if c > 10000: break
+        if line.startswith('['):
+            filename = line.strip("\n\r[]")
+            patent_id = idx.get(filename, filename)
+        elif line.strip() == '':
+            patent_id = None
+        else:
+            for field, abbrev in [('invention type', 't'),
+                                  ('invention descriptors', 'i'),
+                                  ('contextual terms', 'ct'),
+                                  ('components/attributes', 'ca')]:
+                if line.startswith(field):
+                    vals = line[len(field)+1:].strip()
+                    #field_print_name = field.replace(' ', '_').replace('/', '_')
+                    if patent_id and vals:
+                        for val in vals.split(', '):
+                            fh_out.write("%s\t%s\t%s\n" % (patent_id, abbrev, val))
+
+
+def read_patent_id_idx(idx_file):
+    print "reading patent id index..."
+    idx = {}
+    fh = open(idx_file)
+    fh.readline() # skip the BASE_DIR statement
+    c = 0
+    for line in fh:
+        c += 1
+        if c % 1000000 == 0: print c
+        (id, fname) = line.split()
+        fname =os.path.basename(fname)
+        idx[fname] = id
+    return idx
+
+
 
 if __name__ == '__main__':
 
@@ -891,8 +947,12 @@ if __name__ == '__main__':
     mallet_file =  os.path.join(classification, 'iclassify.mallet')
     label_file = "iclassify.MaxEnt.label"
 
+    # this is used when creating the mapping from patent id to keyterms
+    patent_idx_file = '/home/j/corpuswork/fuse/FUSEData/lists/ln_uspto.all.index.txt'
+
     train = False
     classify = False
+    create_bae_tabfile = False
     filelist = None
     
     # now read options and call the main method
@@ -900,6 +960,7 @@ if __name__ == '__main__':
     for opt, val in opts:
         if opt == '--train': train = True
         elif opt == '--classify': classify = True
+        elif opt == '--bae': create_bae_tabfile = True
         elif opt == '--corpus': corpus = val
         elif opt == '--model': model = val
         elif opt == '--batch': classification = val
@@ -910,5 +971,7 @@ if __name__ == '__main__':
 
     if classify:
         run_iclassifier(corpus, filelist, model, classification, mallet_file, label_file)
+    elif create_bae_tabfile:
+        generate_bae_tab_format(classification, patent_idx_file)
     else:
         print "WARNING: nothing to do."
