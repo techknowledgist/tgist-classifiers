@@ -17,15 +17,23 @@ typical invocation is:
     the classifier, (iii) creating the label file from the classifier output,
     (iv) creating the .cat and .merged files.
     
-There are a few more optins of interest:
+There are a few more options of interest:
 
     --model DIRECTORY:
-        The model to use, defaults to inventions-standard-20130713, which was
-        used for the FUSE phase 2 midterm evaluation (see below for full path)
+        The model to use, defaults to data/models/inventions-standard-20130713,
+        which was used for the FUSE phase 2 midterm evaluation.
         
     --filelist PATH:
         A file with all files from the corpus to be used as input to the
-        classifier. The default here is to use config/files.txt in the corpus.
+        classifier. The default is to use config/files.txt in the corpus.
+
+Some examples:
+
+    $ python run_iclassify.py \
+         --classify \
+         --corpus ../creation/data/patents/test-4 \
+         --model data/models/inventions-standard-20130713 \
+         --batch data/results/test-4
 
 Currently, only the classification phase is done this way, training and
 evaluation need to be added.
@@ -297,20 +305,15 @@ def patent_invention_train(mallet_file,
     ###write_training_statistics(stats_file, mtr)
 
     
-def patent_invention_classify(mallet_file=None, train_dir="", test_dir="",
+def patent_invention_classify(train_dir="", test_dir="",
                               features="invention", version="1",
                               verbose=False, stats_file=None):
 
-    if train_dir == "" and not mallet_file is None:
-        train_dir = os.path.dirname(mallet_file)
-    if test_dir == "" and not mallet_file is None:
-        test_dir = os.path.dirname(mallet_file)
-    print '[patent_invention_classify] train_dir', train_dir
-    print '[patent_invention_classify] test_dir ', test_dir
+    print '[patent_invention_classify] train_dir =', train_dir
+    print '[patent_invention_classify] test_dir  =', test_dir
     mallet_config = mallet.MalletConfig(config.MALLET_DIR, "itrain", "iclassify",
                                         version, train_dir, test_dir, classifier_type="MaxEnt")
     mallet_classifier = mallet.MalletClassifier(mallet_config)
-    #mallet_classifier.write_mallet_vectors_file()
     mallet_classifier.mallet_classify()
     print "[patent_invention_classify] done with classifier"
 
@@ -841,16 +844,21 @@ def read_opts():
         sys.exit("ERROR: " + str(e))
 
             
-def run_iclassifier(corpus, filelist, model, classification, mallet_file, label_file):
+def run_iclassifier(corpus, filelist, model, classification,
+                    label_file='iclassify.MaxEnt.label'):
     """Run the invention classifier on the corpus using the model specified and
     create a classification."""
+    print '\n[run_iclassifier] corpus =', corpus
+    print '[run_iclassifier] files  =', filelist
+    print '[run_iclassifier] model  =', model
+    print '[run_iclassifier] class  =', classification
     ensure_path(classification)
     create_info_file(corpus, model, filelist, classification)
     # create classification/iclassify.mallet from given files in the corpus
     create_mallet_classify_file(corpus, filelist, classification, "invention", "1",
                                 verbose=True)
     # create result files in the classification
-    patent_invention_classify(mallet_file, train_dir=model, test_dir=classification)
+    patent_invention_classify(train_dir=model, test_dir=classification)
     # creates the label file from the classifier output
     command = "cat %s/%s | egrep -v '^name' | egrep '\|.*\|' | python %s > %s/%s" \
               % (classification, 'iclassify.MaxEnt.out', 'invention_top_scores.py',
@@ -937,15 +945,10 @@ if __name__ == '__main__':
     # path_spec_from_root_dir
     corpus = "/home/j/anick/patent-classifier/ontology/creation/data/patents/cs_2002_subset/"
 
-    # location of the statistical model (itrain.model)
-    model = '/home/j/corpuswork/fuse/FUSEData/corpora/cs-500k/models/inventions-standard-20130713'
-    
-    # Directory for the classification, includes the mallet file and the label
-    # file. Note that the label file does not have the classification explicitly
-    # added here, this happens in a method downstream.
+    # default locations of the statistical model (itrain.model) and the
+    # classification
+    model = 'data/models/inventions-standard-20130713'
     classification = os.path.join(os.getcwd(), 'ws')
-    mallet_file =  os.path.join(classification, 'iclassify.mallet')
-    label_file = "iclassify.MaxEnt.label"
 
     # this is used when creating the mapping from patent id to keyterms
     patent_idx_file = '/home/j/corpuswork/fuse/FUSEData/lists/ln_uspto.all.index.txt'
@@ -954,7 +957,7 @@ if __name__ == '__main__':
     classify = False
     create_bae_tabfile = False
     filelist = None
-    
+
     # now read options and call the main method
     (opts, args) = read_opts()
     for opt, val in opts:
@@ -970,7 +973,7 @@ if __name__ == '__main__':
         filelist = os.path.join(corpus, "config/files.txt")
 
     if classify:
-        run_iclassifier(corpus, filelist, model, classification, mallet_file, label_file)
+        run_iclassifier(corpus, filelist, model, classification)
     elif create_bae_tabfile:
         generate_bae_tab_format(classification, patent_idx_file)
     else:
