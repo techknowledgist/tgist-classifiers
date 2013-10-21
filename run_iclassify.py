@@ -76,6 +76,7 @@ import subprocess
 from collections import defaultdict
 from signal import signal, SIGPIPE, SIG_DFL 
 
+# TODO: why does this work?
 from ontology.utils.file import get_year_and_docid, open_input_file, ensure_path
 from ontology.utils.git import get_git_commit
 
@@ -212,66 +213,58 @@ def create_mallet_classify_file(root_dir, file_list_file, iclassify_dir,
                                 features=None, version="1", verbose=False):
 
     print "[create_mallet_classify_file] creating mallet file..."
-    global chunkid2label_count
-    global output_count
-
+    # output file (the mallet instance file to be classified)
+    mallet_file = os.path.join(iclassify_dir, "iclassify.mallet")
     num_lines_output = 0
-    mallet_classify_file = os.path.join(iclassify_dir, "iclassify.mallet")
 
-    # open output file (this will be the mallet instance file to be classified)
-    s_mallet_classify = codecs.open(mallet_classify_file, "w", encoding='utf-8')
+    with open(file_list_file) as s_file_list, \
+         codecs.open(mallet_file, "w", encoding='utf-8') as s_mallet:
+        file_count = 0
+        for line in s_file_list:
+            file_count += 1
+            line = line.strip("\n")
+            # get the date/filename portion of path
+            rel_file = line.split("\t")[2]
+            phr_feats_file = os.path.join(root_dir, 'data', 'd3_phr_feats', '01',
+                                          'files', rel_file)
+            if verbose:
+                print "[create_mallet_classify_file] %05d reading phr_feats from %s" \
+                      % (file_count, os.path.basename(phr_feats_file))
+            num_lines_output += add_phr_feats_file(phr_feats_file, s_mallet)
+        print "[create_mallet_classify_file] %i lines written to %s" \
+              % (num_lines_output, os.sep.join(mallet_file.split(os.sep)[-4:]))
 
-    # loop through files in file_list_file
-    s_file_list = open(file_list_file)
 
-    # keep track of the number of annotations we throw away because they are beyond the first 30
-    overflow = 0
-
-    file_count = 0
-    for line in s_file_list:
-        file_count += 1
+def add_phr_feats_file(phr_feats_file, s_mallet):
+    """Loop through phr_feats_file and add the first 30 lines to s_mallet. Only
+    add the lines if the chunk is in the title or abstract."""
+    # TODO: should maybe b ein separate utilities file (classifier_utlis.py)
+    global output_count
+    num_lines_output = 0
+    # handle compressed or uncompressed files
+    s_phr_feats = open_input_file(phr_feats_file)
+    # keep first 30 chunks, if they are from title/abstract
+    num_chunks = 0
+    for line in s_phr_feats:
+        if num_chunks >= 30:
+            break
         line = line.strip("\n")
-        # get the date/filename portion of path
-        l_line_fields = line.split("\t")
-        rel_file = l_line_fields[2]
-        phr_feats_file = root_dir + "data/d3_phr_feats/01/files/" + rel_file
-        phr_feats_file = os.path.join(root_dir, 'data', 'd3_phr_feats', '01', 'files', rel_file)
-        if verbose:
-            print "[create_mallet_classify_file] %05d reading phr_feats from %s" \
-                  % (file_count, os.path.basename(phr_feats_file))
-        #s_phr_feats = codecs.open(phr_feats_file, encoding='utf-8')
-        # handle compressed or uncompressed files
-        s_phr_feats = open_input_file(phr_feats_file)
-        # keep first 30 chunks, if they are from title/abstract
-        num_chunks = 0
-        for line in s_phr_feats:
-            if num_chunks >= 30:
-                overflow += 1
-                break
-            else:
-                line = line.strip("\n")
-                # check whether line is in title or abstract
-                if line.find("TITLE") > 0 or line.find("ABSTRACT") > 0:
-                    l_data = line.split("\t")
-                    chunkid = l_data[0]
-                    year = l_data[1]
-                    phrase = l_data[2]
-                    l_feats = l_data[3:]
-                    key = make_instance_key(chunkid, year, phrase)
-                    # add dummy "n" as class label
-                    instance_line = key + " n " + " ".join(l_feats) + "\n"
-                    output_count += 1
-                    s_mallet_classify.write(instance_line)
-                    num_chunks += 1
-                    num_lines_output += 1
+        if line.find("TITLE") > 0 or line.find("ABSTRACT") > 0:
+            l_data = line.split("\t")
+            chunkid = l_data[0]
+            year = l_data[1]
+            phrase = l_data[2]
+            l_feats = l_data[3:]
+            key = make_instance_key(chunkid, year, phrase)
+            # add dummy "n" as class label
+            instance_line = key + " n " + " ".join(l_feats) + "\n"
+            output_count += 1
+            s_mallet.write(instance_line)
+            num_chunks += 1
+            num_lines_output += 1
+    s_phr_feats.close()
+    return num_lines_output
 
-        s_phr_feats.close()
-
-    print "[create_mallet_classify_file] %i lines written to %s" \
-          % (num_lines_output, os.sep.join(mallet_classify_file.split(os.sep)[-4:]))
-
-    s_mallet_classify.close()
-    s_file_list.close()
 
 
 # Given a mallet training file, create a model
@@ -304,18 +297,16 @@ def patent_invention_train(mallet_file,
     # todo: add the following line
     ###write_training_statistics(stats_file, mtr)
 
-    
-def patent_invention_classify(train_dir="", test_dir="",
-                              features="invention", version="1",
-                              verbose=False, stats_file=None):
 
-    print '[patent_invention_classify] train_dir =', train_dir
-    print '[patent_invention_classify] test_dir  =', test_dir
+def patent_invention_classify(train_dir, test_dir, features="invention",
+                              version="1", verbose=False, stats_file=None):
+    if verbose:
+        print '[patent_invention_classify] train_dir =', train_dir
+        print '[patent_invention_classify] test_dir  =', test_dir
     mallet_config = mallet.MalletConfig(config.MALLET_DIR, "itrain", "iclassify",
                                         version, train_dir, test_dir, classifier_type="MaxEnt")
     mallet_classifier = mallet.MalletClassifier(mallet_config)
-    mallet_classifier.mallet_classify()
-    print "[patent_invention_classify] done with classifier"
+    mallet_classifier.mallet_classify(verbose=verbose)
 
 
 # Retrieve the title of a patent, which is on line 2 of the files in the txt directory.
@@ -404,24 +395,17 @@ def output_adj_eval_summary(last_doc, l_iclassify_first, d_key2chunkinfo_manual,
 # and iclassify.<classifier>.label.cat
 # invention.merge_scores  
 
-def merge_scores(source_path, iclassify_path, label_file):
+def merge_scores(source_path, iclassify_path, label_file, runtime=False, verbose=True):
 
-    print "[merge_scores] merging scores from label file"
+    if verbose:
+        print "[merge_scores] merging scores from label file"
 
-    l_invention_type = ['assembly', 'means', 'compositions', 'composition',
-                        'method', 'methods','apparatus', 'system', 'use',
-                        'process', 'device', 'technique']
-    # put invention types into a dictionary for easy testing
-    d_invention_type = {}
-    d_invention_type = d_invention_type.fromkeys(l_invention_type)
+    d_invention_type = _get_invention_types()
 
     # full path of label and merged (output) file
-    # todo: This should be set to the proper location for invention data
-    # once we decide where that should be.  Use the workspace dir for now.
     label_path = os.path.join(iclassify_path, label_file)
     output_path = os.path.join(iclassify_path, label_file + ".merged")
     cat_path = os.path.join(iclassify_path, label_file + ".cat")
-
     s_labels = codecs.open(label_path, encoding='utf-8')
     s_merged = codecs.open(output_path, "w", encoding='utf-8')
     s_cat = codecs.open(cat_path, "w", encoding='utf-8')
@@ -450,23 +434,17 @@ def merge_scores(source_path, iclassify_path, label_file):
     for line in s_labels:
         #print "starting line: %i " % line_no
         line_no += 1
-
-        #line = line.decode('utf-8').strip("\n")
         line = line.strip("\n")
-        # get out all the pieces
         (key, label, score) = line.split("\t")
         (year, chunkid, term) = key.split("|")
         (doc, chunk_no) = chunkid.split("_")
+        # this is a bit of a hack to make this work in the runtime setting where
+        # files have added suffixes
+        if runtime and doc.endswith('.tag'):
+            doc = doc[:-4] + '.txt'
         ###print "doc: %s, last_doc: %s, chunk_no: %s" % (doc, last_doc, chunk_no)
         if doc != last_doc:
-            # print out the summary
-            # Don't include the year if it has defaulted to 9999 (meaning no year subdirectory exists)
-            if last_year == "9999":
-                txt_path = os.path.join(source_path, 'data', 'd1_txt', '01', 'files')
-            else:
-                # include the year in the directory path for the txt files
-                txt_path = source_path + "data/d1_txt/01/files/" + last_year + "/"
-                txt_path = os.path.join(source_path, 'data', 'd1_txt', '01', 'files', last_year)
+            txt_path = _get_text_path(source_path, last_year, runtime)
             title = patent_title(txt_path, last_doc)
             if last_doc != "":
                 output_doc_summary(last_doc, title, d_label2terms, s_merged)
@@ -481,27 +459,42 @@ def merge_scores(source_path, iclassify_path, label_file):
         if not d_seen.has_key(term):
             d_seen[term] = True
             if d_invention_type.has_key(term):
-                # set the label to "t"
                 label = "t"
             d_label2terms[label].append(term)
 
     # for end of file...
-    if last_year == "9999":
-        txt_path = source_path + "data/d1_txt/01/files/"
-        txt_path = os.path.join(source_path, 'data', 'd1_txt', '01', 'files')
-    else:
-        # include the year in the directory path for the txt files
-        txt_path = source_path + "data/d1_txt/01/files/" + last_year + "/"
-        txt_path = os.path.join(source_path, 'data', 'd1_txt', '01', 'files', last_year)
-
-
+    txt_path = _get_text_path(source_path, last_year, runtime)
     title = patent_title(txt_path, last_doc)
     output_doc_summary(last_doc, title, d_label2terms, s_merged)
-    output_cat_summary(last_doc,  d_label2terms, s_cat)
+    output_cat_summary(last_doc, d_label2terms, s_cat)
 
-    s_labels.close()
-    s_merged.close()
-    s_cat.close()
+    close_files(s_labels, s_merged, s_cat)
+
+
+
+def _get_invention_types():
+    l_invention_type = ['assembly', 'means', 'compositions', 'composition',
+                        'method', 'methods','apparatus', 'system', 'use',
+                        'process', 'device', 'technique']
+    # put invention types into a dictionary for easy testing
+    d_invention_type = {}
+    d_invention_type = d_invention_type.fromkeys(l_invention_type)
+    return d_invention_type
+
+def _get_text_path(source_path, last_year, runtime=False):
+    if runtime:
+        return source_path
+    # Don't include the year if it has defaulted to 9999 (meaning no year subdirectory exists)
+    if last_year == "9999":
+        return os.path.join(source_path, 'data', 'd1_txt', '01', 'files')
+    # include the year in the directory path for the txt files
+    return os.path.join(source_path, 'data', 'd1_txt', '01', 'files', last_year)
+
+def close_files(*args):
+    for arg in args:
+        arg.close()
+
+
 
 
 # read in data from manual and iclassify files, index by key (file + chunk-id)
@@ -845,7 +838,7 @@ def read_opts():
 
             
 def run_iclassifier(corpus, filelist, model, classification,
-                    label_file='iclassify.MaxEnt.label'):
+                    label_file='iclassify.MaxEnt.label', verbose=False):
     """Run the invention classifier on the corpus using the model specified and
     create a classification."""
     print '\n[run_iclassifier] corpus =', corpus
@@ -856,10 +849,11 @@ def run_iclassifier(corpus, filelist, model, classification,
     create_info_file(corpus, model, filelist, classification)
     # create classification/iclassify.mallet from given files in the corpus
     create_mallet_classify_file(corpus, filelist, classification, "invention", "1",
-                                verbose=True)
+                                verbose=verbose)
     # create result files in the classification
     patent_invention_classify(train_dir=model, test_dir=classification)
     # creates the label file from the classifier output
+    print "[run_iclassifier] creating the .label file"
     command = "cat %s/%s | egrep -v '^name' | egrep '\|.*\|' | python %s > %s/%s" \
               % (classification, 'iclassify.MaxEnt.out', 'invention_top_scores.py',
                  classification, label_file)
@@ -867,6 +861,7 @@ def run_iclassifier(corpus, filelist, model, classification,
     subprocess.call(command, shell=True)
     # creates the .cat and .merged files
     merge_scores(corpus, classification, label_file)
+    print "[run_iclassifier] Done\n"
 
     
 def create_info_file(corpus, model, filelist, classification):
@@ -957,6 +952,7 @@ if __name__ == '__main__':
     classify = False
     create_bae_tabfile = False
     filelist = None
+    verbose = False
 
     # now read options and call the main method
     (opts, args) = read_opts()
@@ -968,12 +964,13 @@ if __name__ == '__main__':
         elif opt == '--model': model = val
         elif opt == '--batch': classification = val
         elif opt == '--filelist': filelist = val
+        elif opt == '--verbose': verbose = True
 
     if filelist is None:    
         filelist = os.path.join(corpus, "config/files.txt")
 
     if classify:
-        run_iclassifier(corpus, filelist, model, classification)
+        run_iclassifier(corpus, filelist, model, classification, verbose=verbose)
     elif create_bae_tabfile:
         generate_bae_tab_format(classification, patent_idx_file)
     else:

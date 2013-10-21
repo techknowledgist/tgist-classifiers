@@ -57,8 +57,9 @@ def cattrs(inst):
         if not(a[0].startswith('__') and a[0].endswith('__')):
             print a
 
-def run_command(cmd):
-    print_command(cmd)
+def run_command(cmd, verbose=True):
+    if verbose:
+        print_command(cmd)
     os.system(cmd)
 
 def print_command(cmd):
@@ -159,8 +160,7 @@ class MalletConfig(object):
         # 2 OUT OUT:0.6415563874015857 IN:0.3584436125984143 
 
         if self.training_portion > 0.0:
-            print "[mallet_train_classifier] " + \
-                  "setting mallet command with portions for testing and training"
+            # mallet command with portions for testing and training
             self.cmd_train_classifier = "sh " + self.mallet_dir + "/mallet train-classifier" + \
                                         " --input " + self.get_vectors_file() + \
                                         " --trainer " + self.classifier_type + \
@@ -171,8 +171,7 @@ class MalletConfig(object):
                                         " 2> " + self.train_stderr_file
 
         elif self.number_xval < 2: 
-            print "[mallet_train_classifier] " + \
-                  "setting mallet command without cross validation or portions"
+            # mallet command without cross validation or portions
             self.cmd_train_classifier = "sh " + self.mallet_dir + "/mallet train-classifier" + \
                                         " --input " + self.get_vectors_file() + \
                                         " --trainer " + self.classifier_type + \
@@ -182,8 +181,7 @@ class MalletConfig(object):
                                         " 2> " + self.train_stderr_file
 
         else:
-            # using cross-validation
-            print "[mallet_train_classifier] setting mallet command with cross validation"
+            # mallet command with cross validation
             self.cmd_train_classifier = "sh " + self.mallet_dir + "/mallet train-classifier" + \
                                         " --input " + self.get_vectors_file() + \
                                         " --trainer " + self.classifier_type + \
@@ -193,17 +191,17 @@ class MalletConfig(object):
                                         " > " + self.train_out_file + \
                                         " 2> " + self.train_stderr_file
 
-            # Remove low values (negative /// why are there multiple scores for
-            # the same features?)
-            self.cmd_sort_model = "cat " + self.cinfo_file + \
-                                  " | egrep -v '^FEAT|^ <default'" + \
-                                  " | egrep -v 'E-[0-9]+$'" + \
-                                  " | sed -e 's/^ //'" + \
-                                  " | python reformat_uc.py" + \
-                                  " | awk '{print $2,$1}'" + \
-                                  " | egrep -v '^-'" + \
-                                  " | sort -nr" + \
-                                  " > " + self.cinfo_sorted_file
+        # Remove low values (negative /// why are there multiple scores for
+        # the same features?)
+        self.cmd_sort_model = "cat " + self.cinfo_file + \
+                              " | egrep -v '^FEAT|^ <default'" + \
+                              " | egrep -v 'E-[0-9]+$'" + \
+                              " | sed -e 's/^ //'" + \
+                              " | python reformat_uc.py" + \
+                              " | awk '{print $2,$1}'" + \
+                              " | egrep -v '^-'" + \
+                              " | sort -nr" + \
+                              " > " + self.cinfo_sorted_file
 
         # classification
         self.cmd_classify_file = "sh " + self.mallet_dir + "/mallet classify-file" + \
@@ -543,12 +541,14 @@ class MalletClassifier:
         run_command(cmd)
 
     # replaces mallet_test_classifier (PGA, used by invention.py)
-    def mallet_classify(self):
-        print "[mallet_test_classifier] classifier_type is %s" \
-              % self.mallet_config.classifier_type
+    def mallet_classify(self, verbose=True):
+        if verbose:
+            print "[mallet_test_classifier] classifier_type is %s" \
+                  % self.mallet_config.classifier_type
         cmd = self.mallet_config.cmd_classify_file
-        print "[mallet_test_classifier]"
-        run_command(cmd)
+        if verbose:
+            print "[mallet_test_classifier]"
+        run_command(cmd, verbose)
         
     def compress_files(self):
         compress(self.mallet_config.test_mallet_file,
