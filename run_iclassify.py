@@ -865,7 +865,10 @@ def run_iclassifier(corpus, filelist, model, classification,
     subprocess.call(command, shell=True)
     # creates the .cat and .merged files
     merge_scores(corpus, classification, label_file)
-
+    # adds the .tab file
+    generate_tab_format(classification)
+    print
+    
     
 def create_info_file(corpus, model, filelist, classification):
     with open(os.path.join(classification, 'iclassify.info.general'), 'w') as fh:
@@ -881,7 +884,7 @@ def generate_tab_format(classification):
     """Creates the format that is input to the BAE triple store. Should probbaly
     just be added to run_iclassifier """
 
-    print "[generate_tab_format] creating tab file\n"
+    print "[generate_tab_format] creating tab file"
     with open(os.path.join(classification, 'iclassify.info.merged.tab'), 'w') as fh:
         fh.write("$ python %s\n\n" % ' '.join(sys.argv))
         fh.write("classification        =  %s\n" % classification)
@@ -989,6 +992,5 @@ if __name__ == '__main__':
 
     if classify:
         run_iclassifier(corpus, filelist, model, classification, verbose=verbose)
-        generate_tab_format(classification)
     else:
         print "WARNING: nothing to do."
