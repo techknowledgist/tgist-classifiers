@@ -877,7 +877,7 @@ def create_info_file(corpus, model, filelist, classification):
         fh.write("git_commit      =  %s" % get_git_commit())
 
 
-def generate_tab_format(classification, patent_idx_file):
+def generate_tab_format(classification):
     """Creates the format that is input to the BAE triple store. Should probbaly
     just be added to run_iclassifier """
 
@@ -885,7 +885,6 @@ def generate_tab_format(classification, patent_idx_file):
     with open(os.path.join(classification, 'iclassify.info.merged.tab'), 'w') as fh:
         fh.write("$ python %s\n\n" % ' '.join(sys.argv))
         fh.write("classification        =  %s\n" % classification)
-        fh.write("patent_id_idx_source  =  %s\n" % patent_idx_file)
         fh.write("git_commit            =  %s\n" % get_git_commit())
 
     infile = os.path.join(classification, 'iclassify.MaxEnt.label.merged')
@@ -968,10 +967,6 @@ if __name__ == '__main__':
     model = 'data/models/inventions-standard-20130713'
     classification = os.path.join(os.getcwd(), 'ws')
 
-    # this file has is-filename pairs and is used when creating the mapping from
-    # patent id to keyterms
-    patent_idx_file = '/home/j/corpuswork/fuse/FUSEData/lists/ln_uspto.all.index.txt'
-
     train = False
     classify = False
     create_bae_tabfile = False
@@ -994,6 +989,6 @@ if __name__ == '__main__':
 
     if classify:
         run_iclassifier(corpus, filelist, model, classification, verbose=verbose)
-        generate_tab_format(classification, patent_idx_file)
+        generate_tab_format(classification)
     else:
         print "WARNING: nothing to do."
