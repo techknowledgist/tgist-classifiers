@@ -67,6 +67,7 @@ evaluation need to be added.
 import commands
 import os
 import sys
+import re
 import config
 import mallet
 import codecs
@@ -336,8 +337,8 @@ def list_to_csv_string(l_items):
     return( ", ".join(l_items).replace("_", " "))
 
 # Output a human readable summary of title and keyterms for a patent to an open stream
-def output_doc_summary(doc, title, d_label2terms, s_merged):
-    s_merged.write("[%s]\n" % doc)
+def output_doc_summary(year, doc, title, d_label2terms, s_merged):
+    s_merged.write("[%s %s]\n" % (year, doc))
     s_merged.write("title: %s\n" % title)
     s_merged.write("invention type: %s\n" % list_to_csv_string(d_label2terms["t"]))
     s_merged.write("invention descriptors: %s\n" % list_to_csv_string(d_label2terms["i"]))
@@ -401,60 +402,37 @@ def merge_scores(source_path, iclassify_path, label_file, runtime=False, verbose
         print "[merge_scores] merging scores from label file"
 
     d_invention_type = _get_invention_types()
-
-    # full path of label and merged (output) file
-    label_path = os.path.join(iclassify_path, label_file)
-    output_path = os.path.join(iclassify_path, label_file + ".merged")
-    cat_path = os.path.join(iclassify_path, label_file + ".cat")
-    s_labels = codecs.open(label_path, encoding='utf-8')
-    s_merged = codecs.open(output_path, "w", encoding='utf-8')
-    s_cat = codecs.open(cat_path, "w", encoding='utf-8')
-
+    (s_labels, s_merged, s_cat) = _get_file_handles(iclassify_path, label_file)
+    
     last_doc = ""
-    last_phrase = ""
+    last_year = ""
+    title = ""
+    year = ""
 
     # for each doc, track which phrases have been seen
     d_seen = {}
     d_label2terms = defaultdict(list)
-    
-    title = ""
-    year = ""
-    last_year = ""
 
-    # format of label file is:
-    # 1994|US5318556A.xml_0|fluid_bag i       0.864621951173
-
-    # The same phrase can occur multiple times with different labels.  We
-    # will choose the first label (heuristic).
-    # The label i(nvention) includes some invention type terms.  We will detect
-    # these and relable them as type.  We will also look at the last term in a 
-    # multiword i phrase to see if it contains a type term (in case one does not occur
-    # independently.
+    # The same phrase can occur multiple times with different labels. We will
+    # choose the first label (heuristic). The label i(nvention) includes some
+    # invention type terms. We will detect these and relable them as type. We
+    # will also look at the last term in a multiword i phrase to see if it
+    # contains a type term (in case one does not occur independently.
+    # Format of label file is: 1994|US5318556A.xml_0|fluid_bag i 0.864621951173
     line_no = 1
     for line in s_labels:
         #print "starting line: %i " % line_no
         line_no += 1
-        line = line.strip("\n")
-        (key, label, score) = line.split("\t")
-        (year, chunkid, term) = key.split("|")
-        (doc, chunk_no) = chunkid.split("_")
-        # this is a bit of a hack to make this work in the runtime setting where
-        # files have added suffixes
-        if runtime and doc.endswith('.tag'):
-            doc = doc[:-4] + '.txt'
-        ###print "doc: %s, last_doc: %s, chunk_no: %s" % (doc, last_doc, chunk_no)
+        (key, label, score, year, chunk_id, term, doc, chunk_no) = \
+              _parse_feats_line(line, runtime)
+        #print "doc: %s, last_doc: %s, chunk_no: %s" % (doc, last_doc, chunk_no)
         if doc != last_doc:
-            txt_path = _get_text_path(source_path, last_year, runtime)
-            title = patent_title(txt_path, last_doc)
-            if last_doc != "":
-                output_doc_summary(last_doc, title, d_label2terms, s_merged)
-                output_cat_summary(last_doc, d_label2terms, s_cat)
+            _print_summary(source_path, last_year, runtime, last_doc,
+                           d_label2terms, s_merged, s_cat)
             last_doc = doc
             last_year = year
             d_seen = {}
             d_label2terms = defaultdict(list)
-        
-        # more info on the current doc
         # if term hasn't been seen, store under its first label
         if not d_seen.has_key(term):
             d_seen[term] = True
@@ -463,14 +441,30 @@ def merge_scores(source_path, iclassify_path, label_file, runtime=False, verbose
             d_label2terms[label].append(term)
 
     # for end of file...
-    txt_path = _get_text_path(source_path, last_year, runtime)
-    title = patent_title(txt_path, last_doc)
-    output_doc_summary(last_doc, title, d_label2terms, s_merged)
-    output_cat_summary(last_doc, d_label2terms, s_cat)
+    _print_summary(source_path, last_year, runtime, last_doc,
+                   d_label2terms, s_merged, s_cat)
 
     close_files(s_labels, s_merged, s_cat)
 
 
+def _print_summary(source_path, last_year, runtime, last_doc,
+                   d_label2terms, s_merged, s_cat):
+    txt_path = _get_text_path(source_path, last_year, runtime)
+    title = patent_title(txt_path, last_doc)
+    if last_doc != "":
+        output_doc_summary(last_year, last_doc, title, d_label2terms, s_merged)
+        output_cat_summary(last_doc, d_label2terms, s_cat)
+
+def _parse_feats_line(line, runtime):
+    line = line.strip("\n")
+    (key, label, score) = line.split("\t")
+    (year, chunkid, term) = key.split("|")
+    (doc, chunk_no) = chunkid.split("_")
+    # this is a bit of a hack to make this work in the runtime setting where
+    # files have added suffixes (MV)
+    if runtime and doc.endswith('.tag'):
+        doc = doc[:-4] + '.txt'
+    return (key, label, score, year, chunkid, term, doc, chunk_no)
 
 def _get_invention_types():
     l_invention_type = ['assembly', 'means', 'compositions', 'composition',
@@ -480,6 +474,16 @@ def _get_invention_types():
     d_invention_type = {}
     d_invention_type = d_invention_type.fromkeys(l_invention_type)
     return d_invention_type
+
+def _get_file_handles(iclassify_path, label_file):
+    # full path of label and merged (output) file
+    label_path = os.path.join(iclassify_path, label_file)
+    output_path = os.path.join(iclassify_path, label_file + ".merged")
+    cat_path = os.path.join(iclassify_path, label_file + ".cat")
+    s_labels = codecs.open(label_path, encoding='utf-8')
+    s_merged = codecs.open(output_path, "w", encoding='utf-8')
+    s_cat = codecs.open(cat_path, "w", encoding='utf-8')
+    return (s_labels, s_merged, s_cat)
 
 def _get_text_path(source_path, last_year, runtime=False):
     if runtime:
@@ -826,7 +830,7 @@ def test_encoding():
 
 def read_opts():
     # copied from run_classifier, but most options are not used here
-    longopts = ['corpus=', 'language=', 'train', 'classify', 'evaluate', 'bae',
+    longopts = ['corpus=', 'language=', 'train', 'classify', 'evaluate',
                 'pipeline=', 'filelist=', 'annotation-file=', 'annotation-count=',
                 'batch=', 'features=', 'xval=', 'model=', 'eval-on-unseen-terms',
                 'verbose', 'show-batches', 'show-data', 'show-pipelines',
@@ -857,11 +861,10 @@ def run_iclassifier(corpus, filelist, model, classification,
     command = "cat %s/%s | egrep -v '^name' | egrep '\|.*\|' | python %s > %s/%s" \
               % (classification, 'iclassify.MaxEnt.out', 'invention_top_scores.py',
                  classification, label_file)
-    print '$', command
+    print '   $', command
     subprocess.call(command, shell=True)
     # creates the .cat and .merged files
     merge_scores(corpus, classification, label_file)
-    print "[run_iclassifier] Done\n"
 
     
 def create_info_file(corpus, model, filelist, classification):
@@ -874,17 +877,16 @@ def create_info_file(corpus, model, filelist, classification):
         fh.write("git_commit      =  %s" % get_git_commit())
 
 
-def generate_bae_tab_format(classification, patent_idx_file):
-    """CReates the format that is input to the BAE triple store. Should probbaly
+def generate_tab_format(classification, patent_idx_file):
+    """Creates the format that is input to the BAE triple store. Should probbaly
     just be added to run_iclassifier """
 
+    print "[generate_tab_format] creating tab file\n"
     with open(os.path.join(classification, 'iclassify.info.merged.tab'), 'w') as fh:
         fh.write("$ python %s\n\n" % ' '.join(sys.argv))
         fh.write("classification        =  %s\n" % classification)
         fh.write("patent_id_idx_source  =  %s\n" % patent_idx_file)
         fh.write("git_commit            =  %s\n" % get_git_commit())
-
-    idx = read_patent_id_idx(patent_idx_file)
 
     infile = os.path.join(classification, 'iclassify.MaxEnt.label.merged')
     outfile = os.path.join(classification, 'iclassify.MaxEnt.label.merged.tab')
@@ -898,8 +900,8 @@ def generate_bae_tab_format(classification, patent_idx_file):
         if c % 10000 == 0: print c
         #if c > 10000: break
         if line.startswith('['):
-            filename = line.strip("\n\r[]")
-            patent_id = idx.get(filename, filename)
+            year, filename = line.strip("\n\r[]").split()
+            patent_id = get_patent_id_from_filename(filename)
         elif line.strip() == '':
             patent_id = None
         else:
@@ -912,22 +914,43 @@ def generate_bae_tab_format(classification, patent_idx_file):
                     #field_print_name = field.replace(' ', '_').replace('/', '_')
                     if patent_id and vals:
                         for val in vals.split(', '):
-                            fh_out.write("%s\t%s\t%s\n" % (patent_id, abbrev, val))
+                            fh_out.write("%s\t%s\t%s\t%s\t%s\n" \
+                                         % (year, patent_id, filename, abbrev, val))
 
 
-def read_patent_id_idx(idx_file):
-    print "reading patent id index..."
-    idx = {}
-    fh = open(idx_file)
-    fh.readline() # skip the BASE_DIR statement
-    c = 0
+
+# regular expression to pick the id out of a patent filename, this was tested
+# with check_regexp_on_index()
+PATENT_ID_EXP = re.compile('^(US)?(\D*)(\d+)')
+
+
+def get_patent_id_from_filename(fname):
+    fname = os.path.basename(fname)
+    result = PATENT_ID_EXP.search(fname)
+    if result is None:
+        return None
+    return result.group(2) + result.group(3)
+    
+    
+def check_regexp_on_index():
+    """Check whether the regular expression is the one used for generating the
+    index file. Print a line if the id in the file does not match the one
+    extracted from the filename."""
+    exp = re.compile('^(US)?(\D*)(\d+)')
+    f = '/home/j/corpuswork/fuse/FUSEData/lists/ln_uspto.all.index.txt'
+    fh = open(f)
+    fh.readline()
     for line in fh:
-        c += 1
-        if c % 1000000 == 0: print c
-        (id, fname) = line.split()
-        fname =os.path.basename(fname)
-        idx[fname] = id
-    return idx
+        id, fname = line.split()
+        fname = os.path.basename(fname)
+        result = exp.search(fname)
+        if result is None:
+            print line,
+        id_in_fname = exp.search(fname).group(2) + exp.search(fname).group(3)
+        if id != id_in_fname:
+            print id, id_in_fname, fname
+
+
 
 
 
@@ -945,7 +968,8 @@ if __name__ == '__main__':
     model = 'data/models/inventions-standard-20130713'
     classification = os.path.join(os.getcwd(), 'ws')
 
-    # this is used when creating the mapping from patent id to keyterms
+    # this file has is-filename pairs and is used when creating the mapping from
+    # patent id to keyterms
     patent_idx_file = '/home/j/corpuswork/fuse/FUSEData/lists/ln_uspto.all.index.txt'
 
     train = False
@@ -959,7 +983,6 @@ if __name__ == '__main__':
     for opt, val in opts:
         if opt == '--train': train = True
         elif opt == '--classify': classify = True
-        elif opt == '--bae': create_bae_tabfile = True
         elif opt == '--corpus': corpus = val
         elif opt == '--model': model = val
         elif opt == '--batch': classification = val
@@ -971,7 +994,6 @@ if __name__ == '__main__':
 
     if classify:
         run_iclassifier(corpus, filelist, model, classification, verbose=verbose)
-    elif create_bae_tabfile:
-        generate_bae_tab_format(classification, patent_idx_file)
+        generate_tab_format(classification, patent_idx_file)
     else:
         print "WARNING: nothing to do."
