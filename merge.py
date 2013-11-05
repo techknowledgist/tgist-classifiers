@@ -7,13 +7,19 @@ Usage:
     
 $ python merge.py 1997 1998 1999 2000 2001 ...
 
+The result is written to all_terms.count.txt which has two fields: a total count
+and the term.
+
+Merging all files from BASE_DIR (which have a total of 51,752,285 terms) results
+in an all_terms.txt file with 31,453,657 terms (on 10/24/2013).
+
 """
 
 
 import os, sys, codecs
 
 
-BASE_DIR = '/home/j/corpuswork/fuse/FUSEData/corpora/cs-500k/classifications'
+BASE_DIR = '/home/j/corpuswork/fuse/FUSEData/corpora/ln-cs-500k/classifications'
 CLASSIFICATION_EXP = '%s-technologies-standard-1000'
 
 TERM_FILE = 'classify.MaxEnt.out.s5.scores.sum.az'
@@ -51,7 +57,7 @@ def simple_merge(years):
                 terms[term] = terms.get(term, 0) + term_count
 
     print "\nWriting all %d terms" % len(terms)
-    fh_out = codecs.open('all_terms.txt', 'w')
+    fh_out = codecs.open('all_terms.count.txt', 'w')
     for term in terms:
         fh_out.write("%d\t%s\n" % (terms[term], term))
 

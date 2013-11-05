@@ -39,7 +39,7 @@ For training, you typically want to pick the best pipeline settings as it became
 apparent from all previous testing and create a model for a sufficiently large
 training set. Below is an example invocation:
 
-  $ python run_classifier.py \
+  $ python run_tclassify.py \
       --train \
       --corpus data/patents/201305-en \
       --pipeline data/patents/201305-en/pipeline-default.txt \
