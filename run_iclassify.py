@@ -866,7 +866,7 @@ def run_iclassifier(corpus, filelist, model, classification,
     # creates the .cat and .merged files
     merge_scores(corpus, classification, label_file)
     # adds the .tab file
-    generate_tab_format(classification)
+    generate_tab_format(classification, verbose)
     print
     
     
@@ -880,11 +880,12 @@ def create_info_file(corpus, model, filelist, classification):
         fh.write("git_commit      =  %s" % get_git_commit())
 
 
-def generate_tab_format(classification):
+def generate_tab_format(classification, verbose=False):
     """Creates the format that is input to the BAE triple store. Should probbaly
     just be added to run_iclassifier """
 
-    print "[generate_tab_format] creating tab file"
+    if verbose:
+        print "[generate_tab_format] creating tab file"
     with open(os.path.join(classification, 'iclassify.info.merged.tab'), 'w') as fh:
         fh.write("$ python %s\n\n" % ' '.join(sys.argv))
         fh.write("classification        =  %s\n" % classification)
