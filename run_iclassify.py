@@ -398,9 +398,6 @@ def output_adj_eval_summary(last_doc, l_iclassify_first, d_key2chunkinfo_manual,
 
 def merge_scores(source_path, iclassify_path, label_file, runtime=False, verbose=True):
 
-    if verbose:
-        print "[merge_scores] merging scores from label file"
-
     d_invention_type = _get_invention_types()
     (s_labels, s_merged, s_cat) = _get_file_handles(iclassify_path, label_file)
     
@@ -863,13 +860,10 @@ def run_iclassifier(corpus, filelist, model, classification,
                  classification, label_file)
     print '   $', command
     subprocess.call(command, shell=True)
-    # creates the .cat and .merged files
-    merge_scores(corpus, classification, label_file)
-    # adds the .tab file
-    generate_tab_format(classification, verbose)
+    process_label_file(corpus, classification, label_file, verbose)
     print
-    
-    
+
+
 def create_info_file(corpus, model, filelist, classification):
     with open(os.path.join(classification, 'iclassify.info.general'), 'w') as fh:
         fh.write("$ python %s\n\n" % ' '.join(sys.argv))
@@ -879,17 +873,25 @@ def create_info_file(corpus, model, filelist, classification):
         fh.write("classification  =  %s\n" % classification)
         fh.write("git_commit      =  %s" % get_git_commit())
 
+def process_label_file(corpus, classification, label_file, verbose):
+    """Takes the file with the labels and generates various derived data."""
+    if verbose:
+        print "[process_label_file] processing the label file"
+    merge_scores(corpus, classification, label_file)
+    generate_tab_format(classification, verbose)
+    generate_relations(classification, verbose)
+
+
 
 def generate_tab_format(classification, verbose=False):
-    """Creates the format that is input to the BAE triple store. Should probbaly
-    just be added to run_iclassifier """
+    """Creates iclassify.MaxEnt.label.merged.tab, the tabulated format of the
+    merged file. It has the same information as the merged file except that it
+    does not print the title of the patent."""
 
-    if verbose:
-        print "[generate_tab_format] creating tab file"
-    with open(os.path.join(classification, 'iclassify.info.merged.tab'), 'w') as fh:
-        fh.write("$ python %s\n\n" % ' '.join(sys.argv))
-        fh.write("classification        =  %s\n" % classification)
-        fh.write("git_commit            =  %s\n" % get_git_commit())
+    fields =  [('invention type', 't'),
+               ('invention descriptors', 'i'),
+               ('contextual terms', 'ct'),
+               ('components/attributes', 'ca')]
 
     infile = os.path.join(classification, 'iclassify.MaxEnt.label.merged')
     outfile = os.path.join(classification, 'iclassify.MaxEnt.label.merged.tab')
@@ -908,18 +910,53 @@ def generate_tab_format(classification, verbose=False):
         elif line.strip() == '':
             patent_id = None
         else:
-            for field, abbrev in [('invention type', 't'),
-                                  ('invention descriptors', 'i'),
-                                  ('contextual terms', 'ct'),
-                                  ('components/attributes', 'ca')]:
+            for field, abbrev in fields:
                 if line.startswith(field):
                     vals = line[len(field)+1:].strip()
-                    #field_print_name = field.replace(' ', '_').replace('/', '_')
-                    if patent_id and vals:
+                    if patent_id is not None and vals:
                         for val in vals.split(', '):
                             fh_out.write("%s\t%s\t%s\t%s\t%s\n" \
                                          % (year, patent_id, filename, abbrev, val))
 
+
+def generate_relations(classification, verbose=False):
+    """Creates iclassify.MaxEnt.label.relations.tab, a file with relations
+    between terms. Relations are 'i-ct' (relation is between an invention and a
+    contextual term in the same patent), 'i-ca' (relation between invention and
+    a component/attribute) and ca-ca (relation of two terms that are both
+    components/attributes of the same invention)."""
+
+    def print_rels(terms, fh):
+        i_terms = sorted(terms['i'])
+        ca_terms = sorted(terms['ca'])
+        ct_terms = sorted(terms['ct'])
+        for i in i_terms:
+            for ca in ca_terms: fh.write("%s\t%s\t%s\n" % ('i-ca', i, ca))
+            for ct in ct_terms: fh.write("%s\t%s\t%s\n" % ('i-ct', i, ct))
+        for ca1 in ca_terms:
+            for ca2 in ca_terms:
+                if ca1 < ca2:
+                    fh.write("%s\t%s\t%s\n" % ('ca-ca', ca1, ca2))
+
+    infile = os.path.join(classification, 'iclassify.MaxEnt.label.merged.tab')
+    outfile = os.path.join(classification, 'iclassify.MaxEnt.label.relations.tab')
+    fh_in = codecs.open(infile)
+    fh_out = codecs.open(outfile, 'w')
+
+    rels = ['i', 'ca', 'ct']
+    current_patent_id = None
+    current_terms = { 'i':[], 'ct':[], 'ca':[] }
+
+    for line in fh_in:
+        year, patent_id, fname, rel, term = line.rstrip("\n\r").split("\t")
+        #print (year, patent_id, fname, rel, term)
+        if patent_id != current_patent_id:
+            print_rels(current_terms, fh_out)
+            current_patent_id = patent_id
+            current_terms = { 'i':[], 'ct':[], 'ca':[] }
+        if rel in rels:
+            current_terms[rel].append(term)
+    print_rels(current_terms, fh_out)
 
 
 # regular expression to pick the id out of a patent filename, this was tested
