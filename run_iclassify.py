@@ -218,22 +218,22 @@ def create_mallet_classify_file(root_dir, file_list_file, iclassify_dir,
     mallet_file = os.path.join(iclassify_dir, "iclassify.mallet")
     num_lines_output = 0
 
-    with open(file_list_file) as s_file_list, \
-         codecs.open(mallet_file, "w", encoding='utf-8') as s_mallet:
-        file_count = 0
-        for line in s_file_list:
-            file_count += 1
-            line = line.strip("\n")
-            # get the date/filename portion of path
-            rel_file = line.split("\t")[2]
-            phr_feats_file = os.path.join(root_dir, 'data', 'd3_phr_feats', '01',
-                                          'files', rel_file)
-            if verbose:
-                print "[create_mallet_classify_file] %05d reading phr_feats from %s" \
-                      % (file_count, os.path.basename(phr_feats_file))
-            num_lines_output += add_phr_feats_file(phr_feats_file, s_mallet)
-        print "[create_mallet_classify_file] %i lines written to %s" \
-              % (num_lines_output, os.sep.join(mallet_file.split(os.sep)[-4:]))
+    with open(file_list_file) as s_file_list:
+        with codecs.open(mallet_file, "w", encoding='utf-8') as s_mallet:
+            file_count = 0
+            for line in s_file_list:
+                file_count += 1
+                line = line.strip("\n")
+                # get the date/filename portion of path
+                rel_file = line.split("\t")[2]
+                phr_feats_file = os.path.join(root_dir, 'data', 'd3_phr_feats', '01',
+                                              'files', rel_file)
+                if verbose:
+                    print "[create_mallet_classify_file] %05d reading phr_feats from %s" \
+                        % (file_count, os.path.basename(phr_feats_file))
+                num_lines_output += add_phr_feats_file(phr_feats_file, s_mallet)
+            print "[create_mallet_classify_file] %i lines written to %s" \
+                % (num_lines_output, os.sep.join(mallet_file.split(os.sep)[-4:]))
 
 
 def add_phr_feats_file(phr_feats_file, s_mallet):
