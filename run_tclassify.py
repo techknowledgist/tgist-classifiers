@@ -1,6 +1,4 @@
-"""
-
-Scripts that lets you run the trainer and classifier on specified datasets. It
+"""Script that lets you run the trainer and classifier on specified datasets. It
 runs in three major modes: training, classification and evaluation. These modes
 are selected with the following three options:
 
@@ -145,19 +143,39 @@ system score. List of options:
 
   --threshold - classifier threshold, if none specified, a range from 0.0-0.9 is used
 
+
+MEMORY
+
+Memory settings are in the mallet bin directory, which on the Brandeis CS
+system is in
+
+/home/j/corpuswork/fuse/code/patent-classifier/tools/mallet/mallet-2.0.7/bin
+
+The relevant files and the current settings are:
+
+    classifier2info  -  2000m
+    csv2vectors      -  4000m
+    mallet           -  2g
+
+When creating large models some of these may need to be edited.
+
+Could consider adding a --memory option which can be used to overrule this, but
+that is a tad complicated because the mallet scripts would also need to be
+changed.
+
 """
 
 import os, sys, shutil, getopt, subprocess, codecs
 
 sys.path.append(os.path.abspath('../..'))
 
+import config
+import evaluation
 import train
 import mallet
-import config
-import find_mallet_field_value_column
-import sum_scores
-import evaluation
 
+from ontology.classifier.utils.find_mallet_field_value_column import find_column
+from ontology.classifier.utils.sum_scores import sum_scores
 from ontology.utils.batch import RuntimeConfig, get_datasets, show_datasets, show_pipelines
 from ontology.utils.batch import find_input_dataset, check_file_availability, Profiler
 from ontology.utils.file import filename_generator, ensure_path, open_output_file
@@ -410,7 +428,7 @@ class Classifier(TrainerClassifier):
         self.run_score_command(command, message)
 
     def _scores_s2_select_scores(self):
-        column = find_mallet_field_value_column.find_column(self.scores_s1, 'y')
+        column = find_column(self.scores_s1, 'y')
         if VERBOSE:
             print "[--scores] select 'y' score from column %s of %s" % \
                   (column, os.path.basename(self.scores_s1))
@@ -425,7 +443,7 @@ class Classifier(TrainerClassifier):
     def _scores_s3_summing_scores(self):
         if VERBOSE:
             print "[--scores] summing scores into", os.path.basename(self.scores_s3)
-        sum_scores.sum_scores(self.scores_s2, self.scores_s3)
+        sum_scores(self.scores_s2, self.scores_s3)
 
     def _scores_s4_sort_scores(self):
         message1 = "sort on average scores"
