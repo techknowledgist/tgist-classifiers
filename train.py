@@ -230,11 +230,10 @@ def patent_utraining_data(patent_dir, lang, version="1", xval=0, limit=0,
 def patent_utraining_data3(mallet_file, annotation_file, annotation_count, fnames,
                            features=None, version="1", xval=0,
                            verbose=False, stats_file=None):
-    """Wrapper around mallet.py functionality to create a classifier
-    model. Creates a dictionary of annotations, sets the mallet configuration
-    and creates an instance of MalletTraining class to do the rest: creating
-    .mallet file, creating the .vectors file from the mallet file, and creating
-    the model."""
+    """Wrapper around mallet.py functionality to create a classifier model. Creates
+    a dictionary of annotations, sets the mallet configuration and creates an
+    instance of MalletTraining class to do the rest: creating .mallet file,
+    creating the .vectors file from the mallet file, and creating the model."""
     d_phr2label = load_phrase_labels3(annotation_file, annotation_count)
     train_output_dir = os.path.dirname(mallet_file)
     mconfig = mallet.MalletConfig(

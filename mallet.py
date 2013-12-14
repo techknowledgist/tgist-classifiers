@@ -353,25 +353,37 @@ class MalletTraining:
 
 
     def make_utraining_file3(self, fnames, d_phr2label, verbose=False):
+        """Create a file with training instances for Mallet. The list of phrase feature
+        files to use is given in fnames and the annotated terms in d_phr2label.
+        Also sets a couple of instance variables with statistics on labeled and
+        unlabeled instances and types: stats_unlabled_count has a count of all
+        instances (that is, term-document pairs) in the files in fnames without
+        labels, stats_labeled_count has the number of all labeled instances, and
+        stats_terms has a dictionary of terms to number of labeled instances per
+        term.
 
-        """ Create a file with training instances for Mallet. The list of
-        feature files to use is given in fnames and the annotated terms in
-        d_phr2label. This method is based on a similarly named function in
-        train.py. It was moved here for consistency. This version should
-        eventually make train.make_utraining_file() obsolete."""
+        This method is based on a similarly named function in train.py.
 
-        version = self.mallet_config.version
+        """
+
         mallet_file = self.mallet_config.train_mallet_file
-        print "[make_utraining_file3] writing to", mallet_file
-        print "[make_utraining_file3] features used:", \
-              sorted(self.d_features.keys())
+        if verbose:
+            print "[mallet.make_utraining_file3] writing to", mallet_file
+            print "[mallet.make_utraining_file3] features used:", \
+                sorted(self.d_features.keys())
 
         self.stats_labeled_count = 0
+        self.stats_labeled_count_y = 0
+        self.stats_labeled_count_n = 0
         self.stats_unlabeled_count = 0
-        file_count = 0
+        self.stats_terms = {}
+        self.stats_terms_y = {}
+        self.stats_terms_n = {}
 
+        file_count = 0
         with codecs.open(mallet_file, "w", encoding='utf-8') as s_train:
             for phr_feats_file in fnames:
+                file_count += 1
                 if verbose:
                     print "%05d %s" % (file_count, phr_feats_file)
                 year, doc_id = get_year_and_docid(phr_feats_file)
@@ -385,19 +397,22 @@ class MalletTraining:
                         if d_phr2label.has_key(term):
                             label = d_phr2label.get(term)
                             if label == "":
-                                print "[make_utraining_file3] " + \
-                                      "WARNING: term with null label: %s" % term
-                            else:
+                                print "[mallet.make_utraining_file3] " + \
+                                    "WARNING: term with null label: %s" % term
+                            elif label in ('y', 'n'):
+                                self.stats_terms[term] = self.stats_terms.get(term, 0) + 1
+                                d = self.stats_terms_y if label == 'y' else self.stats_terms_n
+                                d[term] = d.get(term, 0) + 1
                                 # mallet line format: "uid label f1 f2 f3 ..."
                                 mallet_line = " ".join([uid, label] + feats)
                                 s_train.write(mallet_line + "\n")
                                 self.stats_labeled_count += 1
                         else:
                             self.stats_unlabeled_count += 1
-        
-        print "[make_utraining_file3] labeled instances: %i, unlabeled: %i" \
-              % (self.stats_labeled_count, self.stats_unlabeled_count)
 
+        if verbose:
+            print "[make_utraining_file3] labeled instances: %i, unlabeled: %i, labeled types: %i" \
+                % (self.stats_labeled_count, self.stats_unlabeled_count, len(self.stats_terms))
 
 
     ## NOTE: The next two functions are used to build a .mallet file.  If this
