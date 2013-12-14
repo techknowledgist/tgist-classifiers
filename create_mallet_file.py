@@ -1,6 +1,6 @@
 """Script to create a .mallet file from a corpus. The .mallet file is defined by
-the corpus, a file list (which defaults to all files in the corpus) and a file
-with labeled instances.
+the corpus, a pipeline used to process the corpus, a file list (which defaults
+to all files in the corpus) and a file with labeled instances.
 
 Usage:
 
@@ -141,17 +141,6 @@ class MalletFileCreator(TrainerClassifier):
             fh.write("annotation_count  =  %s\n" % self.annotation_count)
             fh.write("config_file       =  %s\n" % \
                      os.path.abspath(rconfig.pipeline_config_file))
-            fh.write("git_commit        =  %s" % get_git_commit())
-
-    def _create_info_general_file(self):
-        with open(self.info_file_general, 'w') as fh:
-            fh.write("$ python %s\n\n" % ' '.join(sys.argv))
-            fh.write("model             =  %s\n" % os.path.abspath(self.model))
-            fh.write("file_list         =  %s\n" % os.path.abspath(self.file_list))
-            fh.write("annotation_file   =  %s\n" % os.path.abspath(self.annotation_file))
-            fh.write("annotation_count  =  %s\n" % self.annotation_count)
-            fh.write("config_file       =  %s\n" % \
-                     os.path.abspath(rconfig.pipeline_config_file))
             fh.write("timestamp         =  %s\n" % time.strftime("%Y%m%d:%H%M%S"))
             fh.write("git_commit        =  %s\n" % get_git_commit())
 
@@ -181,7 +170,7 @@ class MalletFileCreator(TrainerClassifier):
             fh.write("\n\nTerms with negative training instances:\n\n")
             for term in sorted(terms_n.keys()):
                 fh.write("   %6d   %s\n" % (terms_n[term], term))
-            
+
     def _create_mallet_file(self):
         self._load_phrase_labels()
         mconfig = mallet.MalletConfig(

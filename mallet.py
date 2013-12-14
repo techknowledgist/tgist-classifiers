@@ -36,7 +36,7 @@ os.chdir(script_dir)
 
 from ontology.utils.batch import generate_doc_feats
 from ontology.utils.file import compress, uncompress, get_year_and_docid
-from ontology.utils.file import open_input_file, open_output_file
+from ontology.utils.file import open_input_file
 
 
 
@@ -382,7 +382,7 @@ class MalletTraining:
         self.stats_terms_n = {}
 
         file_count = 0
-        s_train = open_output_file(mallet_file)
+        s_train = codecs.open(mallet_file, 'w', encoding='utf-8')
         for phr_feats_file in fnames:
             file_count += 1
             if verbose:
