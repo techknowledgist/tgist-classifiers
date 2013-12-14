@@ -41,21 +41,23 @@ to the process.
 
 Typical invocation:
 
-   $ python malletfile_create.py \
+   $ python create_mallet_file.py \
        --corpus ../creation/data/patents/201312-en-500 \
-       --model-dir data/models/en-010-d \
+       --model-dir data/models/technologies-201312-en-500-010 \
        --annotation-file ../annotation/en/technology/phr_occ.lab \
        --filelist files-010.txt
     
 This takes the corpus in ../creation/data/patents/201312-en-500 and creates a
 mallet file in data/models/en-010 as well as a directry with information
-files. The labels used are from ../annotation/en/technology/phr_occ.lab and the
-default to use all files in the corpus is overuled by using the list in
+files. As a convention, it is probably a good idea to let the name of the model
+directory reflect the corpus, the subset of the corpus, and perhaps the
+annotation set. The labels used are from ../annotation/en/technology/phr_occ.lab
+and the default to use all files in the corpus is overuled by using the list in
 ../creation/data/patents/201312-en-500/config/files-010.txt.
 
 """
 
-import os, sys, shutil, getopt, codecs
+import os, sys, shutil, getopt, codecs, time
 
 sys.path.append(os.path.abspath('../..'))
 
@@ -150,7 +152,8 @@ class MalletFileCreator(TrainerClassifier):
             fh.write("annotation_count  =  %s\n" % self.annotation_count)
             fh.write("config_file       =  %s\n" % \
                      os.path.abspath(rconfig.pipeline_config_file))
-            fh.write("git_commit        =  %s" % get_git_commit())
+            fh.write("timestamp         =  %s\n" % time.strftime("%Y%m%d:%H%M%S"))
+            fh.write("git_commit        =  %s\n" % get_git_commit())
 
     def _create_info_annotation_file(self):
         with codecs.open(self.annotation_file) as fh1:

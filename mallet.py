@@ -35,7 +35,8 @@ sys.path.insert(0, os.getcwd())
 os.chdir(script_dir)
 
 from ontology.utils.batch import generate_doc_feats
-from ontology.utils.file import compress, uncompress, get_year_and_docid, open_input_file
+from ontology.utils.file import compress, uncompress, get_year_and_docid
+from ontology.utils.file import open_input_file, open_output_file
 
 
 
@@ -381,34 +382,34 @@ class MalletTraining:
         self.stats_terms_n = {}
 
         file_count = 0
-        with codecs.open(mallet_file, "w", encoding='utf-8') as s_train:
-            for phr_feats_file in fnames:
-                file_count += 1
-                if verbose:
-                    print "%05d %s" % (file_count, phr_feats_file)
-                year, doc_id = get_year_and_docid(phr_feats_file)
-                with open_input_file(phr_feats_file) as fh:
-                    # this hard-wires the use of union train
-                    docfeats = generate_doc_feats(fh, doc_id, year)
-                    for term in sorted(docfeats.keys()):
-                        feats = docfeats[term][2:]
-                        feats = self.remove_filtered_feats(feats)
-                        uid = "%s|%s|%s" % (year, doc_id, term.replace(' ','_'))
-                        if d_phr2label.has_key(term):
-                            label = d_phr2label.get(term)
-                            if label == "":
-                                print "[mallet.make_utraining_file3] " + \
-                                    "WARNING: term with null label: %s" % term
-                            elif label in ('y', 'n'):
-                                self.stats_terms[term] = self.stats_terms.get(term, 0) + 1
-                                d = self.stats_terms_y if label == 'y' else self.stats_terms_n
-                                d[term] = d.get(term, 0) + 1
-                                # mallet line format: "uid label f1 f2 f3 ..."
-                                mallet_line = " ".join([uid, label] + feats)
-                                s_train.write(mallet_line + "\n")
-                                self.stats_labeled_count += 1
-                        else:
-                            self.stats_unlabeled_count += 1
+        s_train = open_output_file(mallet_file)
+        for phr_feats_file in fnames:
+            file_count += 1
+            if verbose:
+                print "%05d %s" % (file_count, phr_feats_file)
+            year, doc_id = get_year_and_docid(phr_feats_file)
+            with open_input_file(phr_feats_file) as fh:
+                # this hard-wires the use of union train
+                docfeats = generate_doc_feats(fh, doc_id, year)
+                for term in sorted(docfeats.keys()):
+                    feats = docfeats[term][2:]
+                    feats = self.remove_filtered_feats(feats)
+                    uid = "%s|%s|%s" % (year, doc_id, term.replace(' ','_'))
+                    if d_phr2label.has_key(term):
+                        label = d_phr2label.get(term)
+                        if label == "":
+                            print "[mallet.make_utraining_file3] " + \
+                                "WARNING: term with null label: %s" % term
+                        elif label in ('y', 'n'):
+                            self.stats_terms[term] = self.stats_terms.get(term, 0) + 1
+                            d = self.stats_terms_y if label == 'y' else self.stats_terms_n
+                            d[term] = d.get(term, 0) + 1
+                            # mallet line format: "uid label f1 f2 f3 ..."
+                            mallet_line = " ".join([uid, label] + feats)
+                            s_train.write(mallet_line + "\n")
+                            self.stats_labeled_count += 1
+                    else:
+                        self.stats_unlabeled_count += 1
 
         if verbose:
             print "[make_utraining_file3] labeled instances: %i, unlabeled: %i, labeled types: %i" \
