@@ -309,8 +309,11 @@ class MalletTraining:
 
         # id's are 0 based
         self.next_instance_id = 0
-        
-        self.train_mallet_file = mallet_config.train_mallet_file
+
+        # we allow MalletTraining instances without a MalletConfig (for access
+        # to the features dictionary), so need to allow for that here
+        if mallet_config is not None:
+            self.train_mallet_file = mallet_config.train_mallet_file
 
         self.l_instance = []
 
@@ -331,17 +334,17 @@ class MalletTraining:
         argument can either be a filename or an identifier that points to a file
         in the features directory."""
         if os.path.isfile(features):
-            filter_filename = features
+            self.features_file = features
         else:
-            filter_filename = os.path.join("features", features + ".features")
+            self.features_file = os.path.join("features", features + ".features")
         try:
-            with open(filter_filename) as s_filter:
-                print "[MalletTraining] Using features file: %s" % filter_filename
+            with open(self.features_file) as s_filter:
+                print "[MalletTraining] Using features file: %s" % self.features_file
                 for line in s_filter:
                     feature_prefix = line.strip()
                     self.d_features[feature_prefix] = True
         except IOError as e:
-            print "[MalletTraining] No features file found: %s" % filter_filename
+            print "[MalletTraining] No features file found: %s" % self.features_file
 
     def remove_filtered_feats(self, feats):
         """Given a list of features, return a line with all non-filtered
