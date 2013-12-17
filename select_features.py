@@ -5,10 +5,10 @@ where all features that are not specified in the feature list are removed. The
 feature list is given in a file, with one line for each feature. If the file is
 empty, no features will be kept.
 
-The name of the new file is derived from the old file,basically by expanding the
-filename with the name of the feature file. For example, if the input file is
-named train.ds00100.mallet and the feature file is 'extint, then the output file
-will be named train.ds00100.extint.mallet.
+The name of the new file is derived from the old file, basically by expanding
+the filename with the name of the feature file. For example, if the input file
+is named train.ds00100.mallet and the feature file is 'extint, then the output
+file will be named train.ds00100.extint.mallet.
 
 
 Usage:
@@ -35,7 +35,7 @@ Example:
 
 Wishlist:
 
-1- Add a way to keep all features, this is now only possible by speficying each
+1- Add a way to keep all features, this is now only possible by specifying each
    feature generated for the phr_feats files.
 
 2- Add a way to remove specified features, rather than keeping specified features.
@@ -98,7 +98,8 @@ class MalletInstance(object):
     """Implements a mallet instance with unique identifier, label and features."""
 
     # TODO: should probably be in mallet.py, also because this will also be used
-    # by run_tclassifier.py
+    # by run_tclassifier.py (actually, there already is such a class in
+    # mallet.py, merge them)
 
     def __init__(self, line):
         self.line = line

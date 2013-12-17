@@ -497,6 +497,90 @@ class MalletTraining:
         run_command(cmd)
 
 
+class SimpleMalletTrainer(object):
+
+    """Simpler version of MalletConfig and MalletTrainer all rolled into one
+    class. MalletConfig was a bit too strict in terms of where it expected files
+    to be so in this version the location of mallet files, vector files and
+    model files are determined by the caller."""
+
+    def __init__(self, mallet_dir, classifier_type='MaxEnt', number_xval=0,
+                 training_portion=0, prune_p=False, infogain_pruning="5000",
+                 count_pruning="3"):
+
+        self.mallet_dir = mallet_dir
+        # all these are command line options
+        self.classifier_type = classifier_type
+        self.number_xval = number_xval
+        self.training_portion = training_portion
+        self.prune_p = prune_p
+        self.infogain_pruning = infogain_pruning
+        self.count_pruning = count_pruning
+        # these are used to store the commands used, can be used afterwards when
+        # creating the info file
+        self.saved_create_vectors_command = ''
+        self.saved_create_model_command = ''
+        self.saved_create_cinfo_commands = ('', '')
+
+    def settings(self):
+        return "classifier_type=%s xval=%d training_portion=%s prune_p=%s infogain_pruning=%s count_pruning=%s" % \
+            (self.classifier_type, self.number_xval, self.training_portion,
+             self.prune_p, self.infogain_pruning, self.count_pruning)
+
+    def create_vectors(self, mallet_file, vectors_file, print_output=False):
+        run_command(self.create_vectors_command(mallet_file, vectors_file, print_output))
+
+    def create_model(self, vectors_file, model_file, out_file, stderr_file):
+        run_command(self.create_model_command(vectors_file, model_file, out_file, stderr_file))
+
+    def create_cinfo(self, model_file, cinfo_file, cinfo_file_sorted):
+        """Create readable versions of model values for features."""
+        for cmd in self.create_cinfo_commands(model_file, cinfo_file, cinfo_file_sorted):
+            run_command(cmd)
+
+    def create_vectors_command(self, mallet_file, vectors_file, print_output=False):
+        cmd = "sh %s/csv2vectors --token-regex '[^ ]+' --input %s --output %s" \
+                  % (self.mallet_dir, mallet_file, vectors_file)
+        if print_output:
+            cmd +=  " --print-output TRUE > %s.out" % vectors_file
+        self.saved_create_vectors_command = cmd
+        return cmd
+
+    def create_model_command(self, vectors_file, model_file, out_file, stderr_file):
+        basic_command = "sh %s/mallet train-classifier --input %s --trainer %s --output-classifier %s" % \
+                        (self.mallet_dir, vectors_file, self.classifier_type, model_file)
+        if self.training_portion > 0.0:
+            # mallet command with portions for testing and training
+            cmd = basic_command + \
+                  " --training-portion %d" % (self.training_portion) + \
+                  " --report test:accuracy test:confusion train:raw > %s 2> %s" % (out_file, stderr_file)
+        elif self.number_xval < 2:
+            # mallet command without cross validation or portions
+            cmd = basic_command + \
+                  " --report test:accuracy test:confusion test:raw > %s 2> %s" % (out_file, stderr_file)
+        else:
+            # mallet command with cross validation
+            cmd = basic_command + \
+                  " --cross-validation %d" % (self.number_xval) + \
+                  " --report test:accuracy test:confusion test:raw > %s 2> %s" % (out_file, stderr_file)
+        self.saved_create_model_command = cmd
+        return cmd
+
+    def create_cinfo_commands(self, model_file, cinfo_file, cinfo_file_sorted):
+        cmd1 = "sh %s/classifier2info --classifier %s > %s" \
+               % (self.mallet_dir, model_file, cinfo_file)
+        cmd2 = "cat %s" % cinfo_file + \
+               " | egrep -v '^FEAT|^ <default'" + \
+               " | egrep -v 'E-[0-9]+$'" + \
+               " | sed -e 's/^ //'" + \
+               " | python reformat_uc.py" + \
+               " | awk '{print $2,$1}'" + \
+               " | sort -nr" + \
+               " > %s" % cinfo_file_sorted
+        self.saved_create_cinfo_commands = (cmd1, cmd2)
+        return (cmd1, cmd2)
+
+
 
 ##################
 # PGA 
