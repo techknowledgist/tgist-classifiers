@@ -581,6 +581,35 @@ class SimpleMalletTrainer(object):
         return (cmd1, cmd2)
 
 
+class SimpleMalletClassifier(object):
+
+    def __init__(self, mallet_dir, classifier_type='MaxEnt', number_xval=0,
+                 training_portion=0, prune_p=False, infogain_pruning="5000",
+                 count_pruning="3"):
+
+        self.mallet_dir = mallet_dir
+        # all these are command line options
+        self.classifier_type = classifier_type
+        self.number_xval = number_xval
+        self.training_portion = training_portion
+        self.prune_p = prune_p
+        self.infogain_pruning = infogain_pruning
+        self.count_pruning = count_pruning
+        self.saved_run_classifier_command = ''
+
+    def run_classifier(self, model_file, mallet_file, results_file, stderr_file):
+        run_command(self.run_classifier_command(model_file, mallet_file, results_file, stderr_file))
+
+    def run_classifier_command(self, model_file, mallet_file, results_file, stderr_file):
+        regex_option = '--line-regex "^(\S*)[\s,]*(\S*)[\s]*(.*)$"'
+        cmd = \
+            "sh %s/mallet classify-file %s --name 1 --data 3" % (self.mallet_dir, regex_option) + \
+            " --input %s --classifier %s --output - > %s 2> %s" % (mallet_file, model_file,
+                                                                   results_file, stderr_file)
+        self.saved_run_classifier_command = cmd
+        return cmd
+
+
 
 ##################
 # PGA 

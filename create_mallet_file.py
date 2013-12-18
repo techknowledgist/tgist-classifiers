@@ -235,7 +235,6 @@ if __name__ == '__main__':
     if model_path is None: exit("WARNING: no model directory specified, exiting...\n")
     if annotation_file is None: exit("WARNING: no annotation file specified, exiting...\n")
 
-        
     # there is no language to hand in to the runtime config, but it will be
     # plucked from the general configuration if needed
     rconfig = RuntimeConfig(corpus_path, model_path, None, None, pipeline_config)

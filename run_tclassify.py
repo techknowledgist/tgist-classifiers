@@ -178,7 +178,7 @@ from ontology.classifier.utils.find_mallet_field_value_column import find_column
 from ontology.classifier.utils.sum_scores import sum_scores
 from ontology.utils.batch import RuntimeConfig, get_datasets, show_datasets, show_pipelines
 from ontology.utils.batch import find_input_dataset, check_file_availability, Profiler
-from ontology.utils.file import filename_generator, ensure_path, open_output_file
+from ontology.utils.file import filename_generator, ensure_path, open_output_file, compress
 from ontology.utils.git import get_git_commit
 
 # note that the old--scores option is now folded in with --classify
@@ -490,6 +490,133 @@ def show_batches(rconfig):
     print "\nTotal files: %d\n" % total_files
 
 
+
+class NewClassifier(Classifier):
+
+    """Simpler version of Classifier (at least, that is the goal)."""
+
+    def __init__(self, rconfig, file_list, model, batch, use_all_chunks_p):
+
+        self.rconfig = rconfig
+        self.file_list = file_list
+        self.model = model
+        self.batch = batch
+        self.use_all_chunks_p = use_all_chunks_p
+        self.input_dataset = None
+
+        self.mallet_file = self.batch + os.sep + 'classify.mallet'
+        self.info_file_general = os.path.join(self.batch, "classify.info.general.txt")
+        self.info_file_config = os.path.join(self.batch, "classify.info.config.txt")
+        self.info_file_filelist = os.path.join(self.batch, "classify.info.filelist.txt")
+
+        classifier = 'MaxEnt'
+
+        self.results_file = os.path.join(self.batch, "classify.%s.out" % (classifier))
+        self.stderr_file = os.path.join(self.batch, "classify.%s.stderr" % (classifier))
+
+        base = os.path.join(self.batch, "classify.%s.out" % (classifier))
+        self.classifier_output = base
+        self.scores_s1 = base + ".s1.all_scores"
+        self.scores_s2 = base + ".s2.y_scores"
+        self.scores_s3 = base + ".s3.scores.sum"
+        self.scores_s4 = base + ".s4.scores.sum.nr"
+        self.scores_s5 = base + ".s4.scores.sum.az"
+
+
+    def run(self):
+        if os.path.exists(self.info_file_general):
+            sys.exit("WARNING: already have classifier results in %s" % self.batch)
+        ensure_path(self.batch)
+        self._find_datasets()
+        self._create_mallet_file()
+        self._run_classifier()
+        self._calculate_scores()
+        self._create_info_files()
+        compress(self.results_file, self.mallet_file, self.scores_s1)
+
+
+    def _create_info_files(self):
+        print "[--classify] initializing %s directory" %  self.batch
+        with open(self.info_file_general, 'w') as fh:
+            fh.write("$ python %s\n\n" % ' '.join(sys.argv))
+            fh.write("batch        =  %s\n" % self.batch)
+            fh.write("file_list    =  %s\n" % self.file_list)
+            fh.write("model        =  %s\n" % self.model)
+            fh.write("features     =  %s\n" % ' '.join(self.features))
+            fh.write("config_file  =  %s\n" % os.path.basename(rconfig.pipeline_config_file))
+            fh.write("git_commit   =  %s" % get_git_commit())
+        shutil.copyfile(self.rconfig.pipeline_config_file, self.info_file_config)
+        shutil.copyfile(self.file_list, self.info_file_filelist)
+
+    def _create_mallet_file(self):
+        fnames = filename_generator(self.input_dataset.path, self.file_list)
+        fh = open_output_file(self.mallet_file, compress=False)
+        self._set_features()
+        if VERBOSE:
+            print "[create_mallet_file] features: %s" % (self.features)
+        features = dict([(f,True) for f in self.features])
+        stats = { 'labeled_count': 0, 'unlabeled_count': 0, 'total_count': 0 }
+        count = 0
+        for fname in fnames:
+            count += 1
+            if VERBOSE:
+                print "[create_mallet_file] %05d %s" % (count, fname)
+            train.add_file_to_utraining_test_file(
+                fname, fh, {}, features, stats, use_all_chunks_p=self.use_all_chunks_p)
+        fh.close()
+        if VERBOSE:
+            print "[create_mallet_file]", stats
+
+    def _run_classifier(self):
+        mclassifier = mallet.SimpleMalletClassifier(config.MALLET_DIR)
+        mclassifier.run_classifier(self.model, self.mallet_file, self.results_file, self.stderr_file)
+
+
+    def _set_features(self):
+        if VERBOSE:
+            print "[get_features] model file =", self.model
+        info_file = self.model + '.info'
+        feature_set = None
+        while True:
+            features = parse_info_file(info_file)
+            if features is None:
+                break
+            if features.has_key('features'):
+                newfeats = frozenset(features['features'].split())
+                if feature_set is None:
+                    feature_set = newfeats
+                else:
+                    feature_set = feature_set.intersect(newfeats)
+            mallet_file = features.get('mallet file')
+            if mallet_file is not None:
+                info_file = mallet_file + '.info'
+                continue
+            source_file = features.get('source file')
+            if source_file is not None:
+                info_file = source_file + '.info'
+                continue
+        self.features = sorted(list(feature_set))
+
+
+def parse_info_file(fname):
+    """Parse an info file and return a dictionary of features. Return None if the
+    file does not exist. Assumes that the last feature of note is always
+    git_commit."""
+    if VERBOSE:
+        print "[parse_info_file]", fname
+    features = {}
+    try:
+        for line in open(fname):
+            if line.find('=') > -1:
+                f, v = line.split('=', 1)
+                features[f.strip()] = v.strip()
+                if f.strip() == 'git_commit':
+                    break
+        return features
+    except IOError:
+        return None
+
+
 def read_opts():
     longopts = ['corpus=', 'language=', 'train', 'classify', 'evaluate', 
                 'pipeline=', 'filelist=', 'annotation-file=', 'annotation-count=',
@@ -567,9 +694,12 @@ if __name__ == '__main__':
     elif mode == '--train':
         Trainer(rconfig, file_list, features,
                 annotation_file, annotation_count, model, xval).run()
+
     elif mode == '--classify':
-        Classifier(rconfig, file_list, model, batch,
-                   use_all_chunks_p=use_all_chunks).run()
+        #Classifier(rconfig, file_list, model, batch,
+        #           use_all_chunks_p=use_all_chunks).run()
+        NewClassifier(rconfig, file_list, model, batch, use_all_chunks_p=use_all_chunks).run()
+
     elif mode == '--evaluate':
         command = "python %s" % ' '.join(sys.argv)
         run_evaluation(rconfig, batch, gold_standard, threshold, logfile, command)
