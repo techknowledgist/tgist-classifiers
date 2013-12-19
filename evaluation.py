@@ -484,6 +484,7 @@ def test(eval_test_file, system_test_file, threshold, log_file_name,
     print results_string
     s_log.write("\n" + results_string + "\n")
     s_log.close()
+    return results_string
 
 
 ####################################################################################

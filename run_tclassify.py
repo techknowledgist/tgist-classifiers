@@ -495,12 +495,13 @@ class NewClassifier(Classifier):
 
     """Simpler version of Classifier (at least, that is the goal)."""
 
-    def __init__(self, rconfig, file_list, model, batch, use_all_chunks_p):
+    def __init__(self, rconfig, file_list, model, batch, gold_standard, use_all_chunks_p):
 
         self.rconfig = rconfig
         self.file_list = file_list
         self.model = model
         self.batch = batch
+        self.gold_standard = gold_standard
         self.use_all_chunks_p = use_all_chunks_p
         self.input_dataset = None
 
@@ -509,6 +510,7 @@ class NewClassifier(Classifier):
         self.info_file_config = os.path.join(self.batch, "classify.info.config.txt")
         self.info_file_filelist = os.path.join(self.batch, "classify.info.filelist.txt")
 
+        # TODO: do not hardwire this, make it a default option
         classifier = 'MaxEnt'
 
         self.results_file = os.path.join(self.batch, "classify.%s.out" % (classifier))
@@ -531,6 +533,7 @@ class NewClassifier(Classifier):
         self._create_mallet_file()
         self._run_classifier()
         self._calculate_scores()
+        self._run_eval()
         self._create_info_files()
         compress(self.results_file, self.mallet_file, self.scores_s1)
 
@@ -571,6 +574,22 @@ class NewClassifier(Classifier):
         mclassifier = mallet.SimpleMalletClassifier(config.MALLET_DIR)
         mclassifier.run_classifier(self.model, self.mallet_file, self.results_file, self.stderr_file)
 
+
+    def _run_eval(self):
+        """Evaluate results if a gold standard is handed in. It is the responsibility of
+        the user to make sure that it makes sense to compare this gold standard
+        to the system result."""
+        # TODO: now the log files have a lot of redundancy, fix this
+        if gold_standard is not None:
+            summary_file = os.path.join(self.batch, "eval-results-summary.txt")
+            summary_fh = open(summary_file, 'w')
+            system_file = os.path.join(self.batch, 'classify.MaxEnt.out.s4.scores.sum.nr')
+            command =  "python %s" % ' '.join(sys.argv)
+            for threshold in (0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9):
+                log_file = os.path.join(self.batch, "eval-results-%.1f.txt" % threshold)
+                result = evaluation.test(gold_standard, system_file, threshold, log_file,
+                                         debug_c=False, command=command)
+                summary_fh.write("%s\n" % result)
 
     def _set_features(self):
         if VERBOSE:
@@ -681,8 +700,7 @@ if __name__ == '__main__':
     # there is no language to hand in to the runtime config, but it will be
     # plucked from the general configuration if needed
     rconfig = RuntimeConfig(corpus_path, model, batch, None, pipeline_config)
-    if VERBOSE:
-        rconfig.pp()
+    if VERBOSE: rconfig.pp()
 
     if show_data_p:
         show_datasets(rconfig, config.DATA_TYPES, VERBOSE)
@@ -698,7 +716,8 @@ if __name__ == '__main__':
     elif mode == '--classify':
         #Classifier(rconfig, file_list, model, batch,
         #           use_all_chunks_p=use_all_chunks).run()
-        NewClassifier(rconfig, file_list, model, batch, use_all_chunks_p=use_all_chunks).run()
+        NewClassifier(rconfig, file_list, model, batch, gold_standard,
+                      use_all_chunks_p=use_all_chunks).run()
 
     elif mode == '--evaluate':
         command = "python %s" % ' '.join(sys.argv)
