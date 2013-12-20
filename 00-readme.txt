@@ -40,3 +40,25 @@ $ python select_features.py OPTIONS
 This is done with run
 
 $ python run_tclassify.py OPTIONS
+
+
+
+MEMORY
+
+Memory settings are in the mallet bin directory, which on the Brandeis CS
+system is in
+
+/home/j/corpuswork/fuse/code/patent-classifier/tools/mallet/mallet-2.0.7/bin
+
+The relevant files and the current settings are:
+
+    classifier2info  -  2000m
+    csv2vectors      -  4000m
+    mallet           -  2g
+
+When creating large models some of these may need to be edited.
+
+Could consider adding a --memory option which can be used to overrule this, but
+that is a tad complicated because the mallet scripts would also need to be
+changed.
+

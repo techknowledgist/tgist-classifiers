@@ -2,30 +2,13 @@
 
 Script that lets you run the classifier on a dataset.
 
+Usage:
 
-Note that unlike with the document processing step there is no language option,
-this reflects the mostly language independent nature of this step. Of course,
-the corpus itself has the lanuage in its configuration file.
+$ python run_tclassify.py OPTIONS
 
-    
-SHOWING INFO
+Options:
 
-There are two options that are there purely to print information about the
-corpus:
-
-  --show-data        print available datasets, then exit
-  --show-pipelines   print defined pipelines, then exit
-
-Both these options require the --corpus option but nothing else (in fact, all
-other options handed in will be ignored). The following shows how to use the
-three main modes.
-
-    
-OPTIONS
-
-  --corpus PATH   corpus directory
-
-  --verbose       switches on verbose mode
+  --corpus PATH - corpus directory
 
    --pipeline FILENAME - file with pipeline configuration; this is used to pick
       out the data set created with that pipeline; the file is assumed to be in
@@ -38,85 +21,49 @@ OPTIONS
   --xval INTEGER - cross-validation setting for classifier, if set to 0 (which
       is the default) then no cross-validation will be performed
 
-  --model STRING - selects the model used for classification
+  --model PATH - selects the model used for classification
 
-  --batch STRING - name of the current batch being created
+  --batch PATH - name of the current batch being created, this is th edirectory
+     where all data will be written to.
 
-  --gold-standard - file with labeled terms
+  --gold-standard - file with labeled terms for evaluations, if this is
+     specified the system results will be compared to this list
 
-  --logfile - logfile, default is ../evaluation/logs/tmp.log
+  --verbose - switches on verbose mode
 
-  --threshold - classifier threshold, if none specified, a range from 0.0-0.9 is used
+There are two options that are there purely to print information about the
+corpus:
 
+  --show-data        print available datasets, then exit
+  --show-pipelines   print defined pipelines, then exit
 
-
-CLASSIFICATION
-
-For running the classifier, you just pick your corpus with the --corpus option
-and a model with the --model option, which picks out a model created by the
-trainer, and run the classifier on a set of files defined by a pipeline and a
-file list. Here is a typical invocation:
-
-  $ python run_tclassify.py \
-      --corpus data/patents/201305-en \
-      --pipeline pipeline-default.txt \
-      --filelist data/patents/201305-en/files-testing.txt \
-      --model data/models/standard \
-      --batch data/classifications/standard.batch1 \
-      --verbose
+Both these options require the --corpus option but nothing else (in fact, all
+other options handed in will be ignored).
 
 
+For running the classifier, you just pick your corpus and a model and run the
+classifier on a set of files defined by a pipeline and a file list. Here is a
+typical invocation:
 
-You may have to run the classifier many times when you have a large corpus. The
---batch option allows you to number all these batches. It is a good idea to
-reflect the model used in the names of the batches. For example, if you use the
-standard model and you run three batches, you should name them something like
-standard-batch1, standard-batch2, and standard-batch3.
+   $ python run_tclassify.py \
+     --corpus ../creation/data/patents/201312-en-500/ \
+     --filelist ../creation/data/patents/201312-en-500/config/files-010.txt \
+     --model data/models/technologies-201312-en-500-010/train.ds0005.standard.model \
+     --batch data/classifications/test2 \
+     --verbose
 
+Evaluation can be added simply by handing in a labeled file as the extra
+--gold-standard option. The current gold standard for evaluation would be
+accessed as follows:
 
-EVALUATION
+     --gold-standard ../annotation/en/technology/phr_occ.eval.lab
 
-Evaluation mode is simply a wrapper around the evaluaton.py script. In addition
-to a corpus name, you need to supply it with a batch identifier and a gold
-standard file.
-
-Use the gold-standard options for this.
-
-  $ python step4_technologies.py \
-      --evaluate \
-      --corpus data/patents/201305-en \
-      --batch data/classifications/standard.batch1 \
-      --gold-standard ../annotation/en/technology/phr_occ.eval.lab \
-      --logfile log-evaluation.txt \
-      --threshold 0.9
 
 The system will select classify.MaxEnt.out.s4.scores.sum.nr in the selected
 batch of the corpus and consider that file to be the system response. Ideally,
 the gold standard was manually created over the same files as the one in the
 batch. The log file will contain all terms with gold label, system response and
 system score. List of options:
-
-
-MEMORY
-
-Memory settings are in the mallet bin directory, which on the Brandeis CS
-system is in
-
-/home/j/corpuswork/fuse/code/patent-classifier/tools/mallet/mallet-2.0.7/bin
-
-The relevant files and the current settings are:
-
-    classifier2info  -  2000m
-    csv2vectors      -  4000m
-    mallet           -  2g
-
-When creating large models some of these may need to be edited.
-
-MOVE SOME OF THIS TO CREATE_MODEL
-
-Could consider adding a --memory option which can be used to overrule this, but
-that is a tad complicated because the mallet scripts would also need to be
-changed.
 
 """
 
@@ -173,8 +120,6 @@ class Classifier(TrainerClassifier):
         self.info_file_general = os.path.join(self.batch, "classify.info.general.txt")
         self.info_file_config = os.path.join(self.batch, "classify.info.config.txt")
         self.info_file_filelist = os.path.join(self.batch, "classify.info.filelist.txt")
-
-        # TODO: do not hardwire this, make it a default option
 
         self.results_file = os.path.join(self.batch, "classify.%s.out" % (self.classifier))
         self.stderr_file = os.path.join(self.batch, "classify.%s.stderr" % (self.classifier))
