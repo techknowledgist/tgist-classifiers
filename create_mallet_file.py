@@ -22,7 +22,7 @@ Options:
   --filelist FILENAME - contains files to process, that is, the elements from
       the data set used to create the model; this is an absolute or relative
       path to a file (if there is no path, the config directory in the corpus is
-      used)
+      used), the default is files.txt
 
   --annotation-file FILENAME - this specifies a path to the file with labeled
       terms, these terms are used to created positive and negative instances
@@ -54,6 +54,10 @@ directory reflect the corpus, the subset of the corpus, and perhaps the
 annotation set. The labels used are from ../annotation/en/technology/phr_occ.lab
 and the default to use all files in the corpus is overuled by using the list in
 ../creation/data/patents/201312-en-500/config/files-010.txt.
+
+
+Wishlist:
+- Add runtime statistics (time elapsed, specifications of host machine).
 
 """
 
@@ -156,7 +160,7 @@ class MalletFileCreator(TrainerClassifier):
                         fh2.write(line)
 
     def _create_info_stats_file(self, labeled, unlabeled, terms, terms_y, terms_n):
-        with codecs.open(self.info_file_stats, 'w') as fh:
+        with codecs.open(self.info_file_stats, 'w', encoding='utf-8') as fh:
             fh.write("Unlabeled instances     %6d\n" % unlabeled)
             fh.write("\nLabeled instances       %6d\n\n" % labeled)
             fh.write("  positive instances    %6d\n" % sum(terms_y.values()))

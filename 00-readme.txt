@@ -9,7 +9,8 @@ satisfactory models are created.
 1. creating a .mallet file
 
 First step in creating a model is to generate a .mallet file from the d3_feats
-files in a corpus, given an list of labeled examples For this use the following script:
+files in a corpus, given an list of labeled examples. For this use the following
+script:
 
 $ python create_mallet_file.py OPTIONS
 
@@ -32,12 +33,21 @@ $ python downsample.py OPTIONS
 
 3. feature selection on a mallet file
 
+Takes a mallet file and creates a new mallet file where each feature vector only
+contains the features specified in one of the options.
+
 $ python select_features.py OPTIONS
 
 
-4. running the classifier
+4. creating a model
 
-This is done with run
+Takes a makkert file, creates vector file and the model. Vector files are
+deleted once th emodel is created.
+
+$ python create_model OPTIONS
+
+
+5. running the classifier
 
 $ python run_tclassify.py OPTIONS
 
