@@ -1,7 +1,8 @@
 """
 
 Print some analytics of the statistics file created when building the mallet
-file from the phr_feats files. Takes 
+file from the phr_feats files. Takes a train.info.stats.txt file, which was
+created when running create_mallet_file.py, as input. Prints to standard output.
 
 $ python analyze_mallet_stats.py /home/j/corpuswork/fuse/FUSEData/corpora/ln-all-600k/models/1997/info/train.info.stats.txt
 

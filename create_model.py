@@ -22,15 +22,10 @@ Options:
 Several options not yet implemented, but that would need to be added for completeness.
 
    --xval INT
-
    --classifier
-
    --training-portion
-
    --infogain-pruning
-
    --prune
-
    --count-pruning
 
 
@@ -62,6 +57,7 @@ VERBOSE = False
 
 
 def create_model(mallet_file):
+    t1 = time.time()
     vectors_file = _generate_filename(mallet_file, 'vectors')
     model_file = _generate_filename(mallet_file, 'model')
     out_file = _generate_filename(mallet_file, 'out')
@@ -72,20 +68,21 @@ def create_model(mallet_file):
     mtrainer.create_vectors(mallet_file, vectors_file)
     mtrainer.create_model(vectors_file, model_file, out_file, stderr_file)
     mtrainer.create_cinfo(model_file, cinfo_file, cinfo_file_sorted)
-    _write_info(mallet_file, model_file, mtrainer, out_file, stderr_file)
+    _write_info(mallet_file, model_file, mtrainer, out_file, stderr_file, t1)
     _cleanup(cinfo_file, cinfo_file_sorted, out_file, stderr_file, vectors_file)
 
 def _generate_filename(mallet_file, extension):
     """Returns a file name by replacing the .mallet extension with another extension."""
     return mallet_file[:-6] + extension
 
-def _write_info(mallet_file, model_file, mtrainer, out_file, stderr_file):
+def _write_info(mallet_file, model_file, mtrainer, out_file, stderr_file, t1):
     fh = open(model_file + '.info', 'w')
     fh.write("$ python %s\n\n" % ' '.join(sys.argv))
     fh.write("mallet file       =  %s\n" % os.path.abspath(mallet_file))
     fh.write("model file        =  %s\n" % os.path.abspath(model_file))
     fh.write("trainer settings  =  %s\n" % mtrainer.settings())
     fh.write("timestamp         =  %s\n" % time.strftime("%Y%m%d:%H%M%S"))
+    fh.write("time elapsed      =  %ds\n" % (time.time() - t1))
     fh.write("git_commit        =  %s\n\n" % get_git_commit())
     fh.write("$ %s\n\n" % mtrainer.saved_create_vectors_command)
     fh.write("$ %s\n" % mtrainer.saved_create_model_command)
