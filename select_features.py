@@ -18,12 +18,15 @@ Usage:
 
 Options:
 
-   --source-mallet-file PATH - the input mallet file from which features are selected
+   --source-mallet-file PATH
+       the input mallet file from which features are selected
 
-   --features NAME - name of the features file in features, the features
-        extensions is not included
+   --features NAME
+        name of the features file in features, the .features extension is not
+        included
 
-   --verbose - switch on verbose mode
+   --verbose
+        switch on verbose mode
 
 
 Example:
@@ -55,6 +58,7 @@ VERBOSE = False
 
 
 def select_features(source_mallet_file, features):
+    t1 = time.time()
     target_mallet_file = _generate_output_filename(source_mallet_file, features)
     if os.path.exists(target_mallet_file):
         exit("WARNING: target file %s already exists, exiting...\n" % target_mallet_file)
@@ -66,11 +70,15 @@ def select_features(source_mallet_file, features):
     mtr = MalletTraining(None, features)
     if VERBOSE:
         print "[select_features]", sorted(mtr.d_features.keys())
+    count = 0
     for line in fh_in:
+        count += 1
+        #if count > 30000: break
+        if count % 10000 == 0: print count
         mallet_instance = MalletInstance(line)
         mallet_instance.filter(mtr.d_features)
         fh_out.write("%s\n" % mallet_instance.as_line())
-    _write_info(source_mallet_file, target_mallet_file, mtr.features_file, mtr.d_features)
+    _write_info(source_mallet_file, target_mallet_file, mtr.features_file, mtr.d_features, t1)
 
 def _generate_output_filename(mallet_file, features):
     """Returns an output name that incorporates the features."""
@@ -82,7 +90,7 @@ def _generate_output_filename(mallet_file, features):
     fname = os.path.join(path, "%s.%s.mallet%s" % (prefix, feature_set, suffix))
     return fname
 
-def _write_info(source_file, target_file, feats_file, feats):
+def _write_info(source_file, target_file, feats_file, feats, t1):
     fh = open(target_file + '.info', 'w')
     fh.write("$ python %s\n\n" % ' '.join(sys.argv))
     fh.write("source file       =  %s\n" % os.path.abspath(source_file))
@@ -90,6 +98,7 @@ def _write_info(source_file, target_file, feats_file, feats):
     fh.write("features file     =  %s\n" % feats_file)
     fh.write("features          =  %s\n" % ' '.join(sorted(feats.keys())))
     fh.write("timestamp         =  %s\n" % time.strftime("%Y%m%d:%H%M%S"))
+    fh.write("processing time   =  %ds\n" % (time.time() - t1))
     fh.write("git_commit        =  %s" % get_git_commit())
 
 
@@ -119,8 +128,9 @@ class MalletInstance(object):
         return "%s %s %s" % (self.identifier, self.label, ' '.join(["%s=%s" % (k,v) for k,v in self.features]))
 
     def filter(self, feature_dict):
+        # this first line was added for those case where the feature is screwed up
+        self.features = [pair for pair in self.features if len(pair) == 2]
         self.features = [(k,v) for (k,v) in self.features if feature_dict.has_key(k)]
-
 
 
 def read_opts():
