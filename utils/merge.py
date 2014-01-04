@@ -18,12 +18,17 @@ in an all_terms.txt file with 31,453,657 terms (on 10/24/2013).
 
 import os, sys, codecs
 
-
+# settings for ln-cs-500k
 BASE_DIR = '/home/j/corpuswork/fuse/FUSEData/corpora/ln-cs-500k/classifications'
 CLASSIFICATION_EXP = '%s-technologies-standard-1000'
-
 TERM_FILE = 'classify.MaxEnt.out.s5.scores.sum.az'
 BAD_TERM_FILE = 'classify.MaxEnt.out.s6.terms.bad'
+
+# settings for ln-all-600k
+BASE_DIR = '/home/j/corpuswork/fuse/FUSEData/corpora/ln-all-600k/classifications'
+CLASSIFICATION_EXP = 'technologies-ds1000-all-%s'
+TERM_FILE = 'classify.MaxEnt.out.s4.scores.sum.az'
+BAD_TERM_FILE = 'classify.MaxEnt.out.s6.terms.x.bad'
 
 
 
@@ -37,6 +42,8 @@ def simple_merge(years):
 
         term_file = os.path.join(BASE_DIR, CLASSIFICATION_EXP % year, TERM_FILE)
         bad_term_file = os.path.join(BASE_DIR, CLASSIFICATION_EXP % year, BAD_TERM_FILE)
+        print '  ', term_file
+        print '  ', bad_term_file
         fh_terms = codecs.open(term_file)
         fh_bad_terms = codecs.open(bad_term_file)
 
@@ -61,7 +68,6 @@ def simple_merge(years):
     for term in terms:
         fh_out.write("%d\t%s\n" % (terms[term], term))
 
-        
 
 if __name__ == '__main__':
 

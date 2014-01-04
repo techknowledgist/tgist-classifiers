@@ -11,13 +11,19 @@ Usage:
 
 The directory and specific file names can be edited below.
 
-TODO: add this to run_classifier
+TODO: add this to run_iclassifier
 
 """
 
-BASE_DIR = '/home/j/corpuswork/fuse/FUSEData/corpora/cs-500k/classifications'
+# settings for ls-cs-500k
+BASE_DIR = '/home/j/corpuswork/fuse/FUSEData/corpora/ln-cs-500k/classifications'
 CLASSIFICATION_EXP = '%s-technologies-standard-1000'
-FILENAME1 = 'classify.MaxEnt.out.s5.scores.sum.az'
+
+# settings for ls-all-600k
+BASE_DIR = '/home/j/corpuswork/fuse/FUSEData/corpora/ln-all-600k/classifications'
+CLASSIFICATION_EXP = 'technologies-ds1000-all-%s'
+
+FILENAME1 = 'classify.MaxEnt.out.s4.scores.sum.az'
 FILENAME2 = 'classify.MaxEnt.out.s6.terms.x.good'
 FILENAME3 = 'classify.MaxEnt.out.s6.terms.x.bad'
 
@@ -33,8 +39,8 @@ def filter_terms(infile, outfile1, outfile2, idx=0):
     count = 0
     for line in fh_in:
         count += 1
-        if count > 1000000: break
-        if count % 100000 == 0: print count
+        #if count > 100000: break
+        if count % 100000 == 0: print '  ', count
         #print line.rstrip("\n\r").split("\t")
         term = line.rstrip("\n\r").split("\t")[idx]
         term = line.split("\t")[idx]
@@ -43,7 +49,7 @@ def filter_terms(infile, outfile1, outfile2, idx=0):
         rest = term_size - letters
         #print term_size, letters, rest, term
         if term_size > 75 or letters < rest:
-            print term_size, letters, rest, term
+            #print term_size, letters, rest, term
             fh_out2.write("%s\n" % term)
         else:
             fh_out1.write("%s\n" % term)
