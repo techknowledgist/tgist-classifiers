@@ -68,6 +68,12 @@ The relevant files and the current settings are:
 
 When creating large models some of these may need to be edited.
 
+Question. Is mallet used for both trainer and classfier? And if so, should/can
+the same settings be used?
+
+Answer. Yes, for the classifier 2g seems enough, for the tariner I have needed
+to go up to 8g.
+
 Could consider adding a --memory option which can be used to overrule this, but
 that is a tad complicated because the mallet scripts would also need to be
 changed.

@@ -4,32 +4,32 @@ Script that lets you run the classifier on a dataset.
 
 Usage:
 
-$ python run_tclassify.py OPTIONS
+   $ python run_tclassify.py OPTIONS
 
 Options:
 
-  --corpus PATH - corpus directory
+   --corpus PATH - corpus directory
 
    --pipeline FILENAME - file with pipeline configuration; this is used to pick
-      out the data set created with that pipeline; the file is assumed to be in
-      the config directory of the corpus; the default is 'pipeline-default.txt'.
+        out the data set created with that pipeline; the file is assumed to be in
+        the config directory of the corpus; the default is 'pipeline-default.txt'.
 
-  --filelist FILENAME - contains files to process, that is, the elements from
-      the data set used to create the model; this is an absolute or relative
-      path to a file
+   --filelist FILENAME - contains files to process, that is, the elements from
+        the data set used to create the model; this is an absolute or relative
+        path to a file
 
-  --xval INTEGER - cross-validation setting for classifier, if set to 0 (which
-      is the default) then no cross-validation will be performed
+   --xval INTEGER - cross-validation setting for classifier, if set to 0 (which
+        is the default) then no cross-validation will be performed
 
-  --model PATH - selects the model used for classification
+   --model PATH - selects the model used for classification
 
-  --batch PATH - name of the current batch being created, this is th edirectory
-     where all data will be written to.
+   --batch PATH - name of the current batch being created, this is th edirectory
+       where all data will be written to.
 
-  --gold-standard - file with labeled terms for evaluations, if this is
-     specified the system results will be compared to this list
+   --gold-standard - file with labeled terms for evaluations, if this is
+       specified the system results will be compared to this list
 
-  --verbose - switches on verbose mode
+   --verbose - switches on verbose mode
 
 There are two options that are there purely to print information about the
 corpus:
@@ -67,7 +67,7 @@ system score. List of options:
 
 """
 
-import os, sys, shutil, getopt, subprocess, codecs
+import os, sys, shutil, getopt, subprocess, codecs, time
 
 sys.path.append(os.path.abspath('../..'))
 
@@ -134,6 +134,7 @@ class Classifier(TrainerClassifier):
 
 
     def run(self):
+        t1 = time.time()
         if os.path.exists(self.info_file_general):
             sys.exit("WARNING: already have classifier results in %s" % self.batch)
         ensure_path(self.batch)
@@ -142,23 +143,8 @@ class Classifier(TrainerClassifier):
         self._run_classifier()
         self._calculate_scores()
         self._run_eval()
-        self._create_info_files()
+        self._create_info_files(t1)
         compress(self.results_file, self.mallet_file, self.scores_s1)
-
-    def _create_info_files(self):
-        if os.path.exists(self.info_file_general):
-            sys.exit("WARNING: already ran classifer for batch %s" % self.batch)
-        print "[--classify] initializing %s directory" %  self.batch
-        ensure_path(self.classify_dir)
-        with open(self.info_file_general, 'w') as fh:
-            fh.write("$ python %s\n\n" % ' '.join(sys.argv))
-            fh.write("batch        =  %s\n" % self.batch)
-            fh.write("file_list    =  %s\n" % self.file_list)
-            fh.write("model        =  %s\n" % self.model)
-            fh.write("config_file  =  %s\n" % os.path.basename(rconfig.pipeline_config_file))
-            fh.write("git_commit   =  %s" % get_git_commit())
-        shutil.copyfile(self.rconfig.pipeline_config_file, self.info_file_config)
-        shutil.copyfile(self.file_list, self.info_file_filelist)
 
     def _calculate_scores(self):
         """Use the clasifier output files to generate a sorted list of technology terms
@@ -209,16 +195,17 @@ class Classifier(TrainerClassifier):
         self.run_score_command(command2, message2)
 
 
-    def _create_info_files(self):
-        print "[--classify] initializing %s directory" %  self.batch
+    def _create_info_files(self, t1):
         with open(self.info_file_general, 'w') as fh:
             fh.write("$ python %s\n\n" % ' '.join(sys.argv))
-            fh.write("batch        =  %s\n" % self.batch)
-            fh.write("file_list    =  %s\n" % self.file_list)
-            fh.write("model        =  %s\n" % self.model)
-            fh.write("features     =  %s\n" % ' '.join(self.features))
-            fh.write("config_file  =  %s\n" % os.path.basename(rconfig.pipeline_config_file))
-            fh.write("git_commit   =  %s" % get_git_commit())
+            fh.write("batch            =  %s\n" % self.batch)
+            fh.write("file_list        =  %s\n" % self.file_list)
+            fh.write("model            =  %s\n" % self.model)
+            fh.write("features         =  %s\n" % ' '.join(self.features))
+            fh.write("config_file      =  %s\n" % os.path.basename(rconfig.pipeline_config_file))
+            fh.write("timestamp        =  %s\n" % time.strftime("%Y%m%d:%H%M%S"))
+            fh.write("processing time  =  %ds\n" % int(time.time() - t1))
+            fh.write("git_commit       =  %s" % get_git_commit())
         shutil.copyfile(self.rconfig.pipeline_config_file, self.info_file_config)
         shutil.copyfile(self.file_list, self.info_file_filelist)
 
@@ -249,7 +236,7 @@ class Classifier(TrainerClassifier):
     def _run_eval(self):
         """Evaluate results if a gold standard is handed in. It is the responsibility of
         the user to make sure that it makes sense to compare this gold standard
-        to the system result."""
+        to the system results."""
         # TODO: now the log files have a lot of redundancy, fix this
         if gold_standard is not None:
             summary_file = os.path.join(self.batch, "eval-results-summary.txt")
@@ -262,7 +249,29 @@ class Classifier(TrainerClassifier):
                                          debug_c=False, command=command)
                 summary_fh.write("%s\n" % result)
 
+
     def _set_features(self):
+        # TODO: it is a bit unclear now how we get the features, in the past
+        # they came from the model.info file, recursing to paretn info files if
+        # needed, but now we find them in the mallet.info file, the question is
+        # whether the features are always there and if they are the correct ones
+        # in case we selected features twice; maybe never allow feature
+        # selection to happen twice.
+        if VERBOSE:
+            print "[get_features] model file =", self.model
+        info_file = os.path.splitext(self.model)[0] + '.mallet.info'
+        print self.model
+        print info_file
+        features = parse_info_file(info_file)
+        if features.has_key('features'):
+            feature_set = frozenset(features['features'].split())
+        else:
+            print "WARNING: no features found, exiting."
+            exit()
+        self.features = sorted(list(feature_set))
+
+
+    def OLD_set_features(self):
         if VERBOSE:
             print "[get_features] model file =", self.model
         info_file = self.model + '.info'
@@ -286,6 +295,8 @@ class Classifier(TrainerClassifier):
                 info_file = source_file + '.info'
                 continue
         self.features = sorted(list(feature_set))
+        print self.features
+        exit()
 
 
 def parse_info_file(fname):
@@ -366,6 +377,10 @@ if __name__ == '__main__':
     elif show_pipelines_p:
         show_pipelines(rconfig)
     else:
+        # allow for the file_list to be just the filename in the config
+        # directory of the corpus
+        if not os.path.exists(file_list):
+            file_list = os.path.join(corpus_path, 'config', file_list)
         # TODO: we now just hand in MaxEnt as the trainer because that is what
         # we always use, but really the model info should store the trainer
         # selected and the the classifier should just use that
