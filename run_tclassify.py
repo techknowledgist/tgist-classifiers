@@ -144,7 +144,9 @@ class Classifier(TrainerClassifier):
         self._calculate_scores()
         self._run_eval()
         self._create_info_files(t1)
-        compress(self.results_file, self.mallet_file, self.scores_s1)
+        for fname in (self.results_file, self.mallet_file, self.scores_s1):
+            print "Compressing", fname
+            compress(fname)
 
     def _calculate_scores(self):
         """Use the clasifier output files to generate a sorted list of technology terms

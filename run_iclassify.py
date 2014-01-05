@@ -3,8 +3,11 @@
 Script to generate invention keyterm scores. 
 
 This is based on inventions.py, but the interface and some methods are tweaked
-to look more like the run_tclassify.py. Overall, much of the bookkeeping done in
-the latter is not done here yet.
+to look more like run_tclassify.py. Overall, much of the bookkeeping done in the
+latter is not done here yet.
+
+
+CLASSIFIER
 
 From the command line, you can now run this script as a classifier. The most
 typical invocation is:
@@ -37,6 +40,32 @@ Some examples:
 
 Currently, only the classification phase is done this way, training and
 evaluation need to be added.
+
+
+MODEL CREATION
+
+1. First find out what documents are in the annotation set:
+
+    $ cut -f2 key.ta.20130510.lab | cut -f1 -d'_' | sort | uniq
+
+2. Put these in a mini corpus and pre-process them. You can use find_patents.py and
+create-file-list.py in ../creation/data/patents to help with that.
+
+3. Now collect the phr_feats and put them in a keyfeats.ta.DATE.dat file. This
+may be a simple unzip and cat, but it could be more complicated (offsets could
+have shifted, may need to select just those that that were annotated, need to
+reformat into mallet format, etcetera).
+
+4. Create the mallet file using create_mallet_training_file().
+
+5. Create the model using patent_invention_train().
+
+Steps 3, 4 and 5 are done by running this script using the --train option:
+
+    $ python_run_iclassify.py --train --corpus PATH --filelist PATH --annotations PATH
+
+
+
 
 """
 
@@ -194,9 +223,9 @@ def create_mallet_training_file(annot_file, phr_feats_file, mallet_training_file
             output_count += 1
             s_mallet_training.write(instance_line)
     if chunkid2label_count != output_count:
-        print("[invention]WARNING: mismatch between labels and instances created.")
-    print("[invention]Found %i labels, created %i feature instances" \
-          % chunkid2label_count, output_count)
+        print("[invention] WARNING: mismatch between labels and instances created.")
+    print("[invention] Found %i labels, created %i feature instances" \
+          % (chunkid2label_count, output_count))
 
     s_annot.close()
     s_feats.close()
@@ -276,13 +305,12 @@ def patent_invention_train(mallet_file,
                            features="invention", version="1", xval=0,
                            verbose=False, stats_file=None):
 
-    """Wrapper around mallet.py functionality to create a classifier
-    model. The .mallet training instances file must exist and full path passed in.  Other files needed
-    for mallet processing will be placed in the same directory (train_output_dir).
-    and creates an instance of MalletTraining class to do the rest: 
-    creating the .vectors file from the mallet file, and
-    creating the model.
-    """
+    """Wrapper around mallet.py functionality to create a classifier model. The
+    .mallet training instances file must exist and full path passed in. Other
+    files needed for mallet processing will be placed in the same directory
+    (train_output_dir). Creates an instance of MalletTraining class to do the
+    rest: creating the .vectors file from the mallet file, and creating the
+    model."""
 
     #d_phr2label = load_phrase_labels3(annotation_file, annotation_count)
     train_output_dir = os.path.dirname(mallet_file)
@@ -828,10 +856,9 @@ def test_encoding():
 def read_opts():
     # copied from run_classifier, but most options are not used here
     longopts = ['corpus=', 'language=', 'train', 'classify', 'evaluate',
-                'pipeline=', 'filelist=', 'annotation-file=', 'annotation-count=',
+                'pipeline=', 'filelist=', 'annotation-file=',
                 'batch=', 'features=', 'xval=', 'model=', 'eval-on-unseen-terms',
-                'verbose', 'show-batches', 'show-data', 'show-pipelines',
-                'gold-standard=', 'threshold=', 'logfile=']
+                'verbose' ]
     try:
         return getopt.getopt(sys.argv[1:], '', longopts)
     except getopt.GetoptError as e:
@@ -842,7 +869,8 @@ def run_iclassifier(corpus, filelist, model, classification,
                     label_file='iclassify.MaxEnt.label', verbose=False):
     """Run the invention classifier on the corpus using the model specified and
     create a classification."""
-    print '\n[run_iclassifier] corpus =', corpus
+    print
+    print '[run_iclassifier] corpus =', corpus
     print '[run_iclassifier] files  =', filelist
     print '[run_iclassifier] model  =', model
     print '[run_iclassifier] class  =', classification
@@ -871,7 +899,7 @@ def create_info_file(corpus, model, filelist, classification):
         fh.write("file_list       =  %s\n" % filelist)
         fh.write("model           =  %s\n" % model)
         fh.write("classification  =  %s\n" % classification)
-        fh.write("git_commit      =  %s" % get_git_commit())
+        fh.write("git_commit      =  %s\n" % get_git_commit())
 
 def process_label_file(corpus, classification, label_file, verbose):
     """Takes the file with the labels and generates various derived data."""
@@ -992,26 +1020,81 @@ def check_regexp_on_index():
 
 
 
+def run_itrainer(corpus, filelist, model, features, annotation_file,
+                 phr_feats_file=None, verbose=False):
+
+    mallet_file = os.path.join(model, 'itrain.mallet')
+    phr_feats_file = os.path.join(model, 'keyfeats.ta.dat')
+    ensure_path(model)
+    _itrainer_create_info_file(corpus, model, filelist, features, annotation_file)
+    _itrainer_create_dat_file(phr_feats_file, corpus, filelist)
+    _itrainer_create_mallet_file(annotation_file, phr_feats_file, mallet_file)
+    patent_invention_train(mallet_file)
+
+
+def _itrainer_create_info_file(corpus, model, filelist, features, annotation):
+    with open(os.path.join(model, 'itrain.info.general'), 'w') as fh:
+        fh.write("$ python %s\n\n" % ' '.join(sys.argv))
+        fh.write("corpus          =  %s\n" % corpus)
+        fh.write("file_list       =  %s\n" % filelist)
+        fh.write("model           =  %s\n" % model)
+        fh.write("features        =  %s\n" % features)
+        fh.write("anotation       =  %s\n" % annotation)
+        fh.write("git_commit      =  %s\n" % get_git_commit())
+
+def _itrainer_create_dat_file(phr_feats_file, corpus, filelist):
+    """Create the keyfeats.ta.dat file, which is a concatenation of all the
+    files in filelist, but using only the first 100 terms in each file (because
+    annotation does not go beyond those 100)."""
+    print "[_itrainer_create_dat_file] creating", phr_feats_file
+    print "[_itrainer_create_dat_file] from", corpus
+    phr_feats_fh = codecs.open(phr_feats_file, 'w', encoding='utf-8')
+    for line in open(filelist):
+        (year, full_path, short_path) = line.split()
+        # TODO: this is a hack, change this to use the filename generator and
+        # the default_config and such
+        fname = os.path.join(corpus, 'data/d3_phr_feats/01/files', short_path) # + '.gz')
+        fh = open_input_file(fname)
+        for line in fh:
+            term_no = int(line.split()[0].split('_')[1])
+            # no need to get too far into the file
+            if term_no > 100: break
+            phr_feats_fh.write(line)
+    phr_feats_fh.close()
+
+def _itrainer_create_mallet_file(annot_file, phr_feats_file, mallet_file):
+    print "[_itrainer_create_mallet_file] creating", mallet_file
+    print "[_itrainer_create_mallet_file] using annotations in", os.path.basename(annot_file)
+    create_mallet_training_file(annot_file, phr_feats_file, mallet_file)
+
+def _itrainer_create_mallet_file_old(annot_file):
+    # this is how Peter used to create a mallet file from a dat file, which was
+    # created from phr_feats files
+    annotation_dir = "/home/j/anick/patent-classifier/ontology/annotation"
+    phr_feats_file = os.path.join(annotation_dir, "en/invention/general/keyfeats.ta.20130509.dat")
+    mallet_training_file  = "data/models/itrain.mallet"
+    create_mallet_training_file(annot_file, phr_feats_file, mallet_training_file)
+
+
 
 
 if __name__ == '__main__':
 
-    # first set some defaults, many of these will never be overwritten
-    
-    # loc of phr_feats files inside corpus:  data/d3_phr_feats/01/files/
-    # each line of filelist in config/files.txt contains: date full_path_spec
-    # path_spec_from_root_dir
+    # some defaults from Peter's original code
     corpus = "/home/j/anick/patent-classifier/ontology/creation/data/patents/cs_2002_subset/"
+    annotation_dir = "/home/j/anick/patent-classifier/ontology/annotation"
+    annotation_file = os.path.join(annotation_dir, "en/invention/general/key.ta.20130510.lab")
+    phr_feats_file = os.path.join(annotation_dir, "en/invention/general/keyfeats.ta.20130509.dat")
 
-    # default locations of the statistical model (itrain.model) and the
-    # classification
+    # default locations of the statistical model (itrain.model) for
+    # classification and the classification
     model = 'data/models/inventions-standard-20130713'
     classification = os.path.join(os.getcwd(), 'ws')
 
     train = False
     classify = False
-    create_bae_tabfile = False
     filelist = None
+    features = 'invention.features'
     verbose = False
 
     # now read options and call the main method
@@ -1023,12 +1106,17 @@ if __name__ == '__main__':
         elif opt == '--model': model = val
         elif opt == '--batch': classification = val
         elif opt == '--filelist': filelist = val
+        elif opt == '--features': features = val
+        elif opt == '--annotation-file': annotation_file = val
         elif opt == '--verbose': verbose = True
 
     if filelist is None:    
         filelist = os.path.join(corpus, "config/files.txt")
 
-    if classify:
+    if train:
+        run_itrainer(corpus, filelist, model, features, annotation_file,
+                     phr_feats_file=phr_feats_file, verbose=verbose)
+    elif classify:
         run_iclassifier(corpus, filelist, model, classification, verbose=verbose)
     else:
         print "WARNING: nothing to do."

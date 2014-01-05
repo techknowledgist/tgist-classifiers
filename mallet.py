@@ -450,6 +450,11 @@ class MalletTraining:
             mallet_stream.write("\n")
         mallet_stream.close()
 
+    def write_train_mallet_vectors_file(self):
+        cmd = self.mallet_config.cmd_csv2vectors_train
+        print "[write_train_mallet_vectors_file]"
+        run_command(cmd)
+
     # convert mallet instance file to mallet vectors format in file $file_prefix.vectors
     # This is required to run the classifier on the data.
     def write_test_mallet_vectors_file(self):
