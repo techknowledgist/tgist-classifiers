@@ -97,11 +97,13 @@ import commands
 import os
 import sys
 import re
+import time
 import config
 import mallet
 import codecs
 import getopt
 import subprocess
+import shutil
 
 from collections import defaultdict
 from signal import signal, SIGPIPE, SIG_DFL 
@@ -864,7 +866,7 @@ def read_opts():
     except getopt.GetoptError as e:
         sys.exit("ERROR: " + str(e))
 
-            
+
 def run_iclassifier(corpus, filelist, model, classification,
                     label_file='iclassify.MaxEnt.label', verbose=False):
     """Run the invention classifier on the corpus using the model specified and
@@ -874,13 +876,16 @@ def run_iclassifier(corpus, filelist, model, classification,
     print '[run_iclassifier] files  =', filelist
     print '[run_iclassifier] model  =', model
     print '[run_iclassifier] class  =', classification
+    t1 = time.time()
     ensure_path(classification)
-    create_info_file(corpus, model, filelist, classification)
+    create_info_files(corpus, model, filelist, classification)
     # create classification/iclassify.mallet from given files in the corpus
     create_mallet_classify_file(corpus, filelist, classification, "invention", "1",
                                 verbose=verbose)
+    t2 = time.time()
     # create result files in the classification
     patent_invention_classify(train_dir=model, test_dir=classification)
+    t3 = time.time()
     # creates the label file from the classifier output
     print "[run_iclassifier] creating the .label file"
     command = "cat %s/%s | egrep -v '^name' | egrep '\|.*\|' | python %s > %s/%s" \
@@ -888,11 +893,13 @@ def run_iclassifier(corpus, filelist, model, classification,
                  classification, label_file)
     print '   $', command
     subprocess.call(command, shell=True)
+    t4 = time.time()
     process_label_file(corpus, classification, label_file, verbose)
+    create_processing_time_file(classification, t1, t2, t3, t4)
     print
 
 
-def create_info_file(corpus, model, filelist, classification):
+def create_info_files(corpus, model, filelist, classification):
     with open(os.path.join(classification, 'iclassify.info.general'), 'w') as fh:
         fh.write("$ python %s\n\n" % ' '.join(sys.argv))
         fh.write("corpus          =  %s\n" % corpus)
@@ -900,6 +907,17 @@ def create_info_file(corpus, model, filelist, classification):
         fh.write("model           =  %s\n" % model)
         fh.write("classification  =  %s\n" % classification)
         fh.write("git_commit      =  %s\n" % get_git_commit())
+    shutil.copyfile(filelist, os.path.join(classification, 'iclassify.info.files'))
+
+def create_processing_time_file(classification, t1, t2, t3, t4):
+    now = time.time()
+    with open(os.path.join(classification, 'iclassify.info.processing_time'),'w') as fh:
+        fh.write("Processing time in seconds:\n\n")
+        fh.write("   total                      %6d\n\n" % (now - t1))
+        fh.write("   creating mallet file       %6d\n" % (t2 - t1))
+        fh.write("   classifying                %6d\n" % (t3 - t2))
+        fh.write("   creating the label file    %6d\n" % (t4 - t3))
+        fh.write("   processing label file      %6d\n\n" % (now - t4))
 
 def process_label_file(corpus, classification, label_file, verbose):
     """Takes the file with the labels and generates various derived data."""
@@ -1041,6 +1059,8 @@ def _itrainer_create_info_file(corpus, model, filelist, features, annotation):
         fh.write("features        =  %s\n" % features)
         fh.write("anotation       =  %s\n" % annotation)
         fh.write("git_commit      =  %s\n" % get_git_commit())
+    shutil.copyfile(annotation, os.path.join(model, 'itrain.info.annotations'))
+    shutil.copyfile(filelist, os.path.join(model, 'itrain.info.files'))
 
 def _itrainer_create_dat_file(phr_feats_file, corpus, filelist):
     """Create the keyfeats.ta.dat file, which is a concatenation of all the
