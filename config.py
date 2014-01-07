@@ -25,6 +25,8 @@ if script_path.startswith('/shared/home'):
     location = 'FUSENET'
 elif script_path.startswith('/home/j/'):
     location = 'BRANDEIS'
+elif script_path.startswith('/local/chalciope/'):
+    location = 'BRANDEIS'
 elif script_path.startswith('/Users/'): 
     location = 'MAC'
 elif script_path.startswith('/home/sean'):

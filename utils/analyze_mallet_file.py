@@ -17,12 +17,15 @@ import sys, codecs
 
 
 def parse_mallet_line(line):
-    fields = line.split()
-    #print line
-    #print fields
+    # Use split(' ') instead of split(). The Statnford tagger seems to insert
+    # some characters in some cases, they look like underscores but they aren't,
+    # and for some reason split() ends up splitting on those characters.
+    fields = line.split(' ')
     id = fields[0]
     label = fields[1]
     features = fields[2:]
+    #print line,
+    #print len(features), features
     (year, fname, term) = id.split('|', 2)
     #print label, term
     return label, term, features
