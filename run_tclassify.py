@@ -16,14 +16,14 @@ Options:
 
    --filelist FILENAME - contains files to process, that is, the elements from
         the data set used to create the model; this is an absolute or relative
-        path to a file
+        path to a file; the default is to use files.txt in CORPUS_PATH/config
 
    --xval INTEGER - cross-validation setting for classifier, if set to 0 (which
         is the default) then no cross-validation will be performed
 
    --model PATH - selects the model used for classification
 
-   --batch PATH - name of the current batch being created, this is th edirectory
+   --batch PATH - name of the current batch being created, this is the directory
        where all data will be written to.
 
    --gold-standard - file with labeled terms for evaluations, if this is
