@@ -15,12 +15,16 @@ TODO: add this to run_iclassifier
 
 """
 
-# settings for ls-cs-500k
-BASE_DIR = '/home/j/corpuswork/fuse/FUSEData/corpora/ln-cs-500k/classifications'
+# settings for ls-us-cs-500k
+BASE_DIR = '/home/j/corpuswork/fuse/FUSEData/corpora/ln-us-cs-500k/classifications'
 CLASSIFICATION_EXP = '%s-technologies-standard-1000'
 
-# settings for ls-all-600k
-BASE_DIR = '/home/j/corpuswork/fuse/FUSEData/corpora/ln-all-600k/classifications'
+# settings for ls-us-all-600k
+BASE_DIR = '/home/j/corpuswork/fuse/FUSEData/corpora/ln-us-all-600k/classifications'
+CLASSIFICATION_EXP = 'technologies-ds1000-all-%s'
+
+# settings for ls-us-all-600k, time series v2
+BASE_DIR = '/home/j/corpuswork/fuse/FUSEData/corpora/ln-us-all-600k/classifications/phase2-eval'
 CLASSIFICATION_EXP = 'technologies-ds1000-all-%s'
 
 FILENAME1 = 'classify.MaxEnt.out.s4.scores.sum.az'
@@ -33,6 +37,9 @@ import os, sys, codecs
 
 def filter_terms(infile, outfile1, outfile2, idx=0):
     """idx is the field in infile that has the term"""
+    print '  ', outfile1
+    print '  ', outfile2
+    print
     fh_in = codecs.open(infile)
     fh_out1 = codecs.open(outfile1, 'w')
     fh_out2 = codecs.open(outfile2, 'w')
@@ -63,6 +70,7 @@ def filter_years():
         outfile2 = os.path.join(BASE_DIR, CLASSIFICATION_EXP % year, FILENAME3)
         print year
         filter_terms(infile, outfile1, outfile2)
+        print
 
 def filter_all_terms():
     """This runs the filter on all terms in the merge term file."""
@@ -78,4 +86,3 @@ if __name__ == '__main__':
 
     filter_years()
     #filter_all_terms()
-        

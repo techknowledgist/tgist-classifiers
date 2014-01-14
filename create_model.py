@@ -50,6 +50,7 @@ from mallet import SimpleMalletTrainer, run_command
 sys.path.append(os.path.abspath('../..'))
 
 from ontology.utils.git import get_git_commit
+from ontology.utils.file import ensure_path
 
 
 VERBOSE = False
@@ -101,6 +102,7 @@ def _cleanup(cinfo_file, cinfo_file_sorted, out_file, stderr_file, vectors_file)
     run_command("gzip %s" % cinfo_file)
     run_command("gzip %s" % cinfo_file_sorted)
     info_dir = os.path.dirname(cinfo_file) + os.sep + 'info'
+    ensure_path(info_dir)
     run_command("mv %s.gz %s" % (cinfo_file, info_dir))
     run_command("mv %s.gz %s" % (cinfo_file_sorted, info_dir))
     for f in (out_file, stderr_file, vectors_file):
