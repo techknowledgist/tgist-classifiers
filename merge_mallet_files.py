@@ -20,7 +20,7 @@ It is up to the user to make sure that these are models that can actually be
 merged meaningfully. Most importantly, these need to be models that were created
 with the same initial annotation settings in the create_mallet_file.py
 script. That is, the mallet files must have been generated from the same
-annotation set. It is also important that the mallet files have the sam efeature
+annotation set. It is also important that the mallet files have the same feature
 set.
 
 It is not necessary though that the mallet files are all from the same
@@ -75,7 +75,6 @@ def merge_mallet_files(target_dir, mallet_files):
     ensure_path(target_dir)
     os.system(merge_command)
     write_info(info_file, mallet_files, t1)
-    
 
 def write_info(info_file, mallet_files, t1):
     fh = open(info_file, 'w')

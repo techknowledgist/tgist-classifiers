@@ -17,7 +17,7 @@ import sys, codecs
 
 
 def parse_mallet_line(line):
-    # Use split(' ') instead of split(). The Statnford tagger seems to insert
+    # Use split(' ') instead of split(). The Stanford tagger seems to insert
     # some characters in some cases, they look like underscores but they aren't,
     # and for some reason split() ends up splitting on those characters.
     fields = line.split(' ')
