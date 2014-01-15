@@ -11,21 +11,30 @@ The result is written to all_terms.count.txt which has two fields: a total count
 and the term.
 
 Merging all files from BASE_DIR (which have a total of 51,752,285 terms) results
-in an all_terms.txt file with 31,453,657 terms (on 10/24/2013).
+in an all_terms.txt file with 31,453,657 terms (for ln-us-all-600k on 10/24/2013).
+
+January 2014: for ln-us-all-600k time series v2 (no pubyear >= 2007), we get
+28,111,770 terms.
 
 """
 
 
 import os, sys, codecs
 
-# settings for ln-cs-500k
-BASE_DIR = '/home/j/corpuswork/fuse/FUSEData/corpora/ln-cs-500k/classifications'
+# settings for ln-us-cs-500k
+BASE_DIR = '/home/j/corpuswork/fuse/FUSEData/corpora/ln-us-cs-500k/classifications'
 CLASSIFICATION_EXP = '%s-technologies-standard-1000'
 TERM_FILE = 'classify.MaxEnt.out.s5.scores.sum.az'
 BAD_TERM_FILE = 'classify.MaxEnt.out.s6.terms.bad'
 
-# settings for ln-all-600k
-BASE_DIR = '/home/j/corpuswork/fuse/FUSEData/corpora/ln-all-600k/classifications'
+# settings for ln-us-all-600k
+BASE_DIR = '/home/j/corpuswork/fuse/FUSEData/corpora/ln-us-all-600k/classifications'
+CLASSIFICATION_EXP = 'technologies-ds1000-all-%s'
+TERM_FILE = 'classify.MaxEnt.out.s4.scores.sum.az'
+BAD_TERM_FILE = 'classify.MaxEnt.out.s6.terms.x.bad'
+
+# settings for ln-us-all-600k, time series v2
+BASE_DIR = '/home/j/corpuswork/fuse/FUSEData/corpora/ln-us-all-600k/classifications/phase2-eval'
 CLASSIFICATION_EXP = 'technologies-ds1000-all-%s'
 TERM_FILE = 'classify.MaxEnt.out.s4.scores.sum.az'
 BAD_TERM_FILE = 'classify.MaxEnt.out.s6.terms.x.bad'
