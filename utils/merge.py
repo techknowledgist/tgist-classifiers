@@ -39,6 +39,12 @@ CLASSIFICATION_EXP = 'technologies-ds1000-all-%s'
 TERM_FILE = 'classify.MaxEnt.out.s4.scores.sum.az'
 BAD_TERM_FILE = 'classify.MaxEnt.out.s6.terms.x.bad'
 
+# settings for ln-cn-all-600k, time series v2
+BASE_DIR = '/home/j/corpuswork/fuse/FUSEData/corpora/ln-cn-all-600k/classifications/phase2-eval'
+CLASSIFICATION_EXP = 'technologies-ds1000-all-%s'
+TERM_FILE = 'classify.MaxEnt.out.s4.scores.sum.az'
+BAD_TERM_FILE = None
+
 
 
 def simple_merge(years):
@@ -50,16 +56,18 @@ def simple_merge(years):
         print "\n%s" % year
 
         term_file = os.path.join(BASE_DIR, CLASSIFICATION_EXP % year, TERM_FILE)
-        bad_term_file = os.path.join(BASE_DIR, CLASSIFICATION_EXP % year, BAD_TERM_FILE)
         print '  ', term_file
-        print '  ', bad_term_file
+        if BAD_TERM_FILE is not None:
+            bad_term_file = os.path.join(BASE_DIR, CLASSIFICATION_EXP % year, BAD_TERM_FILE)
+            print '  ', bad_term_file
         fh_terms = codecs.open(term_file)
-        fh_bad_terms = codecs.open(bad_term_file)
 
         bad_terms = {}
-        for line in fh_bad_terms:
-            bad_terms[line.rstrip('\n\r')] = True
-        print "   read %d bad terms" % len(bad_terms)
+        if BAD_TERM_FILE is not None:
+            fh_bad_terms = codecs.open(bad_term_file)
+            for line in fh_bad_terms:
+                bad_terms[line.rstrip('\n\r')] = True
+            print "   read %d bad terms" % len(bad_terms)
         
         count = 0
         for line in fh_terms:

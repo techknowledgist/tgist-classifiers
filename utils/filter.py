@@ -27,9 +27,19 @@ CLASSIFICATION_EXP = 'technologies-ds1000-all-%s'
 BASE_DIR = '/home/j/corpuswork/fuse/FUSEData/corpora/ln-us-all-600k/classifications/phase2-eval'
 CLASSIFICATION_EXP = 'technologies-ds1000-all-%s'
 
+# settings for ls-cn-all-600k, time series v2
+BASE_DIR = '/home/j/corpuswork/fuse/FUSEData/corpora/ln-cn-all-600k/classifications/phase2-eval'
+CLASSIFICATION_EXP = 'technologies-ds1000-all-%s'
+
+# TODO: maybe use .sum instead of .sum.az
 FILENAME1 = 'classify.MaxEnt.out.s4.scores.sum.az'
 FILENAME2 = 'classify.MaxEnt.out.s6.terms.x.good'
 FILENAME3 = 'classify.MaxEnt.out.s6.terms.x.bad'
+
+
+FILENAME1 = 'classify.MaxEnt.out.s3.scores.sum'
+
+# TODO: THIS ONLY MAKES SENSE FOR ENGLISH!!!!!
 
 
 import os, sys, codecs
@@ -46,7 +56,7 @@ def filter_terms(infile, outfile1, outfile2, idx=0):
     count = 0
     for line in fh_in:
         count += 1
-        #if count > 100000: break
+        if count > 100000: break
         if count % 100000 == 0: print '  ', count
         #print line.rstrip("\n\r").split("\t")
         term = line.rstrip("\n\r").split("\t")[idx]
@@ -54,7 +64,8 @@ def filter_terms(infile, outfile1, outfile2, idx=0):
         term_size = len(term)
         letters = len([c for c in term if c.isalpha()])
         rest = term_size - letters
-        #print term_size, letters, rest, term
+        #if letters > rest: print term_size, letters, rest, term
+        #if rest == 0: print term_size, letters, rest, term
         if term_size > 75 or letters < rest:
             #print term_size, letters, rest, term
             fh_out2.write("%s\n" % term)
