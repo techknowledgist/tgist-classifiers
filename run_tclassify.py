@@ -298,22 +298,21 @@ def evaluate(batch, gold_standard, tfilter):
     """Evaluate results in batch given a gold standard. It is the responsibility
     of the user to make sure that it makes sense to compare this gold standard
     to the system results."""
-    # TODO: now the log files have a lot of redundancy, fix this
-    summary_file = os.path.join(batch, "eval-results-summary.txt")
-    summary_fh = open(summary_file, 'w')
     system_file = os.path.join(batch, 'classify.MaxEnt.out.s4.scores.sum.nr')
     command =  "python %s" % ' '.join(sys.argv)
-    for threshold in (0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9):
-    #for threshold in (0.5,):
-        for term_type in ('all', 'single-token-terms', 'multi-token-terms'):
-            ttstring = term_type_as_short_string(term_type)
-            tfstring = term_filter_as_short_string(tfilter)
+    for term_type in ('all', 'single-token-terms', 'multi-token-terms'):
+        ttstring = term_type_as_short_string(term_type)
+        tfstring = term_filter_as_short_string(tfilter)
+        summary_file = os.path.join(batch, "eval-results-%s-%s.txt" % (ttstring, tfstring))
+        summary_fh = codecs.open(summary_file, 'w', encoding='utf-8')
+        for threshold in (0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9):
             log_file = os.path.join(batch, "eval-results-%s-%s-%.1f.txt" \
                                     % (ttstring, tfstring, threshold))
             result = evaluation.test(gold_standard, system_file, threshold, log_file,
                                      term_type=term_type, term_filter=tfilter,
                                      debug_c=False, command=command)
             summary_fh.write(result)
+
 
 def term_type_as_short_string(term_type):
     if term_type == 'all': return 'all'

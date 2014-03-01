@@ -76,34 +76,24 @@ class PRA:
 
     """
 
-    def __init__(self, d_eval, d_system, threshold,
+    def __init__(self, d_eval, d_system, threshold=None,
                  term_type="all", term_filter=None, debug_c=True):
-
         self.debug_p = False
         #self.debug_p = True
         self.debug_c = debug_c
         self.d_eval = d_eval
         self.d_system = d_system
         self.threshold = threshold
-
         self.eval_terms = None                # set or list of terms to evaluate, to be filled in
         self.eval_terms_type = term_type      # 'all', 'single-token-terms' or 'multi-token-terms'
         self.eval_terms_filter = term_filter  # file with terms not to include
         self.eval_terms_count1 = None         # number of terms to be evaluated before filter
         self.eval_terms_count2 = None         # number of terms to be evaluated after filter
         self.eval_terms_scores = []           # list of all scores used
-        
-        self.tp = 0   # true positives
-        self.fp = 0   # false positives
-        self.fn = 0   # false negatives
-        self.tn = 0   # true negatives
-
         self.collect_terms_to_evaluate()
-        i = 0
-        for phrase in self.eval_terms:
-            i += 1
-            self.update_counts(i, phrase)
-
+        self.reset_counts()
+        if threshold is not None:
+            self.calculate_counts(threshold)
 
     def collect_terms_to_evaluate(self):
         # these are the terms that are in both dictionaries and that can be evaluated
@@ -126,13 +116,24 @@ class PRA:
             self.eval_terms = set(self.eval_terms).difference(terms_to_filter)
             self.eval_terms_count2 = len(self.eval_terms)
 
+    def reset_counts(self):
+        self.tp = 0   # true positives
+        self.fp = 0   # false positives
+        self.fn = 0   # false negatives
+        self.tn = 0   # true negatives
+
+    def calculate_counts(self, threshold):
+        self.reset_counts()
+        self.threshold = threshold
+        i = 0
+        for phrase in self.eval_terms:
+            i += 1
+            self.update_counts(i, phrase)
 
     def update_counts(self, i, phrase):
-
         gold_label = self.d_eval.get(phrase)
         system_score = self.d_system.get(phrase)
         self.debug_phrase(i, phrase, gold_label, system_score)
-
         if system_score is None:
             # the gold phrase doesn't appear in the scored subset (data sample),
             # default the score to 0.0 and set the system label to 'u' (unknown).
@@ -140,15 +141,12 @@ class PRA:
             system_label = "u"
         else:
             system_label = "y" if system_score > self.threshold else "n"
-
         if gold_label == "y" and system_label == "y": self.tp += 1
         elif gold_label == "y" and system_label == "n": self.fn += 1
         elif gold_label == "n" and system_label == "n": self.tn += 1
         elif gold_label == "n" and system_label == "y": self.fp += 1
-
         self.eval_terms_scores.append("%s\t|%s|\t%f\t%s\n" \
                                       % (gold_label, system_label, system_score, phrase))
-
 
     def total(self):
         return self.tp + self.tn + self.fp + self.fn
@@ -157,14 +155,19 @@ class PRA:
         try:
             return float(self.tp) / (self.tp + self.fp)
         except ZeroDivisionError:
-            print "[WARNING: precision] true_pos: %i, false_pos: %i" % (self.tp, self.fp)
             return -1
 
     def recall(self):
-        return float(self.tp) / (self.tp + self.fn)
+        try:
+            return float(self.tp) / (self.tp + self.fn)
+        except ZeroDivisionError:
+            return -1
 
     def accuracy(self):
-        return float(self.tp + self.tn) / self.total()
+        try:
+            return float(self.tp + self.tn) / self.total()
+        except ZeroDivisionError:
+            return -1
 
     def debug_phrase(self, i, phrase, gold_label, system_score):
         if self.debug_p and i < 10:
@@ -509,7 +512,7 @@ def t0(threshold):
 
 
 # test(eval_test_file, system_test_file, threshold, log_file_name)
-def test(eval_file, system_file, threshold, log_file,
+def test(eval_file, system_file, threshold, log_file=None,
          term_type='all', term_filter=None,
          score_type="average", count=1, debug_c=True, command=None):
 
@@ -532,16 +535,16 @@ def test(eval_file, system_file, threshold, log_file,
     s_log.write("terms in both (the overlap):   %4d\n" % pra.count_terms_in_overlap())
     s_log.write("terms after term_type:         %4d\n" % pra.eval_terms_count1)
     s_log.write("terms after term_filter:       %4d\n\n" % pra.eval_terms_count2)
-    pra.pp_counts()
     pra.pp_counts_long(s_log)
+    #pra.log_missing_eval_phrases(s_log)
     s_log.write("\nList of used gold labels and system responses:\n\n")
     for (x, y, name) in (('n', 'y', 'false positives'), ('y', 'n', 'false negatives')):
         s_log.write("$ grep -e '^%s' %s | grep '|%s|'   # to get %s\n" % (x, os.path.basename(log_file), y, name))
     s_log.write("\n")
     for score in pra.eval_terms_scores: s_log.write(score)
-    #pra.log_missing_eval_phrases(s_log)
     s_log.close()
 
+    print pra.results_string(),
     return pra.results_string()
 
 
