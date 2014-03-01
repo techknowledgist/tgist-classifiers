@@ -60,35 +60,71 @@ import train
 
 class PRA:
 
-    """precision/recall/accuracy calculation"""
+    """Precision, recall and accuracy calculation. Takes a dictionary with gold
+    standard terms, mapped to 'y' or 'n', and a dictionary of system results,
+    mapped to system scores. Depending on the threshold, system scores will be
+    mapped to 'y' or 'n' and PR&A are calculated over those, using only those
+    terms for which we have both gold standard and system data.
 
-    def __init__(self, d_eval, d_system, threshold, s_log, debug_c=True):
+    Will use all terms in the intersection of gold standard and system, unless
+    the terms parameter is set to 'single-token-terms' or 'multi-token-terms',
+    in which case a subset pf the interseciton is taken.
+
+    The filter parameter can be used to hand in a set of terms that should be
+    excluded from the evaluation, this could be the list of terms in the
+    training set.
+
+    """
+
+    def __init__(self, d_eval, d_system, threshold,
+                 term_type="all", term_filter=None, debug_c=True):
 
         self.debug_p = False
         #self.debug_p = True
         self.debug_c = debug_c
         self.d_eval = d_eval
         self.d_system = d_system
-        self.threshold = threshold 
-        self.s_log = s_log
-        self.log_queue = []
-        self.tp = 0           # true positives
-        self.fp = 0           # false positives
-        self.fn = 0           # false negatives
-        self.tn = 0           # true negatives
+        self.threshold = threshold
 
-        # these are the terms that are in both dictionaries and that can be evaluated
-        eval_terms = set(self.d_eval).intersection(self.d_system)
-
-        s_log.write("terms in gold standard:        %4d\n" % len(self.d_eval))
-        s_log.write("terms in system response:      %4d\n" % len(self.d_system))
-        s_log.write("terms evaluated (the overlap): %4d\n\n" % len(eval_terms))
+        self.eval_terms = None                # set or list of terms to evaluate, to be filled in
+        self.eval_terms_type = term_type      # 'all', 'single-token-terms' or 'multi-token-terms'
+        self.eval_terms_filter = term_filter  # file with terms not to include
+        self.eval_terms_count1 = None         # number of terms to be evaluated before filter
+        self.eval_terms_count2 = None         # number of terms to be evaluated after filter
+        self.eval_terms_scores = []           # list of all scores used
         
+        self.tp = 0   # true positives
+        self.fp = 0   # false positives
+        self.fn = 0   # false negatives
+        self.tn = 0   # true negatives
+
+        self.collect_terms_to_evaluate()
         i = 0
-        for phrase in eval_terms:
+        for phrase in self.eval_terms:
             i += 1
             self.update_counts(i, phrase)
-        #self.log_missing_eval_phrases(threshold, s_log)
+
+
+    def collect_terms_to_evaluate(self):
+        # these are the terms that are in both dictionaries and that can be evaluated
+        self.eval_terms = set(self.d_eval).intersection(self.d_system)
+        # select the subset if you want single or multi token terms only
+        if self.eval_terms_type == 'single-token-terms':
+            self.eval_terms = [t for t in self.eval_terms if len(t.split()) == 1]
+        elif self.eval_terms_type == 'multi-token-terms':
+            self.eval_terms = [t for t in self.eval_terms if len(t.split()) > 1]
+        self.eval_terms_count1 = len(self.eval_terms)
+        self.eval_terms_count2 = len(self.eval_terms)
+        # remove terms that should not be included
+        if self.eval_terms_filter is not None:
+            fh = codecs.open(self.eval_terms_filter, encoding='utf-8')
+            terms_to_filter = {}
+            for line in fh:
+                fields = line.strip().split("\t")
+                if len(fields) == 2:
+                    terms_to_filter[fields[1]] = True
+            self.eval_terms = set(self.eval_terms).difference(terms_to_filter)
+            self.eval_terms_count2 = len(self.eval_terms)
 
 
     def update_counts(self, i, phrase):
@@ -110,8 +146,8 @@ class PRA:
         elif gold_label == "n" and system_label == "n": self.tn += 1
         elif gold_label == "n" and system_label == "y": self.fp += 1
 
-        self.log_queue.append("%s\t|%s|\t%f\t%s\n" \
-                              % (gold_label, system_label, system_score, phrase))
+        self.eval_terms_scores.append("%s\t|%s|\t%f\t%s\n" \
+                                      % (gold_label, system_label, system_score, phrase))
 
 
     def total(self):
@@ -144,16 +180,27 @@ class PRA:
             system_label = 'y' if score > threshold else 'n'
             if gold_label is None:
                 log.write("u\t|%s|\t%f\t%s\n" % (system_label, score, phrase))
-                
-    def flush_log_queue(self):
-        for l in self.log_queue:
-            self.s_log.write(l)
+
+    def count_terms_in_overlap(self):
+        return len( set(self.d_eval).intersection(self.d_system))
 
     def results_string(self):
-        return "total:%d tp:%s fp:%s fn:%s tn:%s -- " % \
-               (self.total(), self.tp, self.fp, self.fn, self.tn) + \
-               "precision: %.2f, recall: %.2f, accuracy: %.2f, threshold: %.2f\n" % \
-               (self.precision(), self.recall(), self.accuracy(), self.threshold)
+        return \
+            "threshold: %.2f {%s %s} ==> " % \
+            (self.threshold, self.term_type_as_short_string(),
+             self.term_filter_as_short_string()) + \
+            "precision: %.2f, recall: %.2f, accuracy: %.2f -- " % \
+            (self.precision(), self.recall(), self.accuracy()) + \
+            "(total:%04d tp:%04d tn:%04d fp:%04d fn:%04d)\n" % \
+            (self.total(), self.tp, self.tn, self.fp, self.fn)
+
+    def term_type_as_short_string(self):
+        if self.eval_terms_type == 'all': return 'all'
+        if self.eval_terms_type == 'single-token-terms': return 'stt'
+        if self.eval_terms_type == 'multi-token-terms': return 'mtt'
+
+    def term_filter_as_short_string(self):
+        return 'ntf' if self.eval_terms_filter is None else 'ytf'
 
     def pp_counts(self, fh=sys.stdout):
         fh.write(self.results_string())
@@ -461,7 +508,9 @@ def t0(threshold):
     test(eval_test_file, system_test_file, threshold, log_file_name)
 
 
+# test(eval_test_file, system_test_file, threshold, log_file_name)
 def test(eval_file, system_file, threshold, log_file,
+         term_type='all', term_filter=None,
          score_type="average", count=1, debug_c=True, command=None):
 
     """Compare the system results to the gold standard results. score_type is an
@@ -469,21 +518,30 @@ def test(eval_file, system_file, threshold, log_file,
     count restricts scores to terms that appear in <count> or more documents."""
 
     edata = EvalData(eval_file, system_file, score_type, count)
+    pra = PRA(edata.d_eval_phr2label, edata.d_system_phr2score, threshold,
+              term_type=term_type, term_filter=term_filter, debug_c=debug_c)
+
     s_log = codecs.open(log_file, "w", 'utf-8')
     if command is not None:
-        s_log.write(command + "\n\n")
-    pra = PRA(edata.d_eval_phr2label,
-              edata.d_system_phr2score,
-              threshold, s_log, debug_c)
+        s_log.write('$ ' + command.replace('--', "\n     --") + "\n\n")
+    s_log.write("threshold    =  %s\n" % threshold)
+    s_log.write("term_type    =  %s\n" % term_type)
+    s_log.write("term_filter  =  %s\n\n" % term_filter)
+    s_log.write("terms in gold standard:        %4d\n" % len(pra.d_eval))
+    s_log.write("terms in system response:      %4d\n" % len(pra.d_system))
+    s_log.write("terms in both (the overlap):   %4d\n" % pra.count_terms_in_overlap())
+    s_log.write("terms after term_type:         %4d\n" % pra.eval_terms_count1)
+    s_log.write("terms after term_filter:       %4d\n\n" % pra.eval_terms_count2)
     pra.pp_counts()
     pra.pp_counts_long(s_log)
-    s_log.write("List of used gold labels and system responses:\n\n")
+    s_log.write("\nList of used gold labels and system responses:\n\n")
     for (x, y, name) in (('n', 'y', 'false positives'), ('y', 'n', 'false negatives')):
-        #print "$ grep -e '^%s' %s | grep '|%s|'   # to get %s" % (x, log_file, y, name)
         s_log.write("$ grep -e '^%s' %s | grep '|%s|'   # to get %s\n" % (x, os.path.basename(log_file), y, name))
     s_log.write("\n")
-    pra.flush_log_queue()
+    for score in pra.eval_terms_scores: s_log.write(score)
+    #pra.log_missing_eval_phrases(s_log)
     s_log.close()
+
     return pra.results_string()
 
 

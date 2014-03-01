@@ -32,7 +32,7 @@ For the first form, we have the following options:
    --verbose - switches on verbose mode
 
 For the second form, we assume an existing classification and compare it to a
-gold standard. Only two options are needed:
+gold standard. Only two options are needed, a third is optional:
 
    --batch DIRECTORY - name of the current batch created with the --classify
        option, this is also the directory where all evaluation data will be
@@ -41,9 +41,10 @@ gold standard. Only two options are needed:
    --gold-standard FILENAME - file with labeled terms for evaluations, if this
        is specified the system results will be compared to this list
 
+   --filter FILENAME - a file with terms to be ignored in the evaluation,
+       typically the file with annotated terms for creating the training data
 
-There are two options that are there purely to print information about the
-corpus:
+There are two forms that are there purely to print information about the corpus:
 
   --show-data        print available datasets, then exit
   --show-pipelines   print defined pipelines, then exit
@@ -293,7 +294,7 @@ def parse_info_file(fname):
         return None
 
 
-def evaluate(batch, gold_standard):
+def evaluate(batch, gold_standard, tfilter):
     """Evaluate results in batch given a gold standard. It is the responsibility
     of the user to make sure that it makes sense to compare this gold standard
     to the system results."""
@@ -304,16 +305,30 @@ def evaluate(batch, gold_standard):
     command =  "python %s" % ' '.join(sys.argv)
     for threshold in (0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9):
     #for threshold in (0.5,):
-        log_file = os.path.join(batch, "eval-results-%.1f.txt" % threshold)
-        result = evaluation.test(gold_standard, system_file, threshold, log_file,
-                                 debug_c=False, command=command)
-        summary_fh.write(result)
+        for term_type in ('all', 'single-token-terms', 'multi-token-terms'):
+            ttstring = term_type_as_short_string(term_type)
+            tfstring = term_filter_as_short_string(tfilter)
+            log_file = os.path.join(batch, "eval-results-%s-%s-%.1f.txt" \
+                                    % (ttstring, tfstring, threshold))
+            result = evaluation.test(gold_standard, system_file, threshold, log_file,
+                                     term_type=term_type, term_filter=tfilter,
+                                     debug_c=False, command=command)
+            summary_fh.write(result)
+
+def term_type_as_short_string(term_type):
+    if term_type == 'all': return 'all'
+    if term_type == 'single-token-terms': return 'stt'
+    if term_type == 'multi-token-terms': return 'mtt'
+
+def term_filter_as_short_string(term_filter):
+    return 'ntf' if term_filter is None else 'ytf'
+
 
 def read_opts():
     longopts = ['classify', 'evaluate', 'show-data', 'show-pipelines',
                 'corpus=', 'language=', 'pipeline=', 'filelist=',
                 'batch=', 'features=', 'xval=', 'model=', 'eval-on-unseen-terms',
-                'verbose', 'gold-standard=', 'threshold=', 'logfile=']
+                'verbose', 'gold-standard=', 'threshold=', 'filter=', 'logfile=']
     try:
         return getopt.getopt(sys.argv[1:], '', longopts)
     except getopt.GetoptError as e:
@@ -332,6 +347,7 @@ if __name__ == '__main__':
     model, batch, xval, = None, None, "0"
     use_all_chunks = True
     gold_standard = None
+    filter_terms = None
     threshold = None
 
     (opts, args) = read_opts()
@@ -353,6 +369,7 @@ if __name__ == '__main__':
 
         elif opt == '--gold-standard': gold_standard = val
         elif opt == '--threshold': threshold = float(val)
+        elif opt == '--filter': filter_terms = val
 
         elif opt == '--verbose': VERBOSE = True
         elif opt == '--eval-on-unseen-terms': use_all_chunks = False
@@ -370,7 +387,7 @@ if __name__ == '__main__':
     elif show_pipelines_p:
         show_pipelines(rconfig)
     elif evaluate_p:
-        evaluate(batch, gold_standard)
+        evaluate(batch, gold_standard, filter_terms)
     elif classify_p:
         if VERBOSE: rconfig.pp()
         # allow for the file_list to be just the filename in the config
