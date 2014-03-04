@@ -67,20 +67,21 @@ typical invocation:
      --batch data/classifications/test2 \
      --verbose
 
-For evaluation of the above-created classification, simply use the batch and
+For evaluation of the above-created classification, simply read the batch and
 compare it to a gold standard:
 
    $ python run_tclassify.py \
      --evaluate \
      --batch data/classifications/test2 \
      --gold-standard ../annotation/en/technology/phr_occ.eval.lab \
+     --filter ../annotation/en/technology/gold-training.txt \
      --verbose
 
 The system will select classify.MaxEnt.out.s4.scores.sum.nr in the selected
 batch of the corpus and consider that file to be the system response. Ideally,
 the gold standard was manually created over the same files as the one in the
-batch. The log file will contain all terms with gold label, system response and
-system score.
+batch. When --filter is used only terms that do not occur in the gold-training
+file are evaluated.
 
 """
 
@@ -305,7 +306,7 @@ def evaluate(batch, gold_standard, tfilter):
         tfstring = term_filter_as_short_string(tfilter)
         summary_file = os.path.join(batch, "eval-results-%s-%s.txt" % (ttstring, tfstring))
         summary_fh = codecs.open(summary_file, 'w', encoding='utf-8')
-        for threshold in (0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9):
+        for threshold in (0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9):
             log_file = os.path.join(batch, "eval-results-%s-%s-%.1f.txt" \
                                     % (ttstring, tfstring, threshold))
             result = evaluation.test(gold_standard, system_file, threshold, log_file,

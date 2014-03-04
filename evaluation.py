@@ -163,6 +163,11 @@ class PRA:
         except ZeroDivisionError:
             return -1
 
+    def f1_score(self):
+        p = self.precision()
+        r = self.recall()
+        return (2 * p * r) / (p + r)
+
     def accuracy(self):
         try:
             return float(self.tp + self.tn) / self.total()
@@ -192,8 +197,8 @@ class PRA:
             "threshold: %.2f {%s %s} ==> " % \
             (self.threshold, self.term_type_as_short_string(),
              self.term_filter_as_short_string()) + \
-            "precision: %.2f, recall: %.2f, accuracy: %.2f -- " % \
-            (self.precision(), self.recall(), self.accuracy()) + \
+            "p=%.2f r=%.2f f1=%.2f acc=%.2f - " % \
+            (self.precision(), self.recall(), self.f1_score(), self.accuracy()) + \
             "(total:%04d tp:%04d tn:%04d fp:%04d fn:%04d)\n" % \
             (self.total(), self.tp, self.tn, self.fp, self.fn)
 
@@ -216,6 +221,7 @@ class PRA:
         fh.write("total            %4d\n\n" % self.total())
         fh.write("precision        %.2f\n" % self.precision())
         fh.write("recall           %.2f\n" % self.recall())
+        fh.write("f1-score         %.2f\n" % self.f1_score())
         fh.write("accuracy         %.2f\n\n" % self.accuracy())
 
     
@@ -538,9 +544,10 @@ def test(eval_file, system_file, threshold, log_file=None,
     pra.pp_counts_long(s_log)
     #pra.log_missing_eval_phrases(s_log)
     s_log.write("\nList of used gold labels and system responses:\n\n")
-    for (x, y, name) in (('n', 'y', 'false positives'), ('y', 'n', 'false negatives')):
+    for (x, y, name) in (('n', 'y', 'false positives'), ('y', 'n', 'false negatives'),
+                         ('y', 'y', 'true positives'), ('n', 'n', 'true negatives')):
         s_log.write("$ grep -e '^%s' %s | grep '|%s|'   # to get %s\n" % (x, os.path.basename(log_file), y, name))
-    s_log.write("\n")
+    s_log.write("\ngold\tsystem\tscore\tterm\n\n")
     for score in pra.eval_terms_scores: s_log.write(score)
     s_log.close()
 
