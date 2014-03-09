@@ -4,7 +4,7 @@ to all files in the corpus) and a file with labeled instances.
 
 Usage:
 
-  $ python malletfile_create.py OPTIONS
+  $ python create_malletfile.py OPTIONS
 
 Options:
 
@@ -101,6 +101,7 @@ class MalletFileCreator(TrainerClassifier):
     def __init__(self, rconfig, file_list, annotation_file, annotation_count):
         """Store parameters and initialize file names."""
         self.rconfig = rconfig
+        self.corpus = rconfig.corpus
         self.file_list = self._find_filelist(file_list)
         self.annotation_file = annotation_file
         self.annotation_count = annotation_count
@@ -140,6 +141,7 @@ class MalletFileCreator(TrainerClassifier):
         with open(self.info_file_general, 'w') as fh:
             fh.write("$ python %s\n\n" % ' '.join(sys.argv))
             fh.write("model             =  %s\n" % os.path.abspath(self.model))
+            fh.write("corpus            =  %s\n" % os.path.abspath(self.corpus))
             fh.write("file_list         =  %s\n" % os.path.abspath(self.file_list))
             fh.write("annotation_file   =  %s\n" % os.path.abspath(self.annotation_file))
             fh.write("annotation_count  =  %s\n" % self.annotation_count)

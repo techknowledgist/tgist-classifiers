@@ -1,10 +1,10 @@
 """create_model.py
 
-Create a model from a mellet file.
+Create a model from a mallet file.
 
 The name of the model is derived from the mallet file by replacing the .mallet
 extension with a .model extension. Also creates a .info file and two .cinfo (the
-last two in the info subdirectory.
+last two in the info subdirectory).
 
 
 Usage:
@@ -19,7 +19,7 @@ Options:
    --verbose - switch on verbose mode
 
 
-Several options not yet implemented, but that would need to be added for completeness.
+Several options not yet implemented, but that we need to add for completeness.
 
    --xval INT
    --classifier
@@ -34,11 +34,8 @@ Example:
    $ python create_model.py --mallet-file data/models/technologies-201312-en-500-010/train.ds0005.mallet
 
 
-
 Wishlist:
-
 1- check whether the model and other files exist, give option to overwrite
-
 
 """
 
@@ -52,9 +49,7 @@ sys.path.append(os.path.abspath('../..'))
 from ontology.utils.git import get_git_commit
 from ontology.utils.file import ensure_path
 
-
 VERBOSE = False
-
 
 
 def create_model(mallet_file):

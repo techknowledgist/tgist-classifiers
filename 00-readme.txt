@@ -41,8 +41,8 @@ $ python select_features.py OPTIONS
 
 4. creating a model
 
-Takes a makkert file, creates vector file and the model. Vector files are
-deleted once th emodel is created.
+Takes a mallet file and creates a vector file and the model. Vector files are
+deleted once the model is created.
 
 $ python create_model OPTIONS
 
@@ -60,21 +60,24 @@ system is in
 
 /home/j/corpuswork/fuse/code/patent-classifier/tools/mallet/mallet-2.0.7/bin
 
-The relevant files and the current settings are:
+The relevant files and the default settings are:
 
     classifier2info  -  2000m
     csv2vectors      -  4000m
     mallet           -  2g
 
-When creating large models some of these may need to be edited.
+When creating large models some of these may need to be edited. The settings
+above are know to work for mallet files up to 267M (5k patents and 4k annotated
+terms), but break on mallet files of 533M (10k patents). Here are some settings
+for larger mallet files (10k, 20k and 50k patents):
 
-Question. Is mallet used for both trainer and classfier? And if so, should/can
-the same settings be used?
+   533M ==> mallet=4g
+   1.1G ==> mallet=8g
+   2.7G ==> csv2vectors=? mallet=?
 
-Answer. Yes, for the classifier 2g seems enough, for the tariner I have needed
-to go up to 8g.
-
-Could consider adding a --memory option which can be used to overrule this, but
-that is a tad complicated because the mallet scripts would also need to be
-changed.
-
+The mallet script is used for both trainer and classfier and the same settings
+can be used. Models build from larger mallet files do not appear to need more
+memory, but for creating larger models memory needs to be increased as shown
+above. Could consider adding a --memory option which can be used to overrule
+this, but that is a tad complicated because the mallet scripts would also need
+to be changed.
