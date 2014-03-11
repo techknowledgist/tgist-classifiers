@@ -4,7 +4,8 @@ Create a model from a mallet file.
 
 The name of the model is derived from the mallet file by replacing the .mallet
 extension with a .model extension. Also creates a .info file and two .cinfo (the
-last two in the info subdirectory).
+last two in the info subdirectory). The intermediate vector file that is created
+along the way is deleted after the model is created.
 
 
 Usage:
@@ -16,8 +17,10 @@ Options:
 
    --mallet-file PATH - the input mallet file from which the model is created
 
-   --verbose - switch on verbose mode
+   --verbose - switch on verbose mode, optional, defualt is verbose mode off
 
+   --cinfo - create cinfo files with information on how informative features
+        are, optional, the default is to not print this information
 
 Several options not yet implemented, but that we need to add for completeness.
 
@@ -31,11 +34,14 @@ Several options not yet implemented, but that we need to add for completeness.
 
 Example:
 
-   $ python create_model.py --mallet-file data/models/technologies-201312-en-500-010/train.ds0005.mallet
+   $ python create_model.py \
+     --mallet-file data/models/technologies-201312-en-500-010/train.ds0005.mallet
 
 
 Wishlist:
 1- check whether the model and other files exist, give option to overwrite
+2- maybe split off the --cinfo option and have a separate script
+   create_classifier_info.py
 
 """
 
@@ -52,7 +58,7 @@ from ontology.utils.file import ensure_path
 VERBOSE = False
 
 
-def create_model(mallet_file):
+def create_model(mallet_file, cinfo):
     t1 = time.time()
     vectors_file = _generate_filename(mallet_file, 'vectors')
     model_file = _generate_filename(mallet_file, 'model')
@@ -63,9 +69,11 @@ def create_model(mallet_file):
     mtrainer = SimpleMalletTrainer(config.MALLET_DIR)
     mtrainer.create_vectors(mallet_file, vectors_file)
     mtrainer.create_model(vectors_file, model_file, out_file, stderr_file)
-    mtrainer.create_cinfo(model_file, cinfo_file, cinfo_file_sorted)
+    if cinfo:
+        mtrainer.create_cinfo(model_file, cinfo_file, cinfo_file_sorted)
+        _cleanup_cinfo(cinfo_file, cinfo_file_sorted)
     _write_info(mallet_file, model_file, mtrainer, out_file, stderr_file, t1)
-    _cleanup(cinfo_file, cinfo_file_sorted, out_file, stderr_file, vectors_file)
+    _cleanup(out_file, stderr_file, vectors_file)
 
 def _generate_filename(mallet_file, extension):
     """Returns a file name by replacing the .mallet extension with another extension."""
@@ -93,18 +101,20 @@ def _write_info(mallet_file, model_file, mtrainer, out_file, stderr_file, t1):
     for cmd in mtrainer.saved_create_cinfo_commands:
         fh.write("\n$ %s\n" % cmd)
         
-def _cleanup(cinfo_file, cinfo_file_sorted, out_file, stderr_file, vectors_file):
+def _cleanup_cinfo(cinfo_file, cinfo_file_sorted):
     run_command("gzip %s" % cinfo_file)
     run_command("gzip %s" % cinfo_file_sorted)
     info_dir = os.path.dirname(cinfo_file) + os.sep + 'info'
     ensure_path(info_dir)
     run_command("mv %s.gz %s" % (cinfo_file, info_dir))
     run_command("mv %s.gz %s" % (cinfo_file_sorted, info_dir))
+
+def _cleanup(out_file, stderr_file, vectors_file):
     for f in (out_file, stderr_file, vectors_file):
         run_command("rm %s" % f)
 
 def read_opts():
-    longopts = ['mallet-file=', 'verbose' ]
+    longopts = ['mallet-file=', 'verbose', 'cinfo' ]
     try:
         return getopt.getopt(sys.argv[1:], '', longopts)
     except getopt.GetoptError as e:
@@ -115,14 +125,16 @@ def read_opts():
 if __name__ == '__main__':
 
     mallet_file = None
+    cinfo_p = False
     
     (opts, args) = read_opts()
     for opt, val in opts:
         if opt == '--mallet-file': mallet_file = val
         elif opt == '--verbose': VERBOSE = True
+        elif opt == '--cinfo': cinfo_p = True
         # TODO: will need more options (xval etcetera)
         
     if mallet_file is None: exit("WARNING: no mallet file specified, exiting...\n")
 
-    create_model(mallet_file)
+    create_model(mallet_file, cinfo_p)
 

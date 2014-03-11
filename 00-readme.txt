@@ -73,7 +73,11 @@ for larger mallet files (10k, 20k and 50k patents):
 
    533M ==> mallet=4g
    1.1G ==> mallet=8g
-   2.7G ==> csv2vectors=? mallet=?
+   2.7G ==> csv2vectors=8000m mallet=16g
+
+In the last case you do get a model but the code will hang if you are using the
+--cinfo option. I have not checked how much memory classifier2info needs on the
+2.7G mallet file.
 
 The mallet script is used for both trainer and classfier and the same settings
 can be used. Models build from larger mallet files do not appear to need more
