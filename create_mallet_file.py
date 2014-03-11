@@ -39,6 +39,11 @@ the corpus itself has the lanuage in its configuration file. Also, as we will
 see below, language-specific information like annotated terms can be handed in
 to the process.
 
+When creating a mallet file, no features are filtered from the phr_feats
+file. The general info file in the model directory has a list of features, but
+note that these features are taken from the all.features file and not the
+phr_feats file.
+
 Typical invocation:
 
    $ python create_mallet_file.py \
@@ -58,6 +63,7 @@ and the default to use all files in the corpus is overuled by using the list in
 
 Wishlist:
 - Add runtime statistics (time elapsed, specifications of host machine).
+- Keep track of all features used and use these in the info file
 
 """
 
@@ -142,6 +148,7 @@ class MalletFileCreator(TrainerClassifier):
             fh.write("$ python %s\n\n" % ' '.join(sys.argv))
             fh.write("model             =  %s\n" % os.path.abspath(self.model))
             fh.write("corpus            =  %s\n" % os.path.abspath(self.corpus))
+            fh.write("features          =  %s\n" % ' '.join(get_features()))
             fh.write("file_list         =  %s\n" % os.path.abspath(self.file_list))
             fh.write("annotation_file   =  %s\n" % os.path.abspath(self.annotation_file))
             fh.write("annotation_count  =  %s\n" % self.annotation_count)
@@ -204,6 +211,21 @@ class MalletFileCreator(TrainerClassifier):
                 # only useful labels are y and n
                 if label in ("y", "n"):
                     self.d_phr2label[phrase] = label
+
+
+def get_features():
+    """Returns the list of features as defined in the all.features file, this is
+    used to log the set of features. When creating a mallet file, no features
+    are filtered, but we do not keep track of what features were found. Because
+    the features returned are taken from a file, here is no actual guarantee
+    that these are the features in the mallet file. It is up to th eusers to
+    make sure that all.features has the correct features. """
+    # TODO: a copy of this method is in run_tclassify, consolidate
+    script_dir = os.path.dirname(os.path.abspath(sys.argv[0]))
+    features_file = os.path.join(script_dir, "features", "all.features")
+    content = open(features_file).read().strip()
+    return content.split()
+
 
 
 def read_opts():

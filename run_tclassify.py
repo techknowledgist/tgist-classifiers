@@ -256,30 +256,33 @@ class Classifier(TrainerClassifier):
             self.stderr_file)
 
     def _set_features(self):
-        # TODO: it is a bit unclear now how we get the features, in the past
+        # TODO. It is a bit unclear now how we get the features, in the past
         # they came from the model.info file, recursing to parent info files if
-        # needed, but now we find them in the mallet.info file, the question is
-        # whether the features are always there and if they are the correct ones
-        # in case we selected features twice; maybe never allow feature
-        # selection to happen twice.
+        # needed, then we found them in the mallet.info file, and now we find
+        # them in info/train.info.general.txt. The question is whether the
+        # features are always there and if they are the correct ones in case we
+        # selected features twice; maybe never allow feature selection to happen
+        # twice.
         if VERBOSE:
             print "[get_features] model file =", self.model
         info_file = os.path.splitext(self.model)[0] + '.mallet.info'
-        print self.model
-        print info_file
+        if not os.path.exists(info_file):
+            model_dir = os.path.dirname(self.model)
+            info_file = os.path.join(model_dir, 'info', 'train.info.general.txt')
         features = parse_info_file(info_file)
         if features.has_key('features'):
             feature_set = frozenset(features['features'].split())
+            self.features = sorted(list(feature_set))
         else:
-            print "WARNING: no features found, exiting."
-            exit()
-        self.features = sorted(list(feature_set))
+            print "[_set_features] WARNING: no features found, using all.features."
+            self.features = sorted(get_features())
 
 
 def parse_info_file(fname):
     """Parse an info file and return a dictionary of features. Return None if the
     file does not exist. Assumes that the last feature of note is always
     git_commit."""
+    # TODO: why is git_commit supposed to be the last feature?
     if VERBOSE:
         print "[parse_info_file]", fname
     features = {}
@@ -290,9 +293,18 @@ def parse_info_file(fname):
                 features[f.strip()] = v.strip()
                 if f.strip() == 'git_commit':
                     break
-        return features
     except IOError:
-        return None
+        print "[parse_info_file] WARNING: no such file '%s'" % fname
+    return features
+
+def get_features():
+    """Returns the list of features in the all.features file."""
+    # TODO: this is a copy of a method in create_mallet_file (except that the
+    # doc string is very different), consolidate/refactor these two
+    script_dir = os.path.dirname(os.path.abspath(sys.argv[0]))
+    features_file = os.path.join(script_dir, "features", "all.features")
+    content = open(features_file).read().strip()
+    return content.split()
 
 
 def evaluate(batch, gold_standard, tfilter):
