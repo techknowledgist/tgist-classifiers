@@ -85,3 +85,6 @@ memory, but for creating larger models memory needs to be increased as shown
 above. Could consider adding a --memory option which can be used to overrule
 this, but that is a tad complicated because the mallet scripts would also need
 to be changed.
+
+Update: with the 522M model created from the 2.7G mallet file, you do need to
+increase the mallet memory: mallet=4g.
