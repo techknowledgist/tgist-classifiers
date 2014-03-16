@@ -311,6 +311,7 @@ def evaluate(batch, gold_standard, tfilter):
     """Evaluate results in batch given a gold standard. It is the responsibility
     of the user to make sure that it makes sense to compare this gold standard
     to the system results."""
+    print "Evaluating system results in %s" % batch
     system_file = os.path.join(batch, 'classify.MaxEnt.out.s4.scores.sum.nr')
     command =  "python %s" % ' '.join(sys.argv)
     for term_type in ('all', 'single-token-terms', 'multi-token-terms'):
