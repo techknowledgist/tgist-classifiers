@@ -233,7 +233,7 @@ def read_opts():
                 'annotation-file=', 'annotation-count=',
                 'batch=', 'model-dir=', 'verbose' ]
     try:
-        return getopt.getopt(sys.argv[1:], '', longopts)
+        return getopt.getopt(sys.argv[1:], 'a:m:f:c:n:p:v', longopts)
     except getopt.GetoptError as e:
         sys.exit("ERROR: " + str(e))
 
@@ -251,13 +251,13 @@ if __name__ == '__main__':
 
     (opts, args) = read_opts()
     for opt, val in opts:
-        if opt == '--corpus': corpus_path = val
-        elif opt == '--model-dir': model_path = val
-        elif opt == '--filelist': file_list = val
-        elif opt == '--annotation-file': annotation_file = val
-        elif opt == '--annotation-count': annotation_count = int(val)
-        elif opt == '--pipeline': pipeline_config = val
-        elif opt == '--verbose': VERBOSE = True
+        if opt in ['-c', '--corpus']: corpus_path = val
+        elif opt in ['-m', '--model-dir']: model_path = val
+        elif opt in ['-f', '--filelist']: file_list = val
+        elif opt in ['-a', '--annotation-file']: annotation_file = val
+        elif opt in ['-n', '--annotation-count']: annotation_count = int(val)
+        elif opt in ['-p', '--pipeline']: pipeline_config = val
+        elif opt in ['-v', '--verbose']: VERBOSE = True
 
     if corpus_path is None: exit("WARNING: no corpus specified, exiting...\n")
     if model_path is None: exit("WARNING: no model directory specified, exiting...\n")
