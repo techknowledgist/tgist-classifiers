@@ -34,6 +34,8 @@ For the first form, we have the following options:
 For the second form, we assume an existing classification and compare it to a
 gold standard. Only two options are needed, a third is optional:
 
+   --eval-id - an identifier that is added to the output files
+
    --batch DIRECTORY - name of the current batch created with the --classify
        option, this is also the directory where all evaluation data will be
        written to.
@@ -75,6 +77,7 @@ compare it to a gold standard:
      --batch data/classifications/test2 \
      --gold-standard ../annotation/en/technology/phr_occ.eval.lab \
      --filter ../annotation/en/technology/gold-training.txt \
+     --eval-id phr_occ_eval \
      --verbose
 
 The system will select classify.MaxEnt.out.s4.scores.sum.nr in the selected
@@ -307,7 +310,7 @@ def get_features():
     return content.split()
 
 
-def evaluate(batch, gold_standard, tfilter):
+def evaluate(batch, gold_standard, tfilter, id):
     """Evaluate results in batch given a gold standard. It is the responsibility
     of the user to make sure that it makes sense to compare this gold standard
     to the system results."""
@@ -317,11 +320,11 @@ def evaluate(batch, gold_standard, tfilter):
     for term_type in ('all', 'single-token-terms', 'multi-token-terms'):
         ttstring = term_type_as_short_string(term_type)
         tfstring = term_filter_as_short_string(tfilter)
-        summary_file = os.path.join(batch, "eval-results-%s-%s.txt" % (ttstring, tfstring))
+        summary_file = os.path.join(batch, "eval-%s-%s-%s.txt" % (id, ttstring, tfstring))
         summary_fh = codecs.open(summary_file, 'w', encoding='utf-8')
         for threshold in (0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9):
-            log_file = os.path.join(batch, "eval-results-%s-%s-%.1f.txt" \
-                                    % (ttstring, tfstring, threshold))
+            log_file = os.path.join(batch, "eval-%s-%s-%s-%.1f.txt" \
+                                    % (id, ttstring, tfstring, threshold))
             result = evaluation.test(gold_standard, system_file, threshold, log_file,
                                      term_type=term_type, term_filter=tfilter,
                                      debug_c=False, command=command)
@@ -341,7 +344,7 @@ def read_opts():
     longopts = ['classify', 'evaluate', 'show-data', 'show-pipelines',
                 'corpus=', 'language=', 'pipeline=', 'filelist=',
                 'batch=', 'features=', 'xval=', 'model=', 'eval-on-unseen-terms',
-                'verbose', 'gold-standard=', 'threshold=', 'filter=', 'logfile=']
+                'verbose', 'eval-id=', 'gold-standard=', 'threshold=', 'filter=', 'logfile=']
     try:
         return getopt.getopt(sys.argv[1:], 'c:m:b:f:v', longopts)
     except getopt.GetoptError as e:
@@ -359,6 +362,7 @@ if __name__ == '__main__':
     show_data_p, show_pipelines_p = False, False
     model, batch, xval, = None, None, "0"
     use_all_chunks = True
+    eval_id = None
     gold_standard = None
     filter_terms = None
     threshold = None
@@ -380,6 +384,7 @@ if __name__ == '__main__':
         elif opt == '--pipeline': pipeline_config = val
         elif opt == '--xval': xval = val
 
+        elif opt == '--eval-id': eval_id = val
         elif opt == '--gold-standard': gold_standard = val
         elif opt == '--threshold': threshold = float(val)
         elif opt == '--filter': filter_terms = val
@@ -400,7 +405,7 @@ if __name__ == '__main__':
     elif show_pipelines_p:
         show_pipelines(rconfig)
     elif evaluate_p:
-        evaluate(batch, gold_standard, filter_terms)
+        evaluate(batch, gold_standard, filter_terms, eval_id)
     elif classify_p:
         if VERBOSE: rconfig.pp()
         # allow for the file_list to be just the filename in the config

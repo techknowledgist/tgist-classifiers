@@ -166,7 +166,10 @@ class PRA:
     def f1_score(self):
         p = self.precision()
         r = self.recall()
-        return (2 * p * r) / (p + r)
+        try:
+            return (2 * p * r) / (p + r)
+        except ZeroDivisionError:
+            return -1
 
     def accuracy(self):
         try:
