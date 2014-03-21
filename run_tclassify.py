@@ -343,7 +343,7 @@ def read_opts():
                 'batch=', 'features=', 'xval=', 'model=', 'eval-on-unseen-terms',
                 'verbose', 'gold-standard=', 'threshold=', 'filter=', 'logfile=']
     try:
-        return getopt.getopt(sys.argv[1:], '', longopts)
+        return getopt.getopt(sys.argv[1:], 'c:m:b:f:v', longopts)
     except getopt.GetoptError as e:
         sys.exit("ERROR: " + str(e))
 
@@ -372,10 +372,10 @@ if __name__ == '__main__':
         elif opt == '--show-data': show_data_p = True
         elif opt == '--show-pipelines': show_pipelines_p = True
 
-        elif opt == '--corpus': corpus_path = val
-        elif opt == '--model': model = val
-        elif opt == '--batch': batch = val
-        elif opt == '--filelist': file_list = val
+        elif opt in ['-c', '--corpus']: corpus_path = val
+        elif opt in ['-m', '--model']: model = val
+        elif opt in ['-b', '--batch']: batch = val
+        elif opt in ['-f', '--filelist']: file_list = val
 
         elif opt == '--pipeline': pipeline_config = val
         elif opt == '--xval': xval = val
@@ -384,7 +384,7 @@ if __name__ == '__main__':
         elif opt == '--threshold': threshold = float(val)
         elif opt == '--filter': filter_terms = val
 
-        elif opt == '--verbose': VERBOSE = True
+        elif opt in ['-v', '--verbose']: VERBOSE = True
         elif opt == '--eval-on-unseen-terms': use_all_chunks = False
 
     if corpus_path is None and not evaluate_p:

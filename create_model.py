@@ -116,7 +116,7 @@ def _cleanup(out_file, stderr_file, vectors_file):
 def read_opts():
     longopts = ['mallet-file=', 'verbose', 'cinfo' ]
     try:
-        return getopt.getopt(sys.argv[1:], '', longopts)
+        return getopt.getopt(sys.argv[1:], 'm:v', longopts)
     except getopt.GetoptError as e:
         sys.exit("ERROR: " + str(e))
 
@@ -129,8 +129,8 @@ if __name__ == '__main__':
     
     (opts, args) = read_opts()
     for opt, val in opts:
-        if opt == '--mallet-file': mallet_file = val
-        elif opt == '--verbose': VERBOSE = True
+        if opt in ['-m', '--mallet-file']: mallet_file = val
+        elif opt in ['-v', '--verbose']: VERBOSE = True
         elif opt == '--cinfo': cinfo_p = True
         # TODO: will need more options (xval etcetera)
         
