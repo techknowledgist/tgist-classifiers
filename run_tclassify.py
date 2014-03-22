@@ -323,8 +323,11 @@ def evaluate(batch, gold_standard, tfilter, id):
         summary_file = os.path.join(batch, "eval-%s-%s-%s.txt" % (id, ttstring, tfstring))
         summary_fh = codecs.open(summary_file, 'w', encoding='utf-8')
         for threshold in (0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9):
-            log_file = os.path.join(batch, "eval-%s-%s-%s-%.1f.txt" \
-                                    % (id, ttstring, tfstring, threshold))
+            if threshold == 0.5:
+                log_file = os.path.join(batch, "eval-%s-%s-%s-%.1f.txt" \
+                                        % (id, ttstring, tfstring, threshold))
+            else:
+                log_file = None
             result = evaluation.test(gold_standard, system_file, threshold, log_file,
                                      term_type=term_type, term_filter=tfilter,
                                      debug_c=False, command=command)

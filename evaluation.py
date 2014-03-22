@@ -533,26 +533,28 @@ def test(eval_file, system_file, threshold, log_file=None,
     pra = PRA(edata.d_eval_phr2label, edata.d_system_phr2score, threshold,
               term_type=term_type, term_filter=term_filter, debug_c=debug_c)
 
-    s_log = codecs.open(log_file, "w", 'utf-8')
-    if command is not None:
-        s_log.write('$ ' + command.replace('--', "\n     --") + "\n\n")
-    s_log.write("threshold    =  %s\n" % threshold)
-    s_log.write("term_type    =  %s\n" % term_type)
-    s_log.write("term_filter  =  %s\n\n" % term_filter)
-    s_log.write("terms in gold standard:        %4d\n" % len(pra.d_eval))
-    s_log.write("terms in system response:      %4d\n" % len(pra.d_system))
-    s_log.write("terms in both (the overlap):   %4d\n" % pra.count_terms_in_overlap())
-    s_log.write("terms after term_type:         %4d\n" % pra.eval_terms_count1)
-    s_log.write("terms after term_filter:       %4d\n\n" % pra.eval_terms_count2)
-    pra.pp_counts_long(s_log)
-    #pra.log_missing_eval_phrases(s_log)
-    s_log.write("\nList of used gold labels and system responses:\n\n")
-    for (x, y, name) in (('n', 'y', 'false positives'), ('y', 'n', 'false negatives'),
-                         ('y', 'y', 'true positives'), ('n', 'n', 'true negatives')):
-        s_log.write("$ grep -e '^%s' %s | grep '|%s|'   # to get %s\n" % (x, os.path.basename(log_file), y, name))
-    s_log.write("\ngold\tsystem\tscore\tterm\n\n")
-    for score in pra.eval_terms_scores: s_log.write(score)
-    s_log.close()
+    if log_file is not None:
+        s_log = codecs.open(log_file, "w", 'utf-8')
+        if command is not None:
+            s_log.write('$ ' + command.replace('--', "\n     --") + "\n\n")
+        s_log.write("threshold    =  %s\n" % threshold)
+        s_log.write("term_type    =  %s\n" % term_type)
+        s_log.write("term_filter  =  %s\n\n" % term_filter)
+        s_log.write("terms in gold standard:        %4d\n" % len(pra.d_eval))
+        s_log.write("terms in system response:      %4d\n" % len(pra.d_system))
+        s_log.write("terms in both (the overlap):   %4d\n" % pra.count_terms_in_overlap())
+        s_log.write("terms after term_type:         %4d\n" % pra.eval_terms_count1)
+        s_log.write("terms after term_filter:       %4d\n\n" % pra.eval_terms_count2)
+        pra.pp_counts_long(s_log)
+        # pra.log_missing_eval_phrases(s_log)
+        s_log.write("\nList of used gold labels and system responses:\n\n")
+        for (x, y, name) in (('n', 'y', 'false positives'), ('y', 'n', 'false negatives'),
+                             ('y', 'y', 'true positives'), ('n', 'n', 'true negatives')):
+            s_log.write("$ grep -e '^%s' %s | grep '|%s|'   # to get %s\n"
+                        % (x, os.path.basename(log_file), y, name))
+        s_log.write("\ngold\tsystem\tscore\tterm\n\n")
+        for score in pra.eval_terms_scores: s_log.write(score)
+        s_log.close()
 
     print pra.results_string(),
     return pra.results_string()
