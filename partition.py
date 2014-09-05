@@ -2,7 +2,7 @@
 
 Partitioning is an operation on a .mallet file. The input is a mallet file with
 the .mallet extension, containg mallet instances. The output is two mallet
-files, provding a exhaustive disjoint partition of the input file.
+files, providing a exhaustive disjoint partition of the input file.
 
 One of the output files, which has 'p-stt' as part of its name, has only the
 single-token terms, and the other file, with 'p-mtt' as part of its name, has

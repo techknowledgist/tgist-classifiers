@@ -32,7 +32,7 @@ For the first form, we have the following options:
    --verbose - switches on verbose mode
 
 For the second form, we assume an existing classification and compare it to a
-gold standard. Only two options are needed, a third is optional:
+gold standard. Only three options are needed, the fourth is optional:
 
    --eval-id - an identifier that is added to the output files
 
@@ -40,8 +40,7 @@ gold standard. Only two options are needed, a third is optional:
        option, this is also the directory where all evaluation data will be
        written to.
 
-   --gold-standard FILENAME - file with labeled terms for evaluations, if this
-       is specified the system results will be compared to this list
+   --gold-standard FILENAME - file with labeled terms for evaluations
 
    --filter FILENAME - a file with terms to be ignored in the evaluation,
        typically the file with annotated terms for creating the training data
@@ -51,8 +50,8 @@ There are two forms that are there purely to print information about the corpus:
   --show-data        print available datasets, then exit
   --show-pipelines   print defined pipelines, then exit
 
-Both these options require the --corpus option but nothing else (all other
-options handed in will be ignored).
+Both these options require the --corpus option but nothing else, all other
+options handed in will be ignored.
 
 
 Examples.
