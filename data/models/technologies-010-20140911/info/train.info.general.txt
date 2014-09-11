@@ -1,0 +1,11 @@
+$ python create_mallet_file.py --corpus /home/j/corpuswork/fuse/FUSEData/corpora/ln-us-sample-500 --model-dir data/models/technologies-010 --annotation-file ../annotation/en/technology/phr_occ.lab --filelist files-testing.txt
+
+model             =  /local/chalciope/marc/fuse/patent-classifier/ontology/classifier/data/models/technologies-010
+corpus            =  /home/j/corpuswork/fuse/FUSEData/corpora/ln-us-sample-500
+features          =  prev_n2 prev_n3 next_n2 next_n3 next2_tags prev_J prev_Jpr prev_Npr prev_V first_word last_word tag_sig suffix3 suffix4 suffix5 section_loc doc_loc sent_loc plen
+file_list         =  /home/j/corpuswork/fuse/FUSEData/corpora/ln-us-sample-500/config/files-testing.txt
+annotation_file   =  /local/chalciope/marc/fuse/patent-classifier/ontology/annotation/en/technology/phr_occ.lab
+annotation_count  =  9223372036854775807
+config_file       =  /home/j/corpuswork/fuse/FUSEData/corpora/ln-us-sample-500/config/pipeline-default.txt
+timestamp         =  20140911:101119
+git_commit        =  v0.4-85-g888f201

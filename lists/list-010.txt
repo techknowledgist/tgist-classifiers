@@ -1,0 +1,10 @@
+/home/j/corpuswork/fuse/FUSEData/corpora/ln-us-sample-500/data/d3_phr_feats/01/files/2010/US20100260385A1.xml
+/home/j/corpuswork/fuse/FUSEData/corpora/ln-us-sample-500/data/d3_phr_feats/01/files/2010/US20100279593A1.xml
+/home/j/corpuswork/fuse/FUSEData/corpora/ln-us-sample-500/data/d3_phr_feats/01/files/2010/US7825979B2.xml
+/home/j/corpuswork/fuse/FUSEData/corpora/ln-us-sample-500/data/d3_phr_feats/01/files/2010/US20100045623A1.xml
+/home/j/corpuswork/fuse/FUSEData/corpora/ln-us-sample-500/data/d3_phr_feats/01/files/2010/US7768739B2.xml
+/home/j/corpuswork/fuse/FUSEData/corpora/ln-us-sample-500/data/d3_phr_feats/01/files/2010/US20100042828A1.xml
+/home/j/corpuswork/fuse/FUSEData/corpora/ln-us-sample-500/data/d3_phr_feats/01/files/2010/US20100081483A1.xml
+/home/j/corpuswork/fuse/FUSEData/corpora/ln-us-sample-500/data/d3_phr_feats/01/files/2010/US7648810B2.xml
+/home/j/corpuswork/fuse/FUSEData/corpora/ln-us-sample-500/data/d3_phr_feats/01/files/2010/US20100271134A1.xml
+/home/j/corpuswork/fuse/FUSEData/corpora/ln-us-sample-500/data/d3_phr_feats/01/files/2010/US7834039B2.xml

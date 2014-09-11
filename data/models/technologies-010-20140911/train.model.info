@@ -1,0 +1,80 @@
+$ python create_model.py --mallet-file data/models/technologies-010/train.mallet
+
+mallet file       =  /local/chalciope/marc/fuse/patent-classifier/ontology/classifier/data/models/technologies-010/train.mallet
+model file        =  /local/chalciope/marc/fuse/patent-classifier/ontology/classifier/data/models/technologies-010/train.model
+trainer settings  =  classifier_type=MaxEnt xval=0 training_portion=0 prune_p=False infogain_pruning=5000 count_pruning=3
+timestamp         =  20140911:101318
+time elapsed      =  3s
+git_commit        =  v0.4-85-g888f201
+
+$ sh /home/j/corpuswork/fuse/code/patent-classifier/tools/mallet/mallet-2.0.7/bin/csv2vectors --token-regex '[^ ]+' --input data/models/technologies-010/train.mallet --output data/models/technologies-010/train.vectors
+
+$ sh /home/j/corpuswork/fuse/code/patent-classifier/tools/mallet/mallet-2.0.7/bin/mallet train-classifier --input data/models/technologies-010/train.vectors --trainer MaxEnt --output-classifier data/models/technologies-010/train.model --report test:accuracy test:confusion test:raw > data/models/technologies-010/train.out 2> data/models/technologies-010/train.stderr
+
+Contents of .out file:
+
+    
+    -------------------- Trial 0  --------------------
+    
+    Trial 0 Training MaxEntTrainer,gaussianPriorVariance=1.0 with 935 instances
+    Trial 0 Training MaxEntTrainer,gaussianPriorVariance=1.0 finished
+    Trial 0 Trainer MaxEntTrainer,gaussianPriorVariance=1.0
+     Raw Testing Data
+    Trial 0 Trainer MaxEntTrainer,gaussianPriorVariance=1.0 Test Data Confusion Matrix
+    Trial 0 Trainer MaxEntTrainer,gaussianPriorVariance=1.0 test data accuracy= NaN
+    
+    MaxEntTrainer,gaussianPriorVariance=1.0
+    Summary. test accuracy mean = NaN stddev = NaN stderr = NaN
+
+Contents of .stderr file:
+
+    Training portion = 1.0
+     Unlabeled training sub-portion = 0.0
+    Validation portion = 0.0
+    Testing portion = 0.0
+    Value (labelProb=648.0926138235393 prior=0.0) loglikelihood = -648.0926138235393
+    Value (labelProb=289.7667966853948 prior=0.5000000000001706) loglikelihood = -290.266796685395
+    Value (labelProb=273.8745594851386 prior=0.46356096172731637) loglikelihood = -274.3381204468659
+    Value (labelProb=321.668017294082 prior=1.4198200059600756) loglikelihood = -323.08783730004205 
+    Value (labelProb=225.474948301708 prior=0.5775338121015153) loglikelihood = -226.0524821138095 
+    Value (labelProb=207.43581117745214 prior=0.8220101871234955) loglikelihood = -208.25782136457562
+    Value (labelProb=125.99093858844157 prior=4.501378047623493) loglikelihood = -130.49231663606506 
+    Value (labelProb=85.08362338130755 prior=10.88783723975882) loglikelihood = -95.97146062106637  
+    Value (labelProb=46.72082856608926 prior=27.947479809472064) loglikelihood = -74.66830837556132
+    Value (labelProb=36.43646441290057 prior=31.770175405991306) loglikelihood = -68.20663981889187
+    Value (labelProb=32.43247721038541 prior=32.659803514281656) loglikelihood = -65.09228072466706
+    Value (labelProb=30.861299370429155 prior=32.561644351794456) loglikelihood = -63.42294372222361
+    Value (labelProb=27.976378885057695 prior=31.793473301836443) loglikelihood = -59.76985218689414
+    Value (labelProb=24.042690337739195 prior=33.12197819635844) loglikelihood = -57.164668534097636
+    Value (labelProb=23.092742089253907 prior=33.3637444058943) loglikelihood = -56.45648649514821  
+    Value (labelProb=22.099474878592293 prior=33.55335692504949) loglikelihood = -55.65283180364179
+    Value (labelProb=25.004011811115994 prior=31.61062909681277) loglikelihood = -56.61464090792876
+    Value (labelProb=22.49721370754472 prior=32.91955056484485) loglikelihood = -55.41676427238957 
+    Value (labelProb=22.45783916271814 prior=32.621138879852076) loglikelihood = -55.07897804257021
+    Value (labelProb=22.81959842096252 prior=32.02343435433369) loglikelihood = -54.84303277529621 
+    Value (labelProb=23.246339421805637 prior=31.429059445988106) loglikelihood = -54.675398867793746
+    Value (labelProb=23.544641482393953 prior=31.002344206272888) loglikelihood = -54.54698568866684 
+    Value (labelProb=23.664248029485616 prior=30.888132915215397) loglikelihood = -54.552380944701014
+    Value (labelProb=23.566981748790486 prior=30.942925663731707) loglikelihood = -54.509907412522196
+    Value (labelProb=23.65477534011681 prior=30.808808943897922) loglikelihood = -54.46358428401473  
+    Value (labelProb=23.50761221098806 prior=30.942988778260304) loglikelihood = -54.450600989248365
+    Value (labelProb=23.589171919002506 prior=30.84916543009639) loglikelihood = -54.4383373490989  
+    Value (labelProb=23.547367024077744 prior=30.88484842723114) loglikelihood = -54.432215451308885
+    Value (labelProb=23.520376569074866 prior=30.90814374334752) loglikelihood = -54.428520312422386
+    
+    Exiting L-BFGS on termination #1:
+    value difference below tolerance (oldValue: -54.432215451308885 newValue: -54.428520312422386
+    Value (labelProb=67.1968922385571 prior=31.613345445268937) loglikelihood = -98.81023768382603
+    Value (labelProb=23.77112149189104 prior=30.93366391353736) loglikelihood = -54.704785405428396
+    Value (labelProb=23.518523541559315 prior=30.910245760365786) loglikelihood = -54.4287693019251
+    Value (labelProb=23.5199244246688 prior=30.908349445049154) loglikelihood = -54.428273869717955
+    Value (labelProb=23.51557654474759 prior=30.911683111972764) loglikelihood = -54.42725965672035
+    
+    Exiting L-BFGS on termination #1:
+    value difference below tolerance (oldValue: -54.428273869717955 newValue: -54.42725965672035
+    
+    
+    
+$ 
+
+$ 

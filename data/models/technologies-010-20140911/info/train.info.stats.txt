@@ -1,0 +1,514 @@
+Unlabeled instances       4441
+
+Labeled instances          935
+
+  positive instances        90
+  negative instances       845
+
+Labeled types:             495
+
+  positive types            78
+  negative types           417
+
+
+Terms with positive training instances:
+
+        1   accelerometer
+        2   algorithm
+        1   beam splitter
+        1   bus
+        1   butadiene
+        2   camera
+        2   capacitor
+        1   capacitors
+        1   cartridge
+        1   cd
+        1   circuits
+        1   communications system
+        2   computer
+        1   computer program
+        1   computing device
+        1   control signals
+        1   controller
+        1   cpu system
+        1   cylinder
+        1   data base
+        1   data processor
+        1   data storage
+        1   database
+        1   dc voltage
+        1   display device
+        1   electrical contact
+        1   electrode
+        1   electrodes
+        1   electronic components
+        1   energy detector
+        1   epitaxial layer
+        1   euv source
+        1   explosive safety siting method
+        1   fluids
+        1   fluoride
+        1   heat exchanger
+        1   image processing unit
+        1   ink
+        1   insulator
+        1   integrated circuit
+        1   laser beam
+        1   laser beams
+        1   lens
+        1   luminescent nanoparticles
+        1   magnetic tape
+        1   magnetic tape cartridge
+        1   membranes
+        1   metal ion
+        1   metallic material
+        1   molten metal
+        3   motor
+        1   multilayer mirror
+        1   optical image
+        2   optical system
+        2   phosphates
+        1   pixels
+        1   plasma
+        1   polymer
+        1   polymeric tube
+        1   polymerization
+        2   polymers
+        1   printing
+        1   programming
+        2   radiation
+        1   resonator
+        1   semiconductor
+        2   si
+        2   silicon
+        1   stent
+        1   storage unit
+        1   switch
+        1   synchronized transactions
+        1   tape
+        1   tape drive
+        1   thermal conductivity
+        1   transformer
+        1   vacuum pump
+        1   wrap control system
+
+
+Terms with negative training instances:
+
+        4   %
+        1   a
+        2   access
+        6   accordance
+        1   activity
+        1   air
+        2   alignment
+        2   alkyl
+        6   amount
+        2   analysis
+        2   angle
+        1   aperture
+        2   apertures
+        1   apparatus
+        7   application
+        3   area
+        2   areas
+        2   arrangement
+        1   artery
+        1   assembly
+        1   axial direction
+        3   axis
+        3   b
+        1   bar
+        1   base
+        2   beam
+        1   bits
+        1   blood
+        1   boiling point
+        1   boom
+        4   c
+        2   c.
+        1   c. sub
+        1   c. sub .6
+        1   c1
+        1   carbon
+        1   carbon atoms
+        1   carriage
+        1   carrier
+        5   case
+        2   cases
+        1   cell
+        2   center
+        1   ch
+        1   chamber
+        2   change
+        2   changes
+        1   channel
+        1   channels
+        1   characteristics
+        1   circuit
+        1   closed position
+        2   code
+        5   combination
+        1   combiner
+        2   command
+        1   communication
+        2   comparison
+        4   components
+        1   composition
+        1   compositions
+        2   compounds
+        3   condition
+        3   conditions
+        2   configuration
+        3   connection
+        1   connector
+        2   consideration
+        1   construction
+        3   control
+        2   copy
+        2   core
+        1   core material
+        2   corners
+        1   correspondence
+        1   cross section
+        1   curved surface
+        1   cylindrical rings
+        2   damage
+        4   data
+        1   data rate
+        1   data record
+        1   data records
+        1   data set
+        1   data sets
+        6   degree
+        1   delivery
+        1   density
+        1   detection
+        2   detector
+        1   detector housing
+        1   determination
+        4   device
+        3   devices
+        2   diameter
+        2   dimensions
+        5   direction
+        2   display
+        1   distal end
+        6   distance
+        2   drive
+        1   drives
+        1   edges
+        3   effect
+        4   elements
+        9   embodiment
+        7   embodiments
+       10   end
+        4   ends
+        4   energy
+        3   environment
+        2   equipment
+        1   error
+        1   errors
+        3   etc.
+        2   event
+        1   examination
+        9   example
+        1   explosive site
+        3   exposure
+        1   exposure time
+        1   f2
+        1   facility
+        3   features
+        1   fibers
+        7   field
+        2   fields
+        1   filter
+        1   flange
+        1   flow
+        1   fluid
+        2   focus
+        1   force
+        6   form
+        1   formula
+        2   frame
+        1   frames
+        2   frequency
+        2   front
+        3   function
+        2   g
+        2   gas
+        1   gas pressure
+        1   gases
+        1   grooves
+        4   group
+        1   guide
+        3   h
+        1   half
+        3   head
+        3   heat
+        2   height
+        1   hole
+        1   holes
+        1   horizontal axis
+        2   host
+        2   housing
+        3   hydrogen
+        1   identifier
+        1   iii
+        1   illumination conditions
+        2   image
+        1   image data
+        1   images
+        1   incident
+        5   information
+        1   input data
+        1   input signal
+        2   insertion
+        1   inside
+        1   installation
+        2   instance
+        2   instructions
+        2   interface
+        9   invention
+        1   item
+        1   items
+        1   kg
+        1   lapo4 shell
+        1   layer
+        1   layers
+        3   level
+        1   lever
+        1   library
+        1   lifting platform
+        3   light
+        1   light source
+        1   light sources
+        4   line
+        2   lines
+        1   load
+        4   location
+        3   locations
+        1   long time
+        1   longitudinal axis
+        2   longitudinal direction
+        1   longitudinal guides
+        2   m
+        1   machine
+        4   manner
+        1   mask
+        3   material
+        4   materials
+        7   means
+        1   mechanism
+        1   media
+        1   members
+        2   memory
+        2   metal
+        1   metals
+        5   method
+        4   methods
+        1   methyl
+        1   min
+        3   mixture
+        2   mm
+        1   mode
+        1   modification
+        1   module
+        1   mold
+        1   motion
+        3   movement
+        1   ms
+        5   n
+        2   need
+        1   network
+        2   nm
+        1   notes
+        1   nozzle
+        5   number
+        1   o
+        3   object
+        1   objects
+        1   opening
+        1   openings
+        2   operation
+        1   optical axis
+        1   optical path
+        7   order
+        4   orientation
+        1   outlet
+        2   output
+        1   output beam
+        1   output signals
+        1   oxide
+        2   oxygen
+        3   p
+        1   page
+        2   pair
+        1   panel
+        1   parallel
+        2   parameter
+        2   parameters
+        4   part
+        2   particles
+        3   parts
+        1   passage
+        4   path
+        1   patient
+        2   pattern
+        1   peaks
+        2   period
+        1   person
+        1   phase
+        1   picture
+        1   pinch region
+        4   place
+        6   plurality
+        2   point
+        1   polymerization reaction
+        1   pore size
+        3   portion
+        3   portions
+        5   position
+        4   power
+        1   power level
+        1   preparation
+        1   pressure
+        3   procedure
+        6   process
+        4   processing
+        2   processor
+        1   processors
+        1   product
+        1   production
+        2   products
+        2   program
+        2   pulse
+        2   r
+        1   r. sub .1
+        1   r1
+        1   r2
+        2   radial direction
+        4   range
+        1   rate
+        2   ratio
+        3   reaction
+        1   reaction medium
+        2   reaction mixture
+        1   read
+        1   reading
+        1   real time
+        1   recess
+        1   record
+        6   reference
+        1   region
+        2   relation
+        1   relationships
+        1   request
+        1   research
+        1   resistance
+        8   respect
+        1   response
+        4   result
+        2   results
+        1   right
+        1   roof
+        1   roof opening
+        1   room temperature
+        1   rotation
+        1   rule
+        6   s
+        1   salt
+        1   scene
+        1   seat
+        1   seconds
+        4   section
+        1   selection
+        1   sequence
+        1   shaft
+        3   shape
+        2   shell
+        1   shelves
+        4   side
+        1   sides
+        2   signal
+        2   signals
+        2   site
+        1   site plans
+        4   size
+        1   slide
+        1   slits
+        1   slots
+        2   software
+        2   solution
+        3   source
+        3   space
+        2   speed
+        3   state
+        4   step
+        3   steps
+        3   storage
+        1   storage location
+        3   structure
+        1   sub
+        1   sub .2
+        1   sub .2 ch
+        1   sub .2 o
+        1   subject
+        1   substance
+        1   substrate
+        1   sulfates
+        1   support
+        3   surface
+        1   symbols
+        3   system
+        3   systems
+        3   table
+        3   temperature
+        2   thickness
+        1   threshold
+        6   time
+        1   time period
+        1   tip
+        1   tool
+        1   tools
+        1   top surface
+        1   training
+        1   transaction
+        1   transactions
+        1   transport
+        1   treatment
+        1   tube
+        1   tubes
+        4   unit
+        3   units
+        1   usage
+        5   use
+        1   user
+        1   users
+        3   vacuum
+        4   value
+        1   variation
+        3   variety
+        2   vehicle
+        1   vehicle speed
+        1   vehicles
+        1   vessel
+        1   vicinity
+        1   video data
+        1   viscosity
+        1   voltage
+        1   w
+        1   wall
+        1   wall surface
+        3   water
+        2   wavelength
+        5   way
+        3   weight
+        1   width
+        1   work
+        1   work copy wrap
+        1   workpiece
+        1   wrap
+        2   y
+        3   °
+        2   ° c.

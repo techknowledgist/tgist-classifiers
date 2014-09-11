@@ -1,0 +1,3784 @@
+n	data
+n	image
+n	user
+n	present invention
+n	method
+n	device
+n	system
+n	magazine
+n	invention
+n	cells
+n	%
+n	information
+n	substrate
+n	s
+n	library
+n	vehicle
+n	use
+y	stylus
+n	ball catching assisting portion
+n	frame
+n	degree
+n	embodiment
+n	° c.
+n	g
+n	example
+n	receiver
+n	position
+n	user device
+n	surface
+y	computer
+n	time
+n	program
+n	thumb
+n	signal
+n	container
+n	oxadiazole
+n	line
+n	data set
+n	n
+n	apparatus
+n	beta
+n	transmitter
+n	ball
+n	process
+n	base
+n	end
+n	compounds
+n	respect
+n	water
+n	b
+n	writing surface
+n	step
+n	body
+n	mm
+n	fluid
+n	c.
+y	memory controller
+n	methods
+y	communication node
+n	direction
+n	m
+n	catalyst
+n	array
+n	c
+n	sample
+n	temperature
+n	input
+n	layer
+n	beads
+y	laser beam
+n	μm
+n	various embodiments
+n	response
+n	plate
+n	parts
+n	output
+n	sub
+n	engine
+n	code
+n	weight
+n	transmission
+n	patient
+n	middle finger
+n	ground
+y	memory chip
+n	image controlling means
+n	axial direction
+n	road surface
+n	data sets
+n	channel
+n	chamber
+n	voltage
+n	network
+y	ball catching tool
+n	3,2-e
+n	gas
+n	client
+n	transaction
+n	structure
+n	memory
+y	financial transaction instrument
+n	1-methylcyclopropyl
+n	upper surface
+y	transcription system
+n	h
+n	portion
+n	devices
+n	cell
+n	culture
+n	object
+n	housing
+n	light stimulus
+y	magnetic tape
+n	light
+n	heat
+n	image data
+n	plants
+n	panel
+n	pocket portion
+n	microelectronic element of paragraph
+n	request
+y	camera
+n	order
+n	access
+y	transaction instrument
+y	driving ic
+y	decrypting device
+n	contact
+y	wafer
+y	file
+y	communication line
+n	camptothecin
+n	on-screen position of the image
+y	lighting fixture
+n	ball catching assisting portions
+n	circuit
+n	block
+n	accordance
+n	sub .3
+n	shaft
+n	packet
+n	magazine picker
+y	communication nodes
+n	power
+n	page
+n	microelectronic element
+n	material
+n	display
+n	pressure
+y	magazine transport
+n	fibers
+n	case
+n	address\/command word
+n	wall
+n	scrapbook
+y	memory chips
+n	ch2
+n	template
+y	sled
+n	formula
+n	error
+n	party
+n	creator
+n	setting information
+y	decryption authority changing device
+n	r
+n	position signal
+n	opening
+y	travel state detecting means
+y	transmission controller
+n	recording layer
+n	position information
+n	on-screen position
+n	friction
+n	dispute
+n	call
+n	separator
+n	pervasive device
+n	member
+n	flow
+n	cover member
+n	comparator
+n	ch
+n	side
+n	optical axis
+n	objects
+n	mask
+n	angle
+n	semiconductor substrate
+n	message
+y	film
+y	personal authentication gateway
+n	instrument
+y	encrypted document data
+n	embodiment of the invention
+n	d-galactose
+n	detector
+n	conveyor
+n	24p4c12
+n	pipe
+n	flexible container
+n	control signal
+n	alkyl
+n	°
+n	hydrogen
+n	air
+n	yarns
+n	summary of the invention
+n	digital content
+n	background of the invention
+n	test
+n	feature value
+n	server
+n	product
+n	processor
+n	method and apparatus
+y	fluid processing device
+n	embodiment of the present invention
+y	cooling panel
+n	′
+y	sensor substrate
+y	scrapbook server
+y	portable communication terminal apparatus
+y	membrane
+n	front surface
+n	definition
+y	cyclone separator
+n	compound
+n	association
+n	transactions
+n	o
+n	customer
+n	cable
+n	strained layer
+n	part
+n	operative position
+n	local controller
+n	load
+n	holes
+n	carbon atoms
+n	sub-screen picture data
+n	recording
+n	pin
+n	password
+n	part image
+n	metadata
+n	daisy chain of memory chips
+n	armature
+y	antenna
+y	voip server
+y	surface cleaning apparatus
+n	storage area
+n	reference signal
+n	inspection
+n	developing roller
+n	communication
+n	actuator
+n	top surface
+n	thiadiazine 1,1-dioxide
+n	processing
+y	on-vehicle image display apparatus
+n	media
+y	image processing apparatus
+n	home agent
+n	group
+y	displaying device
+y	data bus
+n	reference
+n	new object
+n	incentive message
+n	content source
+n	tray
+n	rotor
+n	pwd circovirus
+n	projector module
+n	guide frame
+y	grinding worm
+n	form sheet
+n	element
+n	control
+n	resistance
+n	print job
+y	molecular tags
+n	light source
+y	dielectric layer
+n	diaphragm
+n	stb
+n	slot
+n	recording medium
+n	output signal
+n	grooves
+n	frequency
+n	difference
+n	detector assembly
+n	cyclones
+n	chassis
+n	vehicle speed
+n	subnet
+n	operation
+y	objective lens
+n	nm
+n	mobile device
+n	manner
+y	image forming apparatus
+n	hollow cylindrical body
+y	conductive posts
+n	blood
+n	amino-4h-thieno
+n	addressee
+n	tubes
+n	trailer
+n	support
+n	statement
+n	sequence
+n	hollow cylindrical body w2
+y	heat exchanger
+n	compounds of formula
+n	range
+n	pump
+n	plate p
+n	nucleotide sequence
+y	microbeads
+n	local exchange
+y	layer regulating blade
+n	field of the invention
+y	earpiece
+n	core
+n	arm
+n	root portion
+n	patients
+n	images
+n	tips
+n	support member
+n	sequences
+y	high protection level storage unit
+n	height
+n	feeding medium
+y	data server
+y	cascade amplifier
+n	aspect of the invention
+n	yoke
+n	telephone number
+n	secure device
+n	hydrogen atom
+y	hearing aid
+n	first posts
+n	films
+n	display lightguide
+n	composition
+n	aperture
+n	writing element
+y	toner
+n	systems and methods
+n	parties
+n	outlet
+n	light reflection face
+n	information data
+y	encrypting device
+n	distance
+y	dirt collection chamber
+n	cavity
+y	carriage assembly
+y	switch
+n	proxy
+y	power amplifier
+n	pluggable module
+y	paste
+n	magazine data storage element
+n	liquid crystal layer
+y	imaging lens
+n	first substrate
+y	channel estimation
+y	access network
+n	workpiece
+n	tank
+n	receptacle
+y	printer
+n	pixel
+n	music
+n	matrix
+y	magazine engagement device
+n	input signal
+n	inner mold
+n	field
+n	destination information
+n	current line
+y	ball catching surface skin
+y	aircraft
+y	stator
+y	rotation shaft
+n	resin
+n	policy client
+y	motor
+n	map data
+n	line information table
+n	glp-1
+n	face gear
+y	database
+n	cyclone
+y	control program
+n	common medium
+n	closure element
+n	cleaning mode
+y	welding apparatus
+n	tool
+n	stock information data
+n	scrapbook image
+n	particles
+n	oxygen
+y	nucleic acid adsorbent
+n	new entries
+n	judgment
+n	incorporated projector
+n	display character
+n	vehicle occupants
+n	tube
+n	state
+n	sport information data
+n	salt
+n	ring
+n	lance
+y	input device
+n	embodiments of the present invention
+n	ear canal
+n	cooling door
+n	carrier
+n	burner part
+n	subscriber
+n	spring
+n	speed
+n	second substrate
+n	rotation
+n	plurality of cyclones
+n	nucleotide sequences
+n	module
+n	logic
+n	little finger
+y	liquid crystal display device
+n	lid
+y	image sensor
+y	hydrolysis tank
+n	drives
+n	detector voltage
+y	decryption authority management device
+y	cyclone chamber
+y	computing hardware
+y	cell culture
+n	bits
+n	×
+y	virtual appliance
+n	temporary definition
+n	target nucleic acid
+n	stream
+y	stator core
+n	space
+n	selection
+n	rollers
+n	receptor
+n	probe
+n	primer
+n	plurality
+y	muzzle body
+y	low protection level storage unit
+n	item
+y	ipdl
+n	i
+n	energy
+n	embodiments
+n	data word
+n	data recording medium
+n	contacts
+n	cloth holding frame
+y	camera unit
+y	breather bag
+n	bottle
+n	area
+y	adc
+y	acceleration duct
+n	abutment
+n	vacuum
+n	tire
+n	systems
+n	seal
+n	resource protection policies
+n	reaction
+n	r1
+y	light diffusion plate
+n	francis
+n	continuation
+n	comparison
+n	adapter
+n	walls
+y	voice message
+y	vacuum cleaner
+n	sub .2 ch
+y	storage device
+n	second end
+n	radio resource
+n	process of this invention
+n	preferred compounds of formula
+n	polypeptides
+n	plant
+n	period of time
+n	performance board
+y	pcb securing plate
+n	mixture
+n	means
+y	inoculation
+y	image producing means
+n	foam
+n	feature value of the image
+n	endothelial cells
+n	emergency mode
+n	detailed description of the invention
+y	computing device
+y	computer program
+n	charges
+y	carrier lens
+n	24p4c12 protein
+y	toner container
+y	tape
+y	stylus housing
+n	slots
+n	sheet
+y	semiconductor wafer
+n	second seat
+y	optical waveguide
+n	nh
+n	edge
+n	character
+n	volumes
+n	viewer
+n	vehicle lights
+n	top md yarns
+n	system data mover
+n	sub .2
+n	shape
+n	reference voltage
+n	protection level
+n	pipe wall
+n	layers
+n	infection
+n	gate
+n	conductive layer
+y	communication system
+n	chip id
+n	cerium oxide
+n	viscosity
+n	training
+n	sphere
+n	semiconductor package
+n	reactor
+n	prostate cancer
+n	path
+n	lifter
+n	items
+n	first end
+n	ends
+y	electrodes
+n	duct
+n	dispute system
+n	conductivity
+n	color
+n	beam
+n	assembly
+n	application
+n	additional information
+n	value
+n	travel state
+n	training signal
+n	tip
+y	thermal interface structure
+n	substrate layer
+y	ski pole
+n	ring finger and little finger
+n	protein
+y	polymer
+y	photosensitive layer
+n	peripheral surface
+y	passenger service unit
+y	liquid crystal display panel
+n	ligand
+n	lever
+y	ink
+y	hardware controller
+y	gamut mapping
+n	first seat
+n	first controller
+n	first and second outer layers
+y	fdep
+n	elements
+y	electrode
+y	cooling door assembly
+n	blends
+n	authority changing information m
+y	address\/command bus
+n	way
+n	system and method
+n	storage location
+y	redemptive code
+n	recording areas
+n	reaction medium
+y	pixels
+n	package body
+n	object information table
+y	memory subsystem
+n	lower section
+n	light receiving element
+n	h.
+n	group member
+n	force
+n	filter
+n	fiber
+n	event messages
+n	electropherogram data
+y	dressing tool
+n	display section
+n	data processing center
+n	connector
+n	collar
+y	biogas
+n	azithromycin
+n	aspect of the present invention
+n	valve
+n	tarp
+y	storage unit
+y	sms messages
+n	session
+n	preferred embodiment
+y	plasma
+y	pc12 cells
+y	ocular lens
+n	nucleic acids
+n	movement
+n	mold
+y	modification processing device
+n	lubricant
+y	iris camera
+y	hydrolysis
+n	hollow camshaft
+n	heater
+n	exposure
+n	dual usage
+n	cultures
+n	credentials
+n	clip body
+n	bracket
+n	binder
+y	x-ray detector
+n	workflow
+y	welding tool
+y	welding process
+y	uv sensor
+y	user interface
+n	treatment
+n	tester
+n	storage destination
+n	specific object
+n	source
+n	solid catalyst
+y	rx\/tx switch
+y	print head
+n	presentation data
+y	pixel electrode
+n	pins
+n	lower substrate
+n	line connection
+y	internal combustion engine
+y	inductive shield
+n	hull
+n	extending member
+n	edges
+n	document id
+n	current and next travel states of the vehicle
+n	control section
+n	clothes load
+n	clip
+n	central body
+y	amidic wax
+n	abutting regions
+n	three-dimensional substrate
+y	thermal device
+n	surfaces
+y	squeezer plate
+y	signal receiver
+y	semiconductor wafer201is
+n	second block
+n	second amplifying element
+n	rear face
+n	reaction mixture
+n	ptc element
+y	position signal transmitter
+n	policy store
+n	point
+y	plasma display panel
+n	object of the invention
+n	name
+n	level of instantaneous brightness
+y	image capturing unit
+n	first block
+n	face
+y	etching mask
+n	c.sub.1-4 alkyl group
+y	controller
+n	components
+n	combustion flames
+n	closed position
+y	anaerobic hydrolysis tank
+y	amplifier
+y	voice generator
+y	virtual storage
+n	usage key card
+n	thiadiazine 1,1-dioxide or mixtures
+y	stent
+n	spectrum
+n	site
+n	shell
+n	right
+n	return position
+n	preferred embodiment of the invention
+y	polymerization
+y	permanent magnet
+n	pattern
+n	partition wall
+n	multi-functional power block
+n	interactive viewer test
+n	fv
+n	focusing screen
+n	first reactor
+n	first amplifying element
+y	drawbar extension
+y	die paddle
+n	detection
+n	data server301 ′
+n	combiner
+n	combination
+n	characters
+n	channels
+n	axis
+n	adverse food effect
+y	accelerometer
+n	x
+y	universal printing network
+n	torque
+n	title compound
+n	subject
+y	separator chamber
+n	second power switch
+n	second arm
+n	sail
+y	rlp block
+n	result
+n	research
+n	rear face of the display lightguide
+n	print data
+n	porcine circovirus
+n	overcoat layer
+n	original position
+y	molecular tag
+n	method of the invention
+n	metal
+y	light-shielding panel
+y	integrated circuit
+n	inlet
+n	hydrogen peroxide
+n	hanger portion
+y	gradation correction curve
+n	event
+y	display device
+n	death phase
+y	dds circuit
+y	coupling member
+y	computer system
+y	coil housing
+n	cleaning
+n	change
+y	bus
+n	axle
+n	arrangement
+y	ad content server
+n	y
+n	upper portion
+n	tools
+n	tablets
+n	sockets
+n	slits
+n	slide
+y	si substrate
+n	recesses
+y	portable telephone device
+y	portable telephone apparatus101
+n	policies
+n	operations
+n	modification information
+y	mobile voip device
+n	method of the present invention
+n	master device
+y	loudspeaker
+n	light collection portion
+y	leaktight casing
+n	inclined surface
+n	incentive messages
+y	home subnet
+n	high gain
+n	gf\/cm
+n	function
+n	exposure time
+n	execution
+y	end-of-etch detection layer
+n	document data
+y	display unit
+y	discharge cells
+n	diffusion portions
+n	data record
+n	conveyance
+n	connection portion
+n	chambers
+y	carburetor
+n	a\/f ratio
+y	x-ray tube
+n	wrap
+n	weight of the glass frit
+y	voice coil
+n	tracking
+n	temperature shift
+y	switching
+n	side frame members
+n	self
+n	screen
+n	region
+n	regard
+y	reference signal transmitter
+n	pwd circovirus of type b
+n	pwd
+y	public line network201
+y	protection level judging unit
+n	processors
+n	position signals
+y	polyanionic compound
+n	plane
+n	pair of storage devices
+n	object b
+y	network hub
+n	modification process
+n	mobile stations
+n	methods and apparatus
+y	membranes
+n	medium
+n	magnetic field
+y	liquid crystal
+y	ionomer
+n	intermediate film
+n	growth phase
+n	function call
+n	first and second substrate layers
+n	fill
+n	feed medium
+n	feature values
+n	feature value extractor
+n	emu\/cc
+n	dummy lead 18a
+y	disc drive
+n	details of a modification
+n	data set information table
+n	connection
+y	communication packet
+n	common control information block
+n	waste gas
+n	upper substrate
+y	transistors
+n	support core
+n	store
+y	sensor
+n	second tube
+y	scanner system
+y	scanner
+n	riser
+n	resources
+y	reflection layer
+y	pyrimidine base analog
+y	p-type low resistance layer
+y	printer polling device
+n	precursor structure
+y	portable telephone apparatus
+n	policy server
+y	pickup image
+n	pair
+n	nucleic acid
+n	notes
+n	motion
+n	more temperature shifts
+n	magazine-based library
+y	liquid crystal display
+n	light sources
+y	hypervisor
+y	high functionality polyether polyol
+n	h38087 protein
+y	gpt
+y	flowchart
+n	fields
+y	explosive safety siting method
+n	entry station
+n	electronics enclosure
+n	discharging liquid droplets
+n	detection area
+n	decryption authority information r
+y	cryptographic operations
+n	core layer
+y	combustion chamber
+n	client data
+y	channel estimation packet
+n	casing
+n	burner
+y	atn center
+n	alignment
+n	≦ a
+n	water flow
+n	vehicle speed vso
+y	touchscreen panel
+y	thumb-stall
+y	thermal medium
+y	static magnetic field
+n	shaft parts
+y	sfzps
+n	room temperature
+n	roi
+n	protection layer
+n	projectile
+y	precursor acid copolymer
+n	new line
+n	mode
+n	methyl
+y	metal-organophosphorus ligand complex catalyst
+n	lower portion
+n	inspection criteria
+y	image level backup
+n	healthcare providers
+n	head modules
+n	hand tremor
+n	front face
+n	fluid flow
+n	flexible cover
+n	first memory device
+n	first exemplary semiconductor structure
+n	felt-like metal porous member
+y	face seal ring
+n	errors
+n	dosage form
+n	distortion of the imaging lens
+n	dimensions
+n	detection area ar
+n	destruction
+n	degree of transparency
+y	dairy stream
+y	c.sub.1-4 alkoxy group
+n	condition
+y	capacitor
+n	areas
+n	appointment
+n	wing
+n	width
+n	web portion
+n	viable cell density
+n	transport
+n	thumb and the middle finger
+y	thermal recording
+y	surgical instrument
+n	support information
+n	subscriber station
+n	sport information
+y	speculum
+y	silicon
+y	septum seal
+y	self-mailer
+n	second monitor
+y	search key
+n	scope of the present invention
+n	scoop portion
+y	rotor cores
+y	rotor 20c
+n	roof
+y	reflective display region
+y	reference signal receiver
+n	recess
+n	r2
+y	projector device
+y	power terminals
+y	power source
+y	position signal receiver
+y	pll circuit
+y	pdsn
+n	particular embodiment of the configuring subsystem
+n	object of the present invention
+y	n-type zno substrate
+n	nozzle
+n	note
+y	non-ferromagnetic interlayer
+n	noise
+n	moving access point
+y	mounting plate
+n	modifying the image
+n	mixtures
+y	magnetic recording medium
+y	magenta fixing lamp
+n	live image
+n	lines
+n	impression material
+n	hole
+y	halogen atom
+y	global bit-line
+n	gate lengths
+y	furnace
+n	front lid
+y	fresnel diffraction image
+n	fluid retainment region
+n	first tube
+n	first position
+n	first block and the second block
+y	file system
+n	diameter
+y	detection optical system
+n	destination gamut
+n	data unit
+y	communication device
+y	clock drivers
+y	butadiene
+n	blank
+y	blade
+y	binary-coded signals
+y	auxiliary lamp 13a
+y	work holding jig
+y	water-insoluble carrier
+y	vmode signal
+y	vectors
+y	transport facility
+y	toremifene
+n	top cap
+n	substance
+n	stock information
+n	station
+y	signal receivers
+n	side of the computer
+n	side electrode
+y	si database
+n	shoulder extensions
+y	semiconductor
+y	sabot
+n	roof opening
+n	projection range
+y	print wiring board
+n	potential explosive site
+y	paste-type electrode
+n	number of copies
+n	new entry
+y	modular heat radiating units
+y	mobile station
+y	microspheres
+n	micrometers
+n	method comprising
+y	massage device
+n	l symbols
+n	left
+y	information terminal device
+y	information searching module
+y	hitch head
+y	high-beam position
+n	healthcare provider
+y	function calls
+n	first gear
+n	fastener
+n	f.
+n	equivalent %
+y	drawbar assembly
+y	data cartridge
+y	cylinder
+y	control circuit
+n	conditions
+y	common electrode
+y	channel estimation process
+y	cartridge
+y	cartoon figurine
+n	card
+n	breakaway segments
+y	biopharmaceutical material
+n	bank
+n	advertisements
+n	workflows
+y	wireless network
+y	tilt ring
+y	temperature sensor
+y	system bus
+n	surface of ball catching surface skin
+n	subcarrier
+n	storage
+y	steel plate
+n	squeezer
+n	software
+y	single carrier signal
+y	sfzp
+y	sensor strip
+n	second reactor
+n	rice
+n	residual stress
+y	radiation solid-state detecting device
+n	pulse width
+n	projection
+n	processing unit
+n	process chamber
+n	power level
+y	power detector
+y	pll ic
+n	picture
+n	peak
+y	paver
+y	page image
+n	mu
+n	ms
+n	more substituted or unsubstituted unsaturated acids
+n	module contact
+n	memory accesses
+y	magnetizing flux
+y	magazine-based data cartridge library
+n	location
+n	local bit-line
+y	load switching circuit
+y	light source lamp
+y	light reflection face 42a
+y	ladder frame
+n	interior surface
+n	inner perforated layer
+n	group node
+n	gate length
+n	frequency division ratio
+n	first power switch
+n	first detector 12a and the second detector 12b
+n	fins
+n	entries
+y	electrostatic latent image
+y	electronic device
+n	dirt
+n	device capabilities
+y	cradle assembly
+n	crack
+y	communication apparatus
+n	command
+y	cnc machine
+n	cell viability
+n	c1 ˜c
+n	buckle
+n	bead
+n	analyst
+n	amount
+y	yellow fixing lamp
+n	wt %
+y	waveguide optical amplifier
+n	user input
+n	trays
+y	transmission line
+y	top md yarn
+n	third block
+n	test piece
+n	temperature shifts
+n	succeeding data
+n	steps
+y	spectacle lens
+y	soft magnetic layer
+y	shutter
+n	section
+n	second core member
+n	second controller
+n	rib
+y	remote controller
+n	record
+n	recipient cells
+n	reactors
+n	radial direction
+n	preparation
+n	portion 21a
+y	plasticizer
+n	plant cells
+n	pharma sales representative
+y	performing cryptographic operations
+n	parent
+n	packet separation duration
+n	outer layer
+n	object side
+n	object-rendering data
+y	nurbs
+y	network interface
+n	mobile device user
+n	method and system
+n	machine
+n	learning phase
+n	leading edge of the plate p
+y	lamp
+n	lamination member
+n	job
+n	intake pipe
+n	image signals
+n	image signal
+y	image recording material
+n	holder
+n	height of ball catching assisting portion
+y	heat exchanging panels
+n	head
+n	harness
+n	gases
+y	fuel
+y	friction generating device
+y	frame drive unit
+n	flange
+n	first cleaning stage
+n	first arm
+n	first and second pcb sheets
+n	filter media
+n	fans center
+y	exhaust pipe
+n	environment
+y	electrophotographic imaging layer
+y	dynamic bias adjustment element
+n	drive
+n	dirt pattern
+y	direct oxidation of hydrogen
+n	differences
+y	data transmission
+n	data table
+n	damage
+y	cyclodextrins
+n	culture temperature
+y	crankshaft
+y	control unit
+y	control slide
+y	combustion type waste gas treatment apparatus
+y	client tier
+y	chip
+n	changes storage
+n	center
+y	cell extract
+n	calf muscles
+n	cache
+n	basis
+y	asm
+y	alloy
+n	windrow
+n	white point
+y	voltage converter circuit
+n	vicinity
+y	vibration correction calculation circuit
+n	upper section
+n	upgrade system
+y	updateable user interface
+y	transmitter and receiver
+y	transformer
+y	tow vehicle
+n	tooth
+y	thin-film transistor
+y	textured buffer film
+n	test system
+n	support shaft
+y	subcarrier power detection unit
+n	sub .2 o
+n	strap
+n	soy protein
+n	second cleaning stage
+n	scope of the invention
+n	scanning
+n	salts of these compounds
+y	rubber ball
+n	ring finger
+y	rfid tag
+n	relation
+n	reaction conditions
+n	re
+n	providers
+n	protein of interest
+y	pressure vessel
+n	pressing force of the layer regulating blade
+n	predetermined format
+y	power supply
+y	position detector
+n	plural copy print
+y	phytase
+n	parameter
+y	pad file
+y	os
+n	notch
+n	moving picture data
+n	more substituted or unsubstituted alkadienes
+y	microfluidic device
+n	method of this invention
+y	metallic cable
+y	metallic bumps
+n	master voltage reference
+y	magnet materials
+y	logic function
+y	laser light
+n	interval
+y	internet
+y	infrared radiation
+y	infrared laser
+n	image-taking surface
+n	image flow
+y	image displaying means
+y	hydroxycarbonylation
+n	hardware
+n	g\/10 min
+y	fluid communication
+y	ester of stearic acid
+n	end portion
+y	electrical components
+n	edge portions
+n	display portion
+n	delay
+y	definition-use graph
+y	data processor
+y	cyclone casing
+y	culturing host cells
+n	correction
+n	copy no. mode
+n	compounds of the formula
+y	communication circuitry
+n	central unit
+n	available storage area
+y	arrays
+n	apparatus and method
+n	work piece
+y	vaporizing tube
+n	transmission fluid temperature
+y	toner bag
+n	ticket package
+n	target object
+n	surface skin
+n	surface light emission source
+y	subendothelial matrix layer
+n	springs
+y	spacer element
+n	soil
+n	softening point
+y	simulation
+n	signals
+y	sialyloligosaccharides
+n	setting-information recording medium
+y	server tier
+n	second position
+n	second hinge member
+n	second collar
+n	search
+n	saw
+n	roller
+n	research provider
+n	relative rotation
+n	relative position
+n	receiving frame
+n	receiving a request
+n	rear surface of the sensor substrate
+n	r2 and r3
+n	protuberance
+n	program acquiring unit
+n	procedural manual
+n	present system
+y	precharge pulse
+n	portions
+y	polysilicon
+n	polymorphic\/pseudopolymorphic forms of 6-chloro-3
+y	polyamide composite material
+n	personal node corresponding
+n	person
+n	perpendicular magnetic recording film
+n	overhead electronics unit
+n	output data
+n	original table
+n	objects a and b
+n	n-type material layer
+y	movable contact
+n	mounting groove
+n	more substituted or unsubstituted unsaturated acid salts
+n	min
+y	memory access
+y	master data storage
+n	main section
+n	low-beam position
+n	liquid crystal display device of the invention
+y	lens
+y	lattice space
+y	integrated circuit chip
+n	inquiry signal
+y	illumination optical system
+y	hot blast mixing chamber
+y	head module
+n	half
+y	flexible film substrate
+n	fingers
+y	ffs
+n	example substrate
+n	entire surface
+n	embodiments of the invention
+n	edge portion
+n	door
+y	display screen
+n	display characters
+y	discharge cell
+n	digestion
+n	developing device
+n	determination
+n	conveyor wheel
+y	clock
+y	client computer
+n	clay b
+y	clay
+n	carbon
+n	box
+n	bottom surface
+n	boom
+y	benzene ring
+n	bed
+n	basis of the travel state
+n	authorization
+n	alignment marks
+n	air gap
+n	aforementioned patent application
+n	work
+n	wafer mark
+n	unit
+n	transparent media
+n	transmission zeros
+y	transition metal salt of stearic acid
+n	third leads
+y	thermal head
+n	synchronization
+n	symbols
+n	support body
+y	storage medium
+n	stage
+n	specific surface area
+n	spacer member
+n	socket
+n	sides
+n	side of pocket portion
+y	semiconductor test apparatus
+n	second surface
+y	roaming device
+n	recording sheet
+n	rate
+y	protein production
+n	program object
+y	printing
+y	pressurized container
+y	power mode signal
+y	polymeric tube
+n	polyamides a1 and a2
+n	peaks
+n	parallel reactors
+y	parachute
+n	output instruction values
+n	outer surface
+y	optical identification element
+n	number of entries
+n	methods of the invention
+n	meter
+n	messages
+n	mask and a wafer
+n	loop link
+n	longitudinal direction
+n	loading mechanism
+n	light engine
+n	license
+n	issuer systems
+n	isoflavones
+n	inner surface
+y	information capturing and indexing system
+y	hot block
+y	heat transfer
+n	guide
+n	groove plate
+n	grid
+n	glucagon-like peptide-1
+n	gas tube
+y	gain compression
+n	frequency division ratio table
+n	free end
+n	foot
+n	flat surface
+n	first surface
+n	first or second posts
+n	first embodiment of the present invention
+n	first conductive layer
+n	files
+n	fan
+n	extracting a feature value
+n	energy source
+n	elongation product
+n	elongation
+n	% dowlex ™
+n	display lightguides
+n	density
+n	data segments
+y	cpu system
+n	convex portion
+n	control switch
+n	conflict
+y	conductive tabs
+y	cold block
+y	coating layer
+n	characteristics
+n	cell surfaces
+n	camera channel
+n	bytes
+y	business logic
+n	bottom wall
+y	bandgap core module
+n	apertures
+n	anvil end
+n	annular space
+y	air conditioner
+y	afm
+y	adsorbent unit
+n	adding polyanionic compound
+y	actuators
+n	active layer
+n	waste
+n	wall panel assembly
+n	visible wavelength
+n	user photo image
+n	unit length
+n	transmitting data
+n	transmissive display region
+y	transducers
+n	thickness
+y	tft array substrate
+n	temperature of the sensor substrate
+y	telescope
+n	surface of the material
+n	support portion
+y	storage electrode
+n	spurious output characteristics
+y	spring assembly
+n	speed change
+n	source apparatus
+n	solution
+y	slave mode
+n	side segments
+y	si
+y	semiconductor device
+n	second fluid retainment region
+n	seat
+n	salutation
+y	sabot separator
+y	reticle
+n	results
+y	repeater
+n	reference frequency
+y	reactor chamber
+n	radiation image information
+y	radiation
+y	purge unit
+n	probability pattern
+n	print jobs
+n	principal focal plane
+y	position-information recording medium
+n	poly
+n	plurality of display characters
+n	plug
+n	place
+y	piston
+n	picture shift information
+n	pet
+n	peak output
+y	pcb sheet
+y	packets
+n	original document data
+y	optical disc
+n	openings
+y	n-phosphonomethylglycine
+y	novel exendin agonist compounds
+n	note symbol
+y	network application program
+n	moving a magazine
+n	movable operating part
+n	motor support
+n	more group members
+n	mixing zone
+n	method comprising the steps
+n	medical facility
+y	measure effect prediction unit
+n	maximum data segment separation duration
+n	maize
+y	magazine transport device
+y	magazine displacement device
+n	longitudinal axis
+n	liquid
+y	light-emitting species
+y	laser peening operation unit
+y	laser diode
+n	intermediate transfer material
+n	input data
+n	incident
+y	impression trays
+y	housing structure
+n	horn
+n	horizontal direction
+n	high speed
+y	heat pipe
+y	harmonic filter
+n	hair
+y	graphic editing software
+y	gradation correction process
+n	g of 6-chloro-3
+y	gate electrode layer
+n	gas phase portion
+y	functional resin layer
+n	forward direction
+n	form
+n	flame direct viewing pipe
+n	fixture
+n	first shell portion
+n	first gripping member
+n	first collar
+n	features
+n	fastener heads
+n	elongation product e
+y	electrophoretic display device
+y	electronic component
+y	electrical power conductor
+y	effective light source distribution
+n	dwell time
+n	display member
+y	display apparatus
+n	dish
+y	dielectric composition
+n	destination color gamut
+n	delivery
+y	data acquisition
+n	cylindrical rings
+n	cyclonic stages
+n	credits
+y	coupler
+y	control element
+n	container c
+n	contact structure
+n	conduit
+y	computing environment
+n	compositions
+y	communication network
+n	collection vessel
+y	cm3\/g catalyst\/h
+y	circovirus
+n	central repository
+n	cap
+n	calibration data
+y	calf extension training device
+y	cad data file
+n	bottom md yarns
+n	black point
+n	bag
+n	axle housing
+n	auxiliary lamp
+n	attachment unit
+n	animals
+y	alkylene
+n	agonist activity
+n	yards
+n	x-ray source
+n	wavelength
+y	voice converter
+n	vehicle 's surroundings
+n	vehicle frame
+y	ultrasonic energy
+y	turntable
+y	ts packets
+n	trophy
+y	transmitter-receiver
+y	transmissive mode
+y	transmission system
+n	transient errors
+n	training device
+n	time period
+y	telephone
+y	syringe
+y	subendothelial matrix
+n	stud
+y	stitching yarns
+n	status information of the object
+n	slice
+n	signature
+n	sign
+n	sighting pin
+n	shaft part
+n	seconds
+n	second memory device
+n	second lens
+n	second input
+n	second gripping member
+n	second direction
+n	second detector 12b
+n	scoop
+n	rod securing strap
+n	ring b
+y	resonator
+n	reference voltage vref
+n	rear surface of the substrate
+n	real time
+n	reader
+n	pulse
+y	p-type semiconductor layer
+y	pseudo-isotropic liquid crystal material
+n	protocol agent program
+n	protocol
+n	protective wrapper
+n	prostate
+n	propellers
+n	production
+n	printing function
+y	primary storage device
+y	power amplifier load circuit
+n	positioned adjacent the writing surface
+n	polymerization reaction
+n	pivot shaft
+y	photography head
+y	photoelectric converting device
+y	phone
+y	percussion transducer
+n	paired light sources
+n	outer circumference of the inner mold
+n	other value representing
+n	other data
+n	orientation control film
+y	organic binder
+n	number of unused credits
+n	neutral position
+n	m. sup .2
+n	movable roller
+n	mounting plate portion
+n	motion-picture image
+y	microfluidic array card
+n	mechanism
+n	mask and the wafer
+n	main vehicle
+n	main photomask
+y	magnet
+n	lower core member
+y	logic circuits
+y	lithium aluminate
+y	liquid diluent
+n	lidb query
+y	levitating exercise wand
+n	lattice points
+n	lattice point
+n	joining direction
+n	internal diameter
+n	interlock member
+n	interface
+n	input sequence
+n	inner portion
+n	ink and fountain solution
+y	image forming control apparatus
+y	image capturing apparatus
+n	hz
+y	hydroformylation process
+n	host body
+y	heat treatment
+n	gene
+n	gate voltage vgg
+y	fusible metal
+n	focus camera
+n	focus
+y	flow of fluid
+n	first output node 22a
+n	first memory chip
+n	first face of the first lens
+n	first compartment
+n	first and second treating surfaces
+n	first and second pcb sheets 4a and 4b
+n	file system object
+n	face gear teeth
+n	f2
+n	f1
+y	epitaxial layer
+n	dummy lead
+y	dna
+y	dispersant
+y	digital signal
+n	d3
+n	d2
+n	d1
+y	cultivar
+n	c. sub .6 h. sub .4
+n	cross section
+y	cosmetics pans
+n	continuation phase
+y	compressive stress
+y	clock driver
+n	clipping filter coefficient
+n	circles
+n	c ≡ c
+n	case body
+n	carriage
+y	carbon nanotubes
+n	cancer
+y	bus clock
+n	bridge
+y	biogas producing facility
+y	bias voltage
+y	bagby device
+y	automatic transmission
+n	assay
+y	aminomethylphosphonic acid
+n	address electrodes
+y	actinic radiation
+n	a
+n	yl hydrocarbon material
+n	workpiece cloth w
+n	water-containing substance
+n	w
+n	volatile material
+y	voice recording device
+y	voice actuator
+n	visual data
+n	vessel
+n	variety
+n	users
+n	upper end
+n	upper electrode
+y	type s mortar
+n	transmissive display region and the reflective display region
+n	transmission ratio
+n	trainer
+n	toxins
+n	toner outlet
+y	tnt connected cells
+n	tine
+n	ticket packages
+y	tft substrate
+n	test case
+n	tabs
+n	substrate layers
+n	subscriber terminal b
+n	storage unit corresponding
+n	still-picture image
+n	source color gamut
+n	solid catalyst comprising palladium
+y	socket terminals
+y	sled frame
+n	size
+y	silicon substrate
+y	sewing machine body
+n	server side transmitting device
+n	segments
+n	second support natural lock cylinder
+n	second reference signal gnd
+n	second gear
+y	rx\/tx switching
+n	roll
+y	rfid device
+n	region number parameter
+y	reference frequency signal
+n	recording area
+n	rear lid
+n	pwd circovirus or of porcine circovirus
+y	pwd circovirus of type a
+y	pulse laser device
+n	protective chamber
+n	projection image
+n	products
+y	productivity analysis system
+y	print device
+n	present pll circuit
+y	preheating chamber
+n	predetermined position
+y	power transmission assembly
+n	power output shaft
+n	plural heads
+n	pickup images
+n	peripheral portion of pocket portion
+n	patient 's body
+n	parabolic face
+n	output shaft
+n	ota
+n	o. sub .2 sensor
+n	operator
+n	npar
+n	n-aryl
+y	nak message
+y	multilayer substrate
+n	movement vector
+y	motor vehicle
+n	more substituted or unsubstituted aldehyde acids
+n	more files
+y	mol\/dm3
+n	modification
+y	microprocessor
+n	maximum number of entries
+n	main electrode 64c
+n	local session
+n	line ab
+y	lighting
+y	light diffusion processing
+y	light collection lightguide
+y	light beams
+n	lifting platform
+n	level
+n	leg or other body part
+n	issuer-owned data
+y	irradiating the laser beam
+y	intelligent network
+n	instruction
+y	instant memory chip
+n	insertion
+n	inner core
+n	ink and\/or fountain solution
+n	incident light
+n	immovable structure
+n	illumination sources
+n	identification code
+n	hierarchy
+n	heat-transfer position
+n	heat exchange
+n	headspace of the anaerobic hydrolysis tank
+n	hard ferromagnetic layer and a soft ferromagnetic layer
+y	gene expression
+y	g\/dm3
+n	front side
+n	freezing point
+n	freestanding member
+n	fourth current line
+n	flue gas
+n	fl
+n	first input
+n	first and second amplifying elements
+n	firmware volume
+n	file header
+y	feedback circuit
+n	feed
+n	extruder
+y	external communication ports
+y	exothermic substrate
+y	exendin
+n	envelope
+n	engine temperature tw
+y	electronic automatic transmission system
+y	electromagnet
+y	electric field
+y	ecr
+n	discharge
+n	device blocking
+n	detector housing
+n	decorative image
+n	date and time
+n	data rate
+n	currents
+n	current mirror bias element
+n	cooling units 142a
+y	conveyor head
+n	control machine
+n	containment space
+y	cone beam ct imaging sub-system
+n	common array base member
+y	coil
+n	client version
+n	charge transport layer
+n	channel number
+n	cam lobe surfaces
+y	c3mos
+n	buffer layer
+n	base pipe
+n	barrel
+n	bar
+n	available space
+n	auxiliary transparent substrate
+n	analog
+n	amino acids
+y	all-optical 2r regenerator
+y	activation substance
+n	window operator
+n	voltage divider block
+y	vacuum pump
+n	user 's shoulders
+n	units
+n	treating surface
+n	top cap member
+n	thumb and the ring finger
+n	threshold
+n	third plate
+y	tape drive
+n	synthetic component
+y	surfactants
+n	surface roughness
+n	surface of the fine pipe
+n	sum
+n	substrates
+n	sub-pixel region
+y	storage element
+n	source gamut
+y	solar cell layer
+y	socket body
+y	silicon wafer
+n	second face of the second lens
+n	search-position feature values
+n	s\/cm
+n	scheme
+n	riser extension
+n	retaining member
+n	representative vector
+n	register
+n	regions arf and arr
+y	reflecting surface
+y	rear projection display
+y	radio resources
+y	pulse generator
+y	production network
+n	process of the invention
+y	pressure-variation preventing tank structure
+n	posts
+n	post
+n	position information of the object
+y	polysilicon layer
+n	plurality of storage units
+n	plurality of files
+n	playback-position feature values
+n	plasma generating section
+y	plant mol
+n	pinch region
+n	picks
+y	phy layer
+y	phase change fluid
+n	phase
+n	peripheral configuration
+n	period
+n	particular authorized user
+n	parameters
+y	panic timer
+n	page hit
+n	p
+n	outer circumference of the stator core
+n	other embodiments
+y	optical system
+y	optical channels
+n	opposite directions
+n	operator system
+n	open position
+n	% of the rdi
+n	object c
+n	number
+n	nr
+n	new file
+n	new data
+n	need
+n	multiple pieces of known information
+n	motion detector
+n	more substituted or unsubstituted aldehyde acid salts
+n	% microcrystalline cellulose
+n	mg azithromycin
+y	memory cells
+n	materials
+n	mask and wafer
+n	management information
+n	main solenoid-operated valve
+y	magnetizing coils
+y	magnetic layer
+y	low-softening point polyester-based resin
+y	lower resin layer
+n	lower end
+n	list of records
+n	liner
+n	limit values
+y	lighting fixtures
+n	lighting conditions
+n	l\/fl
+y	ion trap
+n	intake
+y	insulator
+y	insulating nitride layer
+y	insulating layer
+n	instance
+n	inside wheels 14a
+n	initial growth phase
+y	imiquimod
+n	image recorder1
+y	image processing circuit
+n	hydrogen or methyl
+n	hydrocarbon group
+n	horizontal plane
+n	hollow needle
+n	hitch
+n	head modules 51a and 51b
+y	gate electrode
+y	frame assembly
+n	formulation
+n	focus lens
+y	fluoride
+n	first support
+n	first direction
+n	first detector 12a
+n	first data set
+n	first axis
+y	fibrous network
+y	feedback control
+n	f1\/f2
+y	etching
+n	end cap
+y	encryption
+y	electrophoresis
+y	electronic apparatus
+y	electrical power
+y	ecc bits
+n	duty factor
+n	distance of finger movement
+n	display face
+y	digital camera
+n	different expressions
+n	die
+n	deposits
+y	dc power
+n	curved surface
+n	culture run
+n	cryptographic instruction
+n	cover plate
+y	cooling units
+n	control mode
+n	container holder
+n	connectivity device
+n	connecting device
+n	configuration
+n	compositions of the invention
+n	composite
+y	communication method
+n	common wall
+n	common control information
+n	centering leaf springs
+n	cell culturing process
+y	cd
+n	carrying rib
+y	capacitors
+n	c1
+n	b. sup .2 and b. sup .3
+n	b. sup .1
+y	bridge input\/output module
+n	bearing cup
+y	battery
+y	bandgap core group
+n	bacillus thuringiensis
+n	axial chromatic aberration
+n	artery
+n	analysis
+n	amount of metal
+y	airborne vehicle
+n	adjustment start value xm
+n	actual measurement instrument operation
+n	activity
+y	action voice recorder
+y	ack message
+n	6-chloro-3
+n	2-hydroxyethyl
+n	z
+y	pixel electrodes
+y	piston head
+n	phone company
+n	pharma representatives
+n	pharma representative
+n	personal nodes
+n	permanent error
+n	permanent edges
+n	perimeter
+y	percussion trigger
+n	percent
+n	peptide
+y	paving material
+n	pattern of data corruption
+y	pat packets
+n	passenger service unit module
+n	part image data
+n	particular daisy chain of memory chips
+y	particle entrance preventing wall
+y	particle control screen assembly
+n	paper
+n	pair of rotor cores
+n	pair of arm portions
+n	paid-for research
+y	paging service
+y	pager
+n	packet length
+n	owner
+n	output signals
+n	output instruction value corresponding
+n	outer circumferential wall surface of the hollow cylindrical body w2
+n	other information
+n	orientation
+n	organizing agent
+y	ordering system
+n	optional particle separation member
+n	optics portion
+n	optical path
+y	optical image
+n	optical fiber projecting end structure
+n	opposing wall
+n	operation of the device
+n	% of total calories
+n	number of guide structures
+n	number of bits
+n	nucleotide sequence seq id no.
+y	nucleotide probe
+n	n symbols
+n	nonsighting position
+n	non-photosensitive self-assembling block copolymer layer
+n	non-downloadable digital content
+n	next data segment
+y	network simulation module
+n	need of treatment
+y	nauta ota
+y	multi-functional battery module
+y	mr signals
+n	mr data
+y	mr angiogram
+n	moving vehicle
+n	moving unit
+n	movement of the magazine
+n	mouth member
+n	motor shaft
+n	more optics portions
+y	molten metal
+n	mold structure
+y	modulation signal generator
+n	modulation and channel encoding level
+y	mobile phone
+n	method of manufacturing the ball catching assisting portion
+n	methane
+y	metallic material
+y	metallic conductive tabs
+n	metal ion component
+y	metal ion
+y	metal fibers
+y	memory element
+y	memory cell
+n	memory card m
+y	memory card connecting terminals
+n	maximum allowable error
+n	matrix and the fibers
+n	matching circuit
+n	mask mark
+y	manipulator arm mechanism
+n	main screen picture data
+n	main pressure
+n	main chamber
+y	magnetizing flux returns
+n	magnetizing flux passing
+y	magnetic particles
+n	magnetic flux leakage
+n	magnetic flux density
+n	magnetic circuit formation member
+n	magnet holding groove
+n	lto\/sait magazine
+n	longitudinal guides
+n	load-supporting portion
+n	load cell
+n	liquid phase
+y	light path controlling unit
+y	lens drive unit
+y	lcd projector
+y	laser spot
+y	lapc xenografts
+n	kg
+n	inverter
+n	inversion of the septum seal
+y	integrated heat spreader
+n	installation
+n	inside
+n	input sequences
+n	input area
+n	inner wall
+n	individual cell units
+y	image processing unit
+y	image pickup device
+n	image capturing system 20a
+n	ignition top dead center
+y	ic chip pellet
+y	hydroformylation reaction
+y	high voltage
+n	high speed range
+n	heat channels
+n	heart
+n	head modules 51a
+n	header
+n	ground-speed of the vehicle
+n	grooved cam
+n	grinding worm teeth
+n	grams of ligand f
+n	good quality pcb
+y	golf swing training apparatus
+n	g of a glass frit powder
+n	gm-090
+n	glp-1 analogs
+y	global positioning system
+y	glass microspheres
+n	gizzard
+y	gas turbine engine
+y	game
+y	full adder
+n	front view of ball catching tool
+n	front view of a ball catching tool
+n	front surface and a plurality of first solid metal posts extending
+n	frequency division ratios
+n	frequency divider
+n	freeze enthalpy
+n	frame supply line
+n	frame return line
+n	frame members
+n	formatter
+n	focal plane
+y	fluids
+n	fluid path
+y	fluid control bladder
+n	flows
+y	flow paths
+y	floating harmful particles
+n	first standoff member
+n	first plate
+n	first monitor
+n	first grating pattern
+n	first embodiment
+n	first cyclonic stage
+n	first amplifier stage
+y	firmware
+n	filling pipe
+n	facility
+n	face gears
+y	external cooling system
+y	experimental reproduction of pwd
+n	existing entry
+n	examination
+y	euv source
+y	etching agent
+n	etc.
+y	error diffusion process
+n	environment setting information
+n	enlarged side cross-sectional diagram of the recording head unit
+n	end portions
+y	endothermic substrate
+n	endothelium
+n	end of the initial growth phase
+n	end of the culture run
+n	end face
+n	electrophotographic imaging member
+y	electronics servers
+y	electrolyte
+y	electric signal
+y	electric rotating machine
+n	electrical apparatus division
+n	effect treatment
+n	effect
+n	edge of nozzle
+y	ecc
+y	dynamic air cushion
+n	droplets
+y	drive shaft
+n	drive member
+y	drive circuit
+n	drawing information
+n	downward direction
+y	down swing drill
+y	downstream cyclone
+n	dosing space
+y	dlt magazine
+y	display screen of the computer
+n	displacement
+n	direction of the channel
+y	digital screen
+y	diffraction
+y	device application
+n	detector assembly embodiments
+y	detection of an error
+y	detection and\/or the identification of pwd circovirus
+y	detection and\/or identification of pwd circovirus
+n	degree of nitration
+n	decryption authority information
+y	decoding
+n	decision block
+n	dc
+y	data processing system
+n	data corresponding
+n	data bits
+n	cylinder head
+n	cyclonic stage
+y	cutting the light reflection face
+n	c. sup .2
+n	c. sub .6 h. sub .4 o
+y	cryptographic processing unit
+n	creating the scrapbook
+n	creating a scrapbook
+n	cover
+n	count
+n	correspondence
+y	corotating intermeshing twin-screw extruder
+n	corners
+n	core members
+n	core board
+n	copy no. command
+y	cooling system
+n	conventional method
+y	control voltage
+n	controlling unit
+y	controlling data flow
+n	contraband
+y	content sourcing platforms
+y	contactless communication
+n	construction
+y	consensus nucleotide sequences
+y	conductive post
+y	conduction terminals
+y	concentrate cells
+n	concave portion
+n	comprising a polymer
+y	completing a transaction
+y	communications system
+y	communication program
+y	communication data
+y	combustion
+y	cmut device
+n	closing edge
+n	clearance c
+n	clearance
+y	clamp device
+y	cho cells
+y	checksums
+y	chat room
+n	chamber and the annular space
+y	center side transmitting device
+n	center axis
+y	cellulose ester
+y	cellulose acetate propionate
+y	cell specific productivity
+n	cell death
+n	cavity c
+y	catalysts
+y	cartridge-based library
+n	cartilage
+n	carrier 56a
+y	cam surface lubrication supply duct
+y	calculation circuit
+y	cabin services system
+n	c1-c6 alkyl
+n	bulkhead
+n	bottom surface of the package body
+n	bottom md yarn
+n	bottles
+n	bottle mouth or opening
+n	boiling point
+n	bodywork
+n	body fluid
+y	boat engine
+n	blood cells
+y	bit-flipping perturbation process
+n	basis of the graded scale
+n	base member
+n	base fill
+y	authentication tokens
+n	atmospheric pressure
+n	aspect of the first information presentation system
+n	areas of the sensor substrate
+y	aqueous solutions
+n	apparatus of fig
+y	anisotropic etching
+y	analyte monitoring system
+n	amino group
+n	ambient sound
+n	air passages
+y	air flow
+y	aircraft engines
+n	agreement
+n	adjusting apparatus
+y	adhesive bands
+y	address electrode
+y	adcs
+n	a\/d converting section
+y	active boresight drift measurement and calibration apparatus
+y	ack req signal
+n	accessing the interior of the library
+n	above mentioned method of treatment
+n	24p4c12 gene
+n	24p4c12 cdna
+n	24p4c12 antibodies
+y	0,1 setting circuit
+n	zn concentration
+n	y-direction drive mechanism
+y	x-ray tube and x-ray detector
+n	x-direction drive mechanism
+n	x and a conductivity
+n	writing data
+y	wrap control system
+y	working fluid
+n	working channel
+n	work copy wrap
+y	winding the coils
+n	whole blood
+n	wax
+y	water jet
+y	waste water stream
+n	wall panel arrangement
+n	volume of mineral acid
+y	voltage lockout logic signal
+y	voip device
+n	voice
+y	vm selection interface
+n	visual data pertaining
+n	video data
+n	viability
+n	vertical position
+n	vertebrae
+n	vehicles
+n	variables of the engine operating conditions
+n	upper surface of the core board
+n	unlatched condition
+y	two-point phase modulator
+n	transmitting and receiving frequencies
+n	transient error
+n	transfer compartment
+y	transcription system software
+y	transceiver
+y	trans-3-pentenoic acids
+n	trainers
+y	traditional image sensors
+y	touchscreen panel controller
+n	torso
+n	torque input shaft
+y	toothbrush
+y	toner image
+n	time of flight of the position signal
+y	thumbnail image
+n	third object
+n	thickness of the liquid crystal layer
+y	thermal protector
+y	thermal conductivity
+n	test machines
+n	test circuit cards
+n	ternary blends
+n	tensile stress
+n	temporary edges
+n	temperature change
+n	tellurium atom
+n	telephone company
+n	tapered slot
+n	table
+n	system of the present invention
+n	system information database
+n	systemic exposure of azithromycin
+n	system being
+y	synchronized transactions
+y	switch structure
+n	surface portion
+n	surface of the resin passage
+n	surface of the core shroud
+n	surface of the abrasion preventing member
+n	surface of a substrate
+n	surface defect
+n	supporting ribs extending
+n	supporting ribs
+n	support frame
+n	superior line
+n	sulfates
+y	suction mat
+n	stylus contacts a particular control section
+y	stove
+y	stone lifting device
+n	stitching yarn pairs
+y	step signal fstep
+n	stationary closing edge
+n	state_index
+n	starting point
+n	standard production phase
+n	standard density values
+n	s-shaped channel
+n	spider
+n	speed range
+n	specifying and managing consolidated ticket packages
+n	solid catalyst comprising
+y	slow solenoid-operated valve
+n	sliding roof
+y	sldram
+y	ski poles
+y	ski pole modifying apparatus
+y	sim card s
+y	silicone coating
+n	side of the pocket portion
+n	side of opening
+n	shortcut links
+n	shading element
+n	setting of the carburetor
+n	sets of rotor units
+n	set list
+n	serum azithromycin concentration
+n	separated particles
+n	semiconductor material
+n	semiconductor element
+y	semiconductor device structure
+y	self-seeded laser diode
+n	section of the parabolic face
+n	second terminal receiving openings
+n	second support means
+n	second suction tubes
+n	second rotor unit 20b
+n	second rotor unit
+n	second protective chamber part
+n	second power converter
+n	second passage
+n	second lamp
+n	second input terminal 21b
+n	second delay circuit
+n	second coupling component
+n	second capacitor
+n	second ball catching assisting portion
+n	seal member
+n	sealing surface
+y	sealing apparatus
+n	screw
+n	screen assembly
+n	schematic drawing representing elements of an embodiment of a system
+y	saddle type adsorbent unit
+y	sabot separation cylinder
+n	rule
+n	rotatable component of a device
+y	rock-wool substrate
+n	rock
+y	roadway pavement structure
+n	ring member
+n	ring finger and ball catching assisting portion
+n	ring c
+y	rfid tags
+n	respective optical channel
+y	resistors
+y	residual stress improvement
+n	request information list
+n	request component
+n	representatives
+y	removable storage unit
+n	relationships
+y	regulating device
+y	reflection-type liquid crystal
+y	reference signal receivers
+n	reference member
+n	red display region
+y	recipient endothelial cells
+n	receiving portion
+n	receiving a container
+y	receivers
+n	rear surface side of the screen
+n	rear-cross frame member
+n	rear cross-frame member
+n	real pole
+n	read\/write characteristics and thermal stability
+n	read data word
+n	read
+y	reactor device
+n	ratio of viscosity
+y	radio resource allocator
+n	radial clearance
+y	pvc coating
+y	p-type gan layer
+y	protective layer
+y	propeller
+y	programming
+n	products of the organizing agent
+n	product quality
+n	production of precursor structure
+n	production of matrix
+y	production of carbon monoxide-free hydrogen
+n	product drain ring
+n	processing requests
+n	procedure
+n	print sheet
+n	pressure factor computing unit
+y	press tools
+n	prep
+n	predetermined value
+n	precharge clock signal
+y	power module
+y	power input shaft
+n	potassium naphthalide
+n	positive direction
+y	position signal transceiver
+n	position of the template
+n	position data reader
+n	pore size
+y	polypropylene oxide
+y	pole piece
+y	point light source
+n	plurality of valleys
+n	plurality of openings
+n	plurality of disk drives
+n	plurality of diffusion portions
+n	plurality of cbc block cryptographic operations
+n	plurality of buttons132 ,134,136,138
+n	plate-like workpiece w1
+n	plate feed\/discharge unit20is
+y	plate electrode
+n	plane parallel
+n	planar walls
+y	planarization layer
+n	placement
+n	photographic picture
+y	phosphates
+n	pharma sales representatives
+n	pervasive device comprising
+y	personal computer
+n	personal authentication gateway comprising
+y	persistent memory
+y	persistent and reliable delivery of event messages
+n	peripheral surface 43c
+n	periodic training signal and data
+y	performing vibration correction processing
+y	pcb securing pins
+n	payment instrument
+n	parallel
+n	pair of exemplary storage devices
+n	pa1
+n	output of the first amplifying element
+n	output beam
+n	other mobile stations
+n	other communication nodes
+n	opposing walls
+n	operation of the power switch
+n	operable processors
+y	oil and water repellency
+n	occupant
+y	object level restoration
+y	nurbs based 3-d geometric definition of a material
+n	number of new entries
+n	number of metallic cables
+y	nitride-based semiconductor
+n	nickel
+n	next image
+y	neutralization
+n	neck area
+y	navigation means
+y	nak timer
+n	n −
+n	multiple occurrences of data corruption
+y	multicarrier clipping processing unit
+n	motor support structure
+y	motor output shaft
+y	motor car
+y	mos technology
+n	more substituted or unsubstituted aldehyde acids or salts
+n	more resistance devices
+n	more experience descriptors indicative of the areas of expertise of the analyst
+n	more breakaway segments
+n	modifying apparatus
+n	mode of operation
+n	modal velocity changes
+y	mobile units
+n	ml of water
+n	mixture of gas and particles
+y	microfluidic array card and reader
+y	microballoons
+n	methods and systems
+n	method and a system
+n	metals
+y	meniscus lens
+y	memory control circuit
+n	members
+n	media recognition
+n	measure of the effect of food
+n	management area
+y	magnifying lens
+n	magnet material 23b of the second rotor unit 20b
+y	magnetic pole surface
+n	magnetic core members
+y	mac source address
+n	luminance of the light source lamp
+y	l reactor scale
+n	lp mode
+n	low gear position
+n	loudspeaker of the present invention
+n	longitudinal area
+y	locking system
+n	location of the user device
+n	local system administrator
+n	load circuit input node and a first node
+y	liquid crystal light valve
+n	link
+n	line segment
+y	linear polyester-based resin
+y	light-modulating section
+n	lift
+n	levels
+y	level determination circuit
+n	least part of the imiquimod
+n	layer of sige
+n	lateral direction
+n	laser light source
+y	laser beams
+n	lapo4 shell
+y	lamp driver
+n	k
+n	j\/g
+y	jacks
+n	iris image
+y	ipdl delay compensation unit
+y	intracellular structures
+n	into\/from the magazine
+n	interference
+n	interconnecting member
+y	interactive communication system
+y	intake vacuum vc
+n	instructions
+y	inspection system
+y	inspection signal
+n	inspection of the object
+n	input value
+n	input interface
+n	inner layer
+n	inner electrode
+n	inner bottom of the bottom member
+n	infrared radiation non-exposed areas
+y	information presentation system
+y	information display device
+n	industrial waste
+y	inductive signal transfer
+n	inclination restraining portion
+y	impermeable enclosure
+n	image velocity of the target
+y	image recognition apparatus
+y	image modification process
+y	image memory
+y	image level backups
+n	image displaying area 22a
+y	image detector
+y	image carrier
+n	image advancing button
+n	illumination conditions
+y	hydroxycarbonylation process
+n	hydroxy c1-c6 alkyl
+n	hydrogen gas
+n	hot water
+y	host polymer
+y	high pressure pump
+y	higher surface hardness
+y	heterogeneous networks
+y	heat pipes of a gravity type
+y	heat pipes
+n	hearing aid profile
+n	head cap
+y	hardening of the photosensitive layer
+y	hard disk drives
+n	hand-over
+y	gym equipment
+n	green display region
+n	glucose level
+y	genomic dna
+n	general record pointer
+n	g column
+y	gate conductor metal semiconductor alloy region
+y	gas turbine engine fuel heat shield
+n	gas pressure
+n	gas bearing face surface
+n	gas barrier properties and transparency
+n	gas barrier properties
+n	gamut
+y	fuel gas
+n	front face of the prism
+n	front end structure
+n	frictional contact
+y	frequency shift keying oscillator
+n	fourth block
+n	fold line
+y	fluorochemical poly
+n	flow rate
+y	flex assembly
+n	flat plate
+n	fixed orientation
+n	first transmission line
+n	first thermal storage tank
+n	first structure
+n	first speed threshold
+n	first spacer layer
+n	first rotor unit
+n	first roller
+n	first personal node
+n	first packet signaling protocol
+n	first mr data set
+n	first fluorescent layers
+n	first end portion of the retention strap
+n	first and second surfaces
+n	first and second signal receivers
+n	first adjustment element
+n	fir
+n	finger
+y	fine-hsg polysilicon layer
+n	final product
+y	filter unit
+n	file data
+n	feedback
+n	face gear gaps
+n	external device
+n	exterior surface
+n	exposure unit
+n	exposure time of the camera
+n	explosive site
+n	experienced baseball players
+n	exhaust gas
+n	exemplary embodiments of the present invention
+n	exemplary embodiment
+y	execution logic
+y	evaluation device
+y	etching system
+y	error handling
+n	equipment
+n	enzyme
+n	entry statement
+n	entry
+n	entrance of the ball
+n	entire display character
+y	energy detector
+n	end portion of the training signal
+n	endothelial cell layer
+n	embodiment of fig
+n	embodiment of a magazine-based library
+y	elongation products
+y	electromagnetic coil windings
+y	electrical contact
+n	effects of the imaging lens
+n	edge of the load-supporting portion
+n	edge of a semiconductor substrate
+y	ecc logic
+n	dummy bump
+y	driving signal ds
+y	drive wheel
+n	drive element
+y	doppler-effect vehicle ground-speed detecting apparatus
+y	division control signal
+n	display area of the display section
+n	display area
+y	disc
+y	digital file
+y	diffraction grating
+y	detergent solution
+y	detecting faulty firing
+y	detachable picks
+y	depositing a refractory metal silicide
+y	deoxidizer
+y	dehumidifier
+y	defect signal generating circuit
+y	data server301
+y	data packet
+y	data corruption
+y	data cartridge magazine
+y	damping device
+y	cyclonic cleaning unit
+y	cyclone separators
+y	cycloalkyl
+n	c. sub .4
+n	c. sub
+y	crude argon
+n	critical filtration velocity
+y	coupling a pcb sheet
+n	corner
+n	core material
+n	copy
+y	copper vapor laser
+n	coolant composition
+y	conveyor belt
+y	conversion of hydrogen
+n	control information
+n	control group
+n	content sourcing platform
+n	content access system
+n	contact points
+n	contact period
+n	contact elements
+n	consideration
+n	condition the oil
+y	computer network system
+y	computer network
+n	compounds of formula i
+n	complex mixtures
+n	complexes
+n	communication hole
+n	combination of logic
+y	coloring layer
+n	% color
+y	cold thermal source
+y	coil system
+n	cobblestone
+y	cis-3-pentenoic acids
+y	cis-2-pentenoic acids and\/or trans-2-pentenoic acids
+n	circumferential undulating bulges
+n	circumferential direction
+y	circuits
+y	chat stream capture utility
+y	chat stream
+n	characteristic of miscible blends
+n	channel conditions
+n	changes
+n	certain compounds of formula
+n	central opening
+n	centralizing an application process
+n	center line plane of the transport facility
+n	cell culture temperature
+y	catalyst bed
+n	cases
+y	case-hardened face gear
+y	capturing an image
+y	cancer res
+n	camera channels
+n	calibration values
+n	calculation operation
+y	buffer chip
+n	bringing end faces of a plate material
+y	bridge protocol data units
+n	brass
+n	bottom machine direction yarns
+n	bottom fabric layer
+n	bottle neck
+n	bootstrap processor
+n	body biasing voltage
+n	boat
+n	blue display region
+n	blood contact surface
+n	blocking threshold
+y	blocking mask
+n	block diagram showing the on-vehicle image display apparatus
+y	block cipher logic
+y	bit-line
+y	bit data
+y	binding compounds
+y	binding buffer
+n	binding
+n	bearing
+y	beam splitter
+n	baseball or softball
+n	ball catching surface skin and a dorsal skin
+y	backup
+y	azithromycin bioavailability
+n	auxiliary photomask
+n	attachment point
+n	array access
+n	arms
+n	armatures
+n	apparatus comprising
+n	annular gap
+n	angle β
+n	amount of lubricant
+n	alternative embodiment of a magazine-based data cartridge library
+n	alternative embodiment of a magazine
+n	alpha
+y	aliphatic polyesters
+n	alignment mark
+n	aligning presser member
+y	algorithm
+y	air traffic control
+y	air guidance element
+n	air-fuel ratio of the air-fuel mixture
+y	air cushion
+y	air conditioning system
+y	air bypass control solenoid-operated valve
+n	a\/f ratio of the air-fuel mixture
+n	advertising
+n	adjacent top cmd yarns
+n	adhesive side
+y	adhesive
+n	acute angle
+n	activity information
+n	active pyrimidine base analog
+y	ac power
+y	acoustic energy
+n	ac mains
+n	8b\/10b code
+n	4-pentenoic acid
+n	24p4c12 polypeptides
+n	yield
+y	xenografts
+y	wireless link
+y	wireless communication systems
+y	wire dot printer
+n	wire
+y	window sash
+n	wider portion
+n	white-water
+n	wheel
+n	weight of water
+n	weight of the reaction mixture
+n	weight of the binder
+n	way of the asm
+n	water vapor
+y	waste gas treatment apparatus
+n	wash zone
+n	wand
+n	wall surface
+n	vortex
+n	voltage voffset
+n	voltage of the dc intermediate circuit
+y	voltage lockout logic signal uvlo
+y	virtual disk image
+y	vibration correction processing
+y	vertical axis automatic washer
+y	vehicle braking
+n	variety mcs0711b2rf
+n	variation
+y	variable bias circuit
+y	vaccine
+n	uv light-transmitting member
+n	user 's body
+n	user image of the user
+n	user client computer
+n	use of the device
+n	usage
+n	upward direction of the screen
+n	upward direction
+n	uppermost layer
+n	unsaturated carboxylic acid
+y	unsaturated acids
+y	unnatural amino acids
+y	ultrasonic signals
+y	ultrasonic sensor
+y	turntable assembly
+n	tube connecting the outlet of the vaporizing tube
+n	trunk lid or hood
+n	treating tool
+n	treating allergy
+y	transport packet
+y	transmitting-side communication apparatus
+n	transmitting and receiving frequencies f. sub
+n	transmitter and the receiver
+n	transmission surface
+n	transmissions
+y	transgenic plants
+n	transferring control
+n	trailers
+n	total weight of the dielectric composition
+y	torso harness assembly
+n	top face of the convex portion
+n	top face 11a-1
+n	top fabric layer
+y	toner supply roller
+y	toner containers
+n	title
+y	tissue engineering
+n	tip and sample
+n	tine-to-tine distance
+n	time signature
+n	time of filling a fluid
+n	time of ball catching
+y	timekeeping and calculation functions
+n	time information
+y	throttle valve
+n	throat
+n	three-dimensional gamut
+n	thickness of an urethane rubber layer
+n	thick embossed sheet
+n	thiadiazine 1,1-dioxide crystal
+n	tetraalkyl ammonium fluoride
+n	test machine
+n	test instructions
+n	test environment
+n	temperature of the treated process gas
+y	telephone system
+n	telephone call
+n	tape path regulating pin
+n	system 's resources
+n	system illustrated
+y	system control circuit
+n	system application
+n	swingable arms 5,5
+y	suspension beam
+n	surface of a welded portion
+n	surface layer
+y	surface defect detecting apparatus
+n	surface defect data
+y	supramolecules
+n	support post
+n	supporting a magazine
+n	supply lumen
+n	sum of heights of ball catching assisting portion
+n	suction pipe
+n	subscriber identification information
+n	subcarrier power
+n	sub.1-4 alkylamino group
+n	stylus position
+n	structural damage
+n	% strength
+n	stop member
+y	stepper motor
+y	status-information recording medium
+n	stationary base
+n	state of a specific object
+n	statement s4
+n	start portion of the training signal
+n	start of the culture
+n	standard methods
+n	stages
+n	stability control intervention
+y	sram
+n	sputtering gas
+y	sport genre code
+n	spool 's planes
+n	spiral winding
+n	spiral channel
+y	speech recognition
+n	specifying details of a modification
+n	source line
+n	% solution of cellulose acetate
+y	solar cell modules
+y	solar cell module
+y	softwares and methods
+y	software and data
+y	sodium ionomer
+y	sms
+n	smallest distance
+n	slit start portion
+n	slice levels
+n	sled attachment point
+n	skewed alignment
+n	site plans
+n	sip
+y	sintering of the particles of ceramic material
+n	single view system
+n	single temperature shift
+n	single sheet of material
+n	single continuous grinding worm gap
+n	single cavity mold
+n	simple mounting operation
+y	signal transmitter
+y	signal ctl
+n	sight assembly
+n	sige layer
+n	side of web portion
+n	side of the membrane
+n	side of side surface 2a of thumb-stall
+n	side of edge portion
+n	side frame member
+n	shift operation
+n	shifting the on-screen position of the image
+n	shelves
+n	shell portion
+n	sheet comprising the sodium\/zinc mixed ionomer composition
+n	shaft axle
+n	setting function
+y	server appliance
+n	series of interactive viewer tests
+n	series of images
+n	sending a request
+y	self time block
+n	self-oscillating half-bridge configuration
+y	self identifier field
+n	selection information
+n	selecting a character
+n	second upper position
+n	second transmission line
+n	second stage cyclones
+n	second spar
+n	second spacer layer
+n	second shell portion
+n	second reference voltage
+n	second posts and circuitry
+n	second plate mounting region27b
+n	second personal node
+n	second pcb sheet
+n	second object
+n	second module
+n	second memory chip
+n	second gate
+n	second fluorescent layer 19b
+n	second embodiment of the present invention
+n	second display electrodes
+n	second data field
+n	second cotton plant
+n	second coloring layer
+n	seat pan
+n	searches the data table
+n	scene
+n	salutation obtaining module
+n	sacrificial oxide layer
+y	s1p
+n	running of the computer program
+n	run
+n	r. sup
+n	r. sub .1
+n	r.p.m. record
+n	round surface of the arc-shaped stand
+n	round surface
+n	rotating axis
+y	room temperature conductivity
+n	rolls
+n	rod engaging structures
+n	ring-finger-stall receiving the ring finger of the user
+n	ring a
+n	right end
+n	rfid element
+y	rf coil
+y	reynolds number
+y	reverse transcription
+n	restoration
+y	respirator
+n	respective side frame members
+n	respective metallic cables
+y	resource protection polices
+y	resonant frequencies of the intracellular components
+y	resonant effect
+y	resin sealing process
+n	research providers
+y	removal of evolved gases
+n	relay switch 37b
+y	relaying optical system
+n	relative gene expression profile
+n	relative angle θ
+n	regulator
+y	regenerating a nucleic acid adsorbent
+y	refractory metal
+y	reflector
+n	reference levels
+y	redundant data
+y	recovering a nucleic acid
+y	recording photoconductive layer
+y	recording head unit
+y	receiving data
+n	rear surfaces of the sockets
+n	rear ends of the side frame members
+n	rear ends
+n	reading
+n	reaction temperature
+n	ray
+n	ratio
+y	radio signals
+n	radio frequency-responsive element
+n	quality factor
+y	pyrrolidinyl
+n	pump-control element
+n	programs
+y	production of hydrogen peroxide
+y	production of ctla4ig
+y	production of ceramic composite
+y	process gas
+n	print sheets s
+y	printing speed
+y	printing medium
+n	print command
+n	previous field
+y	pressurized fluid
+n	pressure exerting means
+y	pressure contact
+n	present method
+n	present invention or a salt
+y	preheating burner
+n	predetermined time interval
+n	predetermined protection level
+n	predetermined lattice points
+n	predetermined kind of information
+n	preceding data
+n	power of the laser light
+y	power monitor
+n	power measure
+y	power distributor
+y	power amplifier output node
+n	potential explosive sites
+n	position of the stylus
+n	position of the cursor 22c
+n	positioning device
+n	portable telephone apparatus101may
+n	porous member
+y	polyurethane foams
+y	polymers
+y	polymeric stripes
+y	polarization rotator
+y	pmos transistor
+n	pmos and nmos regions
+y	plural optical systems
+n	plurality of pixels
+n	plurality of network application programs
+n	plurality of modular heat radiating units
+n	plurality of fasteners
+n	plurality of fastener
+n	plural head modules
+n	playback-position feature value group g2
+n	platinum group metal
+n	plastic objects
+y	plasticizers
+n	plants of the new dahlia
+n	planar surface
+n	pigment particles
+y	photoreceptor
+y	photohardening capability of the photosensitive layer
+y	photographs
+y	phosphate or fluoride nanoparticles
+y	peterstar pink
+n	perspiration
+n	personal information
+n	periphery of the solid image pickup device
+n	periphery of the semiconductor wafer201
+n	periodic training signal
+n	peak signal-to-noise ratio
+n	path of movement
+n	path of motion
+y	paste-type nickel positive electrode
+n	password of the proxy
+n	password of the addressee
+y	passing a gas
+y	passgate
+n	passenger service unit modules
+n	passages
+n	passage
+y	particulate ceramic material
+n	particular data word
+y	partial lock-up operation
+y	parent identifier field
+y	parallel catalytic reactors
+y	paper mount
+n	panels
+y	page image reader\/writer
+y	page image memory
+n	packet b
+y	oxygen saturator
+y	oxygen-deficient cerium oxide
+y	oxide layer
+n	oxide
+n	outside edge of heater
+n	output terminal
+n	output node 3a
+y	outlet discharge plate
+n	outer wall of the cyclone separator
+n	outer follower structure
+n	other of the first block and the second block
+n	other features
+n	other display characters
+n	original image data
+n	original file
+n	organic material
+y	optical channel
+n	opposite inclined plate portions
+y	operating the lights of a motor vehicle
+n	operating authority
+n	opening portion
+y	on-line form
+n	on-line connection
+y	oil repellency
+n	% of the original cross-section
+n	object level
+n	nurbs based 3-d geometric model of the blank and the nurbs based 3-d geometric model of the product model
+n	numerous embodiments
+n	nucleobase sequence b
+y	nucleic sequences
+n	nucleic acids research
+y	n-type zno
+n	n symbols and l symbols l
+y	n-phosphonomethyliminodiacetic acid
+n	notification portion
+y	non-uniform rational b-splines
+y	non-ionic surfactant
+y	nitrogen-based didentate ligand
+y	nitriding processing
+n	next data authority
+n	negative direction
+y	multilayer mirror
+n	moving picture
+n	mouth or opening
+y	motor vehicles
+y	motion-picture window
+n	more recesses
+n	more information data
+n	more embodiments
+n	molding
+n	modulation signal m_sig
+y	modulation signal
+n	modulation data
+y	mobile communication system
+n	middle-finger-stall receiving the middle finger of the user
+n	middle finger and ring finger
+y	microparticles
+y	micro instruction queue
+n	method of enabling
+y	metal surfaces
+y	metal complexing agent
+n	memory chip 54b
+n	memory ability information
+n	mechanical agitation
+n	measurement
+n	maximum rate
+n	matrix and the fiber
+n	material of the optical waveguide
+n	master device and the computer
+y	mask layer
+n	management application
+n	main unit
+n	main electrode 64f
+n	main electrode
+n	main control section
+n	magnet material 23a of the first rotor unit 20a
+y	magnetic tape cartridge
+y	magnetic structure
+y	magnetic resonance signals
+y	magnetic read\/write apparatus
+y	luminescent nanoparticles
+n	low speeds
+n	lower position
+n	lowering the temperature of the cell culture and culturing the cells
+n	lower edge
+n	lower channel member
+n	long time
+n	login information
+n	locker structure
+n	locations
+y	local network
+n	little-finger-stall receiving the little finger of the user
+y	litter scoop
+n	list of sequences
+y	liquid state base material
+y	liquid diluent and organic binder
+y	linear stress-generating stripes
+y	light spectrum
+y	light source lamp and the auxiliary lamp
+y	lighting system
+y	lightguide
+y	light fixture
+n	light emitting portion
+y	lidb authorization
+n	library materials
+n	level of brightness
+n	left end
+n	least a portion
+n	leading end 37a of the insertion base portion
+n	leading end
+n	layer thickness
+n	layer structure
+n	layer pressure shortage or toner spilling
+n	layer of material
+n	last data set
+y	laser spot swinging type laser peening operation unit
+y	label assembly
+y	kinematic viscosity
+n	items of information
+n	item code
+n	ischemia
+n	irradiating direction of the laser beam
+y	irradiating a laser beam
+y	ion beam assisted deposition
+n	internal pressure
+n	interior
+n	interactive viewer test page
+y	interactive application
+n	integer
+n	inspection results
+y	inspection program
+n	insertion of the instrument
+n	insertion element
+n	insert
+n	input voltage
+y	input signal vdd
+y	input signal conductor
+n	input pixel
+n	input channel number
+n	inner surface of the mounting groove
+y	injection molding system
+n	infrared laser non-exposed areas
+n	information structure
+n	inclined plate portions
+n	inclination of the wafer surface
+y	incident light ls
+n	important lines
+y	image store
+y	image processing
+n	image of the creator
+n	image failure
+y	image capturing means
+n	image capturing base
+y	image capturing apparatus and an image processing apparatus
+y	image-capturing
+n	illustration of data entries
+n	iii
+n	identifier
+n	identification message
+n	ideal golf swing
+y	ibm xrc system
+n	hydroxyl
+y	hydroxycarbonylation reaction
+y	hydrolysis step
+n	hydrocarbon oils
+n	hydrocarbon oil
+n	human body
+n	housing wall
+y	hot water type thermal reservoir
+n	hot thermal source
+n	host
+n	horizontal axis
+n	hob teeth
+y	high-speed printing
+y	high resistance
+y	high-pressure mercury-vapor lamp
+y	high heat conductivity
+n	high dry matter content
+n	high cell viability
+n	heat transfer surface
+y	heatsink
+y	heat shield
+y	heat releasing function
+y	heat pump chiller
+n	hcv disease
+n	harness securing portion
+y	hapten
+n	hand lever
+y	hair styling compositions
+y	h2-to-h2o2 oxidation
+n	gym
+y	grps
+n	grip the ball
+n	gravity
+n	good quality pcb sheet
+y	golf ball
+n	global motion
+y	gizzard peeler
+n	geometries
+n	generator voltage e. sub
+n	generation phase
+y	gears
+y	gate insulating layer
+y	gas barrier layer
+y	gan nucleating layer
+n	gain
+n	front edge
+n	front
+n	free edge
+n	frames
+y	frame drive device
+n	fourth personal node
+n	forming the water flow
+y	fork-lift trucks
+y	focal planes of the objective lens
+n	fluid pressure
+n	flow direction
+n	flexible portion
+y	flexible foams
+y	flanges
+n	first voltage sensor
+n	first suction tube
+n	first spar
+n	first rfid device
+n	first pcb sheet
+n	first passage
+n	first outer layer
+n	first node and a second node
+n	first limiting value
+n	first lamp
+n	first intermediate node
+n	first gear shift
+n	first functional resin sub layer
+n	first fluid retainment region
+n	first finger 7a and the third finger 7c
+n	first field of view
+n	first field effect transistor
+n	first ferromagnetic layer and a second ferromagnetic layer
+n	first electrode
+n	first delay circuit
+n	first data field and a second data field
+n	first cyclonic cleaning stage
+n	first conduction
+n	first capacitor
+n	first aperture
+n	first and second storage devices
+n	first and second containers
+n	first and second cleaning stages
+y	fire code
+n	fin-structured auxiliary electrode 60a
+y	finite data environment processor
+n	fingerings
+n	fewer bytes and faster transmission rate
+y	feeding unit
+n	features and advantages of the present invention
+n	fast layer
+y	facilitating the focusing of a camera
+n	faces
+y	extrusion of excess impression material and retention
+y	extrusion of excess impression material
+n	external input
+n	exterior of a pipe
+n	extending ribs
+n	extending lip
+n	expiration of the time interval
+n	expiration date
+n	expandable resin particles
+y	exhaust pipes
+n	excess dissolved oxygen
+n	example trays
+n	etch-blocking layer
+n	essential power bus
+y	error signal
+y	error pattern
+y	error detection mechanism
+y	erasure mode ecc processing
+n	equivalent weight
+n	equivalent toxins
+y	equity analyst
+y	engine start detection
+n	engine crankshaft rotation speed n
+n	engaging the magazine
+n	end regions
+n	end of the run
+n	end faces
+n	end cell viability and viable end cell density
+n	emitting a light
+n	emit light
+n	embodiment of this invention
+n	embodiment of the invention the present compounds
+n	elongation of the primer
+n	elevated temperature
+y	electronic components
+y	electromagnetic solenoid
+y	electroluminescent light source
+y	electric motor or a geared motor
+y	electrical elements
+y	electrical conduit
+y	egr valve
+n	ear portions
+y	ear canal receiver
+y	dynamically-typed language
+y	drive unit
+y	drive bar
+y	drive arm
+n	downward direction of the screen
+n	d of the dc intermediate circuit
+y	docking station
+n	distance d separating line
+n	distal end
+y	dissociating a nucleic acid
+n	display waiting time
+n	display segment
+n	display electrodes
+y	display control apparatus and a display control method
+y	disk centering mechanism
+n	disc-shaped element
+y	disc-dam units
+y	digit processing circuit
+y	digital camera systems and methods
+y	digital cameras
+y	digestion of the organic waste
+n	different fields of view
+n	diameter of the surgical instrument
+n	diagonal matrix
+n	device x
+n	device blocking percent
+y	detent mechanism
+y	detection system
+n	destination information corresponding
+n	destination host
+n	destination device
+n	desirable code
+n	description of the invention
+n	deflection wall member
+n	defective pcb
+n	defective circuit pattern part
+n	deactivation period of the loop control signal
+y	dc voltage
+n	data transmission unit
+y	data storage
+n	data set owner
+n	data separator
+n	data records
+y	data recording
+n	data group corresponding
+n	data entity
+n	data bus 59y
+y	data base
+y	data acquisition system
+n	daisy chain of self
+y	cylindrical lens
+y	cyclonic cleaning stage
+y	cyclone chamber and a dirt collection chamber
+y	cycloalkyl group
+n	current time data
+n	current limiter block
+n	current density
+n	c. sub .6
+n	cross sectional view of a semiconductor element
+y	cross-platform object level restoration
+n	cover film 14b
+n	country-specific digital content
+n	cotton variety mcs0711b2rf
+n	cotton plants
+n	cotton
+n	corresponding nucleotide sequences of the meehan seq id no.
+y	correction unit
+n	cooling part
+y	cooling door assemblies
+y	cooling air
+n	converter
+n	conversion gain value
+n	conventional high gain
+y	control signals
+y	controlling application of an error correction code
+y	control flow graph

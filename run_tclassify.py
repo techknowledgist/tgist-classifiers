@@ -167,33 +167,30 @@ class Classifier(TrainerClassifier):
         self.scores_s4_nr = base + ".s4.scores.sum.nr"
         self.scores_s4_az = base + ".s4.scores.sum.az"
 
-
     def run_on_corpus(self):
+        self._check_output()
         t1 = time.time()
-        if os.path.exists(self.info_file_general):
-            sys.exit("WARNING: already have classifier results in %s" % self.batch)
-        ensure_path(self.batch)
         self._find_datasets()
-        self._create_mallet_file()
-        self._run_classifier()
-        self._calculate_scores()
-        self._create_info_files(t1)
-        for fname in (self.results_file, self.mallet_file, self.scores_s1):
-            print "Compressing", fname
-            compress(fname)
+        self.run_classifier(t1, corpus=True)
 
     def run_on_files(self):
+        self._check_output()
         t1 = time.time()
-        if os.path.exists(self.info_file_general):
-            sys.exit("WARNING: already have classifier results in %s" % self.batch)
+        self.run_classifier(t1, corpus=False)
+
+    def run_classifier(self, t1, corpus):
         ensure_path(self.batch)
-        self._create_mallet_file(corpus=False)
+        self._create_mallet_file(corpus=corpus)
         self._run_classifier()
         self._calculate_scores()
         self._create_info_files(t1)
         for fname in (self.results_file, self.mallet_file, self.scores_s1):
-            print "Compressing", fname
+            print "[Classifier.run_classifier] Compressing", fname
             compress(fname)
+
+    def _check_output(self):
+        if os.path.exists(self.info_file_general):
+            sys.exit("WARNING: already have classifier results in %s" % self.batch)
 
     
     def _calculate_scores(self):
@@ -378,6 +375,7 @@ def term_filter_as_short_string(term_filter):
 def read_opts():
     longopts = ['classify', 'evaluate', 'show-data', 'show-pipelines',
                 'corpus=', 'language=', 'pipeline=', 'filelist=',
+                'mallet-dir=', 
                 'batch=', 'features=', 'xval=', 'model=', 'eval-on-unseen-terms',
                 'verbose', 'eval-id=', 'gold-standard=', 'threshold=', 'filter=', 'logfile=']
     try:
@@ -410,6 +408,11 @@ if __name__ == '__main__':
         elif opt == '--classify': classify_p = True
         elif opt == '--show-data': show_data_p = True
         elif opt == '--show-pipelines': show_pipelines_p = True
+        elif opt == '--mallet-dir':
+            if os.path.isdir(val):
+                config.MALLET_DIR = val
+            else:
+                exit("WARNING: non-existing directory for --mallet-dir")
 
         elif opt in ['-c', '--corpus']: corpus_path = val
         elif opt in ['-m', '--model']: model = val
