@@ -1,0 +1,9 @@
+# This file contains the default pipeline configuration settings. Settings in
+# here can be overruled by handing the step2_document_processing script the
+# identifier for another configuration file. All pipeline configuration files
+# live inside of the config directory configuration file.
+
+--populate
+--xml2txt
+--txt2tag
+--tag2chk --candidate-filter=off --chunker-rules=en

@@ -1,0 +1,4 @@
+../doc_processing/data/patents/corpora/sample-us/data/d3_phr_feats/01/files/1980/US4192770A.xml
+../doc_processing/data/patents/corpora/sample-us/data/d3_phr_feats/01/files/1980/US4236596A.xml
+../doc_processing/data/patents/corpora/sample-us/data/d3_phr_feats/01/files/1981/US4246708A.xml
+../doc_processing/data/patents/corpora/sample-us/data/d3_phr_feats/01/files/1981/US4254395A.xml

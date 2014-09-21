@@ -1,0 +1,10 @@
+$ python run_tclassify.py --classify --corpus ../doc_processing/data/patents/corpora/sample-us --model data/models/technologies-010-20140911/train.model --output data/classifications/sample-us
+
+output            =  /Users/marc/Documents/fuse/code/patent-classifier/ontology/classifier/data/classifications/sample-us
+file_list        =  ../doc_processing/data/patents/corpora/sample-us/config/files.txt
+model            =  data/models/technologies-010-20140911/train.model
+features         =  doc_loc first_word last_word next2_tags next_n2 next_n3 plen prev_J prev_Jpr prev_Npr prev_V prev_n2 prev_n3 section_loc sent_loc suffix3 suffix4 suffix5 tag_sig
+config_file      =  ../doc_processing/data/patents/corpora/sample-us/config/pipeline-default.txt
+timestamp        =  20140921:104214
+processing time  =  2s
+git_commit       =  v0.4-101-g923ff7e
