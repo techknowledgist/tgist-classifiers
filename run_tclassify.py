@@ -26,8 +26,7 @@ For the first form, we have the following options:
 
    --model FILENAME - selects the model used for classification
 
-   --batch DIRECTORY - name of the current batch being created, this is the
-       directory where all data will be written to.
+   --output DIRECTORY - the directory where all data will be written to
 
    --verbose - switches on verbose mode
 
@@ -36,7 +35,7 @@ gold standard. The first three options are required, the fourth is optional:
 
    --eval-id - an identifier that is added to the output files
 
-   --batch DIRECTORY - name of the current batch created with the --classify
+   --output DIRECTORY - name of the output directory created with the --classify
        option, this is also the directory where all evaluation data will be
        written to.
 
@@ -66,25 +65,25 @@ file list of the corpus). Here is a typical invocation:
      --corpus ../creation/data/patents/201312-en-500/ \
      --filelist ../creation/data/patents/201312-en-500/config/files-010.txt \
      --model data/models/technologies-201312-en-500-010/train.ds0005.standard.model \
-     --batch data/classifications/test2 \
+     --output data/classifications/test2 \
      --verbose
 
-For evaluation of the above-created classification, simply read the batch and
+For evaluation of the above-created classification, simply read the output and
 compare it to a gold standard:
 
    $ python run_tclassify.py \
      --evaluate \
-     --batch data/classifications/test2 \
+     --output data/classifications/test2 \
      --gold-standard ../annotation/en/technology/phr_occ.eval.lab \
      --filter ../annotation/en/technology/gold-training.txt \
      --eval-id phr_occ_eval \
      --verbose
 
 The system will select classify.MaxEnt.out.s4.scores.sum.nr in the selected
-batch of the corpus and consider that file to be the system response. Ideally,
-the gold standard was manually created over the same files as the one in the
-batch. When --filter is used only terms that do not occur in the gold-training
-file are evaluated.
+output and consider that file to be the system response. Ideally, the gold
+standard was manually created over the same files as the one in the output. When
+--filter is used only terms that do not occur in the gold-training file are
+evaluated.
 
 You can also run the classifier on a list of files. Note that these files have
 to be feature files, which in a corpus would reside in the data/d3_phr_feats
@@ -94,7 +93,7 @@ directory.
      --classify \
      --model data/models/technologies-201312-en-500-010/train.ds0005.standard.model \
      --filelist lists/list-500.txt \
-     --batch data/classifications/test3 \
+     --output data/classifications/test3 \
      --verbose
 
 What happens is similar to what happend with the corpus-based example above. The
@@ -141,25 +140,25 @@ class TrainerClassifier(object):
 
 class Classifier(TrainerClassifier):
 
-    def __init__(self, rconfig, file_list, model, classifier_type, batch, use_all_chunks_p):
+    def __init__(self, rconfig, file_list, model, classifier_type, output, use_all_chunks_p):
 
         self.rconfig = rconfig
         self.file_list = file_list
         self.model = model
         self.classifier = classifier_type
-        self.batch = batch
+        self.output = output
         self.use_all_chunks_p = use_all_chunks_p
         self.input_dataset = None
 
-        self.mallet_file = self.batch + os.sep + 'classify.mallet'
-        self.info_file_general = os.path.join(self.batch, "classify.info.general.txt")
-        self.info_file_config = os.path.join(self.batch, "classify.info.config.txt")
-        self.info_file_filelist = os.path.join(self.batch, "classify.info.filelist.txt")
+        self.mallet_file = self.output + os.sep + 'classify.mallet'
+        self.info_file_general = os.path.join(self.output, "classify.info.general.txt")
+        self.info_file_config = os.path.join(self.output, "classify.info.config.txt")
+        self.info_file_filelist = os.path.join(self.output, "classify.info.filelist.txt")
 
-        self.results_file = os.path.join(self.batch, "classify.%s.out" % (self.classifier))
-        self.stderr_file = os.path.join(self.batch, "classify.%s.stderr" % (self.classifier))
+        self.results_file = os.path.join(self.output, "classify.%s.out" % (self.classifier))
+        self.stderr_file = os.path.join(self.output, "classify.%s.stderr" % (self.classifier))
 
-        base = os.path.join(self.batch, "classify.%s.out" % (self.classifier))
+        base = os.path.join(self.output, "classify.%s.out" % (self.classifier))
         self.classifier_output = base
         self.scores_s1 = base + ".s1.all_scores"
         self.scores_s2 = base + ".s2.y_scores"
@@ -179,7 +178,7 @@ class Classifier(TrainerClassifier):
         self.run_classifier(t1, corpus=False)
 
     def run_classifier(self, t1, corpus):
-        ensure_path(self.batch)
+        ensure_path(self.output)
         self._create_mallet_file(corpus=corpus)
         self._run_classifier()
         self._calculate_scores()
@@ -190,7 +189,7 @@ class Classifier(TrainerClassifier):
 
     def _check_output(self):
         if os.path.exists(self.info_file_general):
-            sys.exit("WARNING: already have classifier results in %s" % self.batch)
+            sys.exit("WARNING: already have classifier results in %s" % self.output)
 
     
     def _calculate_scores(self):
@@ -242,7 +241,7 @@ class Classifier(TrainerClassifier):
     def _create_info_files(self, t1):
         with open(self.info_file_general, 'w') as fh:
             fh.write("$ python %s\n\n" % ' '.join(sys.argv))
-            fh.write("batch            =  %s\n" % os.path.abspath(self.batch))
+            fh.write("output            =  %s\n" % os.path.abspath(self.output))
             fh.write("file_list        =  %s\n" % self.file_list)
             fh.write("model            =  %s\n" % self.model)
             fh.write("features         =  %s\n" % ' '.join(self.features))
@@ -339,21 +338,21 @@ def get_features():
     return content.split()
 
 
-def evaluate(batch, gold_standard, tfilter, id):
-    """Evaluate results in batch given a gold standard. It is the responsibility
+def evaluate(output, gold_standard, tfilter, id):
+    """Evaluate results in output given a gold standard. It is the responsibility
     of the user to make sure that it makes sense to compare this gold standard
     to the system results."""
-    print "Evaluating system results in %s" % batch
-    system_file = os.path.join(batch, 'classify.MaxEnt.out.s4.scores.sum.nr')
+    print "Evaluating system results in %s" % output
+    system_file = os.path.join(output, 'classify.MaxEnt.out.s4.scores.sum.nr')
     command =  "python %s" % ' '.join(sys.argv)
     for term_type in ('all', 'single-token-terms', 'multi-token-terms'):
         ttstring = term_type_as_short_string(term_type)
         tfstring = term_filter_as_short_string(tfilter)
-        summary_file = os.path.join(batch, "eval-%s-%s-%s.txt" % (id, ttstring, tfstring))
+        summary_file = os.path.join(output, "eval-%s-%s-%s.txt" % (id, ttstring, tfstring))
         summary_fh = codecs.open(summary_file, 'w', encoding='utf-8')
         for threshold in (0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9):
             if threshold == 0.5:
-                log_file = os.path.join(batch, "eval-%s-%s-%s-%.1f.txt" \
+                log_file = os.path.join(output, "eval-%s-%s-%s-%.1f.txt" \
                                         % (id, ttstring, tfstring, threshold))
             else:
                 log_file = None
@@ -376,7 +375,7 @@ def read_opts():
     longopts = ['classify', 'evaluate', 'show-data', 'show-pipelines',
                 'corpus=', 'language=', 'pipeline=', 'filelist=',
                 'mallet-dir=', 
-                'batch=', 'features=', 'xval=', 'model=', 'eval-on-unseen-terms',
+                'output=', 'features=', 'xval=', 'model=', 'eval-on-unseen-terms',
                 'verbose', 'eval-id=', 'gold-standard=', 'threshold=', 'filter=', 'logfile=']
     try:
         return getopt.getopt(sys.argv[1:], 'c:m:b:f:v', longopts)
@@ -393,7 +392,7 @@ if __name__ == '__main__':
     pipeline_config = 'pipeline-default.txt'
     classify_p, evaluate_p = False, False
     show_data_p, show_pipelines_p = False, False
-    model, batch, xval, = None, None, "0"
+    model, output, xval, = None, None, "0"
     use_all_chunks = True
     eval_id = None
     gold_standard = None
@@ -416,7 +415,7 @@ if __name__ == '__main__':
 
         elif opt in ['-c', '--corpus']: corpus_path = val
         elif opt in ['-m', '--model']: model = val
-        elif opt in ['-b', '--batch']: batch = val
+        elif opt in ['-b', '--output']: output = val
         elif opt in ['-f', '--filelist']: file_list = val
 
         elif opt == '--pipeline': pipeline_config = val
@@ -433,7 +432,7 @@ if __name__ == '__main__':
     # there is no language to hand in to the runtime config, but it will be
     # plucked from the general configuration if needed
     if not evaluate_p:
-        rconfig = RuntimeConfig(corpus_path, model, batch, None, pipeline_config)
+        rconfig = RuntimeConfig(corpus_path, model, output, None, pipeline_config)
 
     if show_data_p and corpus_path:
         show_datasets(rconfig, config.DATA_TYPES, VERBOSE)
@@ -442,7 +441,7 @@ if __name__ == '__main__':
         show_pipelines(rconfig)
 
     elif evaluate_p:
-        evaluate(batch, gold_standard, filter_terms, eval_id)
+        evaluate(output, gold_standard, filter_terms, eval_id)
 
     elif classify_p:
         if VERBOSE: rconfig.pp()
@@ -453,7 +452,7 @@ if __name__ == '__main__':
         # TODO: we now just hand in MaxEnt as the classifier type because that
         # is what we always use, but really the model info should store the
         # classifier type selected and the classifier should just use that
-        classifier = Classifier(rconfig, file_list, model, 'MaxEnt', batch,
+        classifier = Classifier(rconfig, file_list, model, 'MaxEnt', output,
                    use_all_chunks_p=use_all_chunks)
         if corpus_path is not None:
             classifier.run_on_corpus()
