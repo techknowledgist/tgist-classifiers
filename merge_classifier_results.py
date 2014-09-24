@@ -2,11 +2,12 @@
 
 Merges summed classifier outputs.
 
-Usage:
-    
-$ python merge_classifier_results.py OUTPUT_DIRECTORY CLASSIFIER_RESULT+
 
-The result are written to several files in OUTPUT_DIRECTORYand each file has two
+Usage:
+
+   $ python merge_classifier_results.py OUTPUT_DIRECTORY CLASSIFIER_RESULT+
+
+The result are written to several files in OUTPUT_DIRECTORY, each file has two
 fields: a total count and the term. One file has all terms and their
 frequencies, whereas the others only have the terms that occur N times, where N
 is given in the file name. In addition, an info file is written with the version
@@ -16,15 +17,20 @@ CLASSIFIER_RESULT is a summed classifier result, typically a file with the base
 name classify.MaxEnt.out.s3.scores.sum, but it can also be an expression with
 unix wild cards.
 
+This script contains code based on classifier/utils/merge.py as well as on
+classifier/utils/split_terms_on_frequency.py. Unlike the first it does not do
+any term filtering.
+
+
 Example:
 
 $ python merge_classifier_results.py data/merged_terms /home/j/corpuswork/fuse/FUSEData/corpora/ln-us-all-600k/classifications/technologies-ds1000-all-*/classify.MaxEnt.out.s3.*
 
-This file has code taken from classifier/utils/merge.py as well as from
-classifier/utils/split_terms_on_frequency.py. Unlike the first it does not do
-any term filtering. 
-
 """
+
+# TODO: this script now just merges the frequencies (so it has the wrong name),
+# it should also merge the technology scores.
+
 
 import os, sys, glob, codecs, gzip
 sys.path.append(os.path.abspath('../..'))
@@ -75,7 +81,7 @@ def collect_terms(result_files):
 
 
 if __name__ == '__main__':
-    
+
     target_dir = sys.argv[1]
     result_files = []
     for exp in sys.argv[2:]:
@@ -90,4 +96,3 @@ if __name__ == '__main__':
         fh_info.write(fname + u"\n")
 
     merge_result_files(target_dir, result_files)
-    
