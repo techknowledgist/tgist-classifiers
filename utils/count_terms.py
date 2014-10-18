@@ -47,8 +47,9 @@ def count_terms(classification):
             tech_term_count += 1
             tech_inst_count += instances
         done += 1
-    print classification, term_count, inst_count, tech_term_count, tech_inst_count, \
-        "(%d seconds)" % (time.time() - t1)
+    print os.path.basename(classification),
+    print term_count, inst_count, tech_term_count, tech_inst_count,
+    print "(%d seconds)" % (time.time() - t1)
 
 
 if __name__ == '__main__':
