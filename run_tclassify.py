@@ -447,13 +447,17 @@ if __name__ == '__main__':
         if VERBOSE: rconfig.pp()
         # allow for the file_list to be just the filename in the config
         # directory of the corpus
+        if model is None:
+            exit("ERROR: no model given")
+        if not os.path.exists(model):
+            exit("ERROR: model does not exist: '%s'" % model)
         if not os.path.exists(file_list):
             file_list = os.path.join(corpus_path, 'config', file_list)
         # TODO: we now just hand in MaxEnt as the classifier type because that
         # is what we always use, but really the model info should store the
         # classifier type selected and the classifier should just use that
         classifier = Classifier(rconfig, file_list, model, 'MaxEnt', output,
-                   use_all_chunks_p=use_all_chunks)
+                                use_all_chunks_p=use_all_chunks)
         if corpus_path is not None:
             classifier.run_on_corpus()
         else:
