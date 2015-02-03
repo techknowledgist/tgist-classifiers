@@ -432,7 +432,7 @@ if __name__ == '__main__':
     # there is no language to hand in to the runtime config, but it will be
     # plucked from the general configuration if needed
     if not evaluate_p:
-        rconfig = RuntimeConfig(corpus_path, model, output, None, pipeline_config)
+        rconfig = RuntimeConfig(corpus_path, model, output, None, None, pipeline_config)
 
     if show_data_p and corpus_path:
         show_datasets(rconfig, config.DATA_TYPES, VERBOSE)
