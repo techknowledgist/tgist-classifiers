@@ -241,7 +241,7 @@ class Classifier(TrainerClassifier):
     def _create_info_files(self, t1):
         with open(self.info_file_general, 'w') as fh:
             fh.write("$ python %s\n\n" % ' '.join(sys.argv))
-            fh.write("output            =  %s\n" % os.path.abspath(self.output))
+            fh.write("output           =  %s\n" % os.path.abspath(self.output))
             fh.write("file_list        =  %s\n" % self.file_list)
             fh.write("model            =  %s\n" % self.model)
             fh.write("features         =  %s\n" % ' '.join(self.features))
