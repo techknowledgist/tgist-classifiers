@@ -233,8 +233,9 @@ class Classifier(TrainerClassifier):
     def _scores_s4_sort_scores(self):
         message1 = "sort on average scores"
         message2 = "sort on terms"
-        command1 = "cat %s | sort -k2,2 -nr -t\"\t\" > %s" % (self.scores_s3, self.scores_s4_nr)
-        command2 = "cat %s | sort > %s" % (self.scores_s3, self.scores_s4_az)
+        command1 = "cat %s | sort -T data/tmp -k2,2 -nr -t\"\t\" > %s" \
+                   % (self.scores_s3, self.scores_s4_nr)
+        command2 = "cat %s | sort -T data/tmp > %s" % (self.scores_s3, self.scores_s4_az)
         self.run_score_command(command1, message1)
         self.run_score_command(command2, message2)
 
