@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 # PGA NOTE: moved to classifier directory 12/3/14 where other mallet functions reside
 
 # TODO: add chinese invention types to functions:
@@ -358,7 +360,7 @@ def merge_scores(source_path, iclassify_path, label_file, lang="en"):
         l_invention_type = ["系统", "装置", "方法", "特点", "特征", "包括", "基于", "属于"]
     else:
         print "[merge_scores]unknown language: %s.  Exiting." % lang
-        break
+        return()
 
 
     # put invention types into a dictionary for easy testing
@@ -465,6 +467,13 @@ class chunkinfo:
         self.sentence = sentence
 
 # output two files containing raw and adjusted label pairs for system output compared to manual labels.
+# The adjusted label pairs make two adjustments:
+# 1. add a "t" label for invention terms that refer to generic invention words (ie. invention types, like
+# system or method"
+# 2. if a term appears multiple times in a single document, use the first label as the assigned label for 
+# all occurrences of the term.
+# The adjusted file only contains output for the first occurrence of a term.  Hence it will be smaller than
+# the raw file.
 # output is in the form:
 # gold label, system label, unique id for term, term, sentence
 # i m     US7241624B2.xml_1       biochips        Dendrimer-based DNA extraction methods...
@@ -480,9 +489,7 @@ def eval_iclassify(manual_path, manual_file, iclassify_path, iclassify_file, lan
         l_invention_type = ["系统", "装置", "方法", "特点", "特征", "包括", "基于", "属于"]
     else:
         print "[eval_iclassify]unknown language: %s.  Exiting." % lang
-        break
-
-
+        return()
 
     # put invention types into a dictionary for easy testing
     d_invention_type = {}
@@ -519,7 +526,7 @@ def eval_iclassify(manual_path, manual_file, iclassify_path, iclassify_file, lan
         # make sure line is not blank
         if line != "":
             (cat, key, year, chunk, sent) = line.split("\t")
-            key = key
+            #key = key
 
             if cat != "":
                 ci = chunkinfo(key, chunk, cat, sent)
@@ -546,7 +553,7 @@ def eval_iclassify(manual_path, manual_file, iclassify_path, iclassify_file, lan
     # The same phrase can occur multiple times with different labels.  We
     # will choose the first label (heuristic).
     # The label i(nvention) includes some invention type terms.  We will detect
-    # these and relable them as type.  We will also look at the last term in a 
+    # these and re-label them as type.  We will also look at the last term in a 
     # multiword i phrase to see if it contains a type term (in case one does not occur
     # independently.
     line_no = 1
@@ -573,6 +580,7 @@ def eval_iclassify(manual_path, manual_file, iclassify_path, iclassify_file, lan
         
         if doc != last_doc:
             # print out the data for the previous doc when we reach the first line of a new one
+            # initially last_doc is "".
             if last_doc != "":
                 output_raw_eval_summary(last_doc, l_iclassify_all, d_key2chunkinfo_manual, s_raw_eval)
                 output_adj_eval_summary(last_doc, l_iclassify_first, d_key2chunkinfo_manual,  s_adj_eval)
@@ -819,6 +827,8 @@ def test_encoding():
 # After running this function, to concatenate the contents of the list of phr_feats files, run from output dir 
 # (/home/j/anick/patent-classifier/ontology/roles/data/annotation/keyterms/):
 # { xargs zcat < files.ln-cn-all-600k.all.phr_feats.filelist ; } > ln-cn-all-600k.all.phr_feats.dat
+
+#This creates in out_path a list of the full paths for the source phr_feats files in the fuse corpus directory
 def get_cn_phr_feats_data():
     # list of 100 files to be used in annotation
     in_path = "/home/j/anick/patent-classifier/ontology/roles/data/annotation/keyterms/files.ln-cn-all-600k.all.tail.20"
@@ -911,9 +921,10 @@ cp ../cn75/itrain.model .
 #  cut -f1 iclassify.MaxEnt.label.adj_eval | sort | uniq -c | sort -nr
 """
 
-# invention.cmtf_cn75()
-def cmtf_cn75():
-    fa = "/home/j/anick/patent-classifier/ontology/roles/data/annotation/keyterms/cn75/cn.annotate.inventions.lab.txt.mcipo"
+# invention.cmtf_cn75(train_labels="mci"):
+# assume there is an annotation file whose extension is the set of labels to be used (e.g. mcipo or mci) for training 
+def cmtf_cn75(train_labels="mcipo"):
+    fa = "/home/j/anick/patent-classifier/ontology/roles/data/annotation/keyterms/cn75/cn.annotate.inventions.lab.txt." + train_labels
     ff = "/home/j/anick/patent-classifier/ontology/roles/data/annotation/keyterms/cn75/ln-cn-all-600k.all.phr_feats.dat"
     fo = "/home/j/anick/patent-classifier/ontology/roles/data/annotation/keyterms/cn75/itrain.mallet"
     features_file = "/home/j/anick/patent-classifier/ontology/classifier/features/invention.features"
@@ -925,9 +936,10 @@ def itrain_cn75():
     mallet_file = "/home/j/anick/patent-classifier/ontology/roles/data/annotation/keyterms/cn75/itrain.mallet"
     patent_invention_train(mallet_file, training_portion=0)
 
-# invention.cmcf_cn25()
-def cmcf_cn25():
-    fa = "/home/j/anick/patent-classifier/ontology/roles/data/annotation/keyterms/cn25/cn.annotate.inventions.lab.txt.mcipo"
+# invention.cmcf_cn25(test_labels="mcipo"):
+# assume there is an annotation file whose extension is the set of labels to be used (e.g. mcipo or mci) for testing 
+def cmcf_cn25(test_labels="mcipo"):
+    fa = "/home/j/anick/patent-classifier/ontology/roles/data/annotation/keyterms/cn25/cn.annotate.inventions.lab.txt." + test_labels
     ff = "/home/j/anick/patent-classifier/ontology/roles/data/annotation/keyterms/cn25/ln-cn-all-600k.all.phr_feats.dat"
     fo = "/home/j/anick/patent-classifier/ontology/roles/data/annotation/keyterms/cn25/iclassify.mallet"
     features_file = "/home/j/anick/patent-classifier/ontology/classifier/features/invention.features"
@@ -951,3 +963,126 @@ def eval_cn25():
     language = "cn"
     eval_iclassify(manual_path, manual_file, iclassify_path, iclassify_file, lang=language)
     
+"""
+On 1/9/15 PGA moved the cn75 and cn25 directories created before fixing the double last_word bug into
+/home/j/anick/patent-classifier/ontology/roles/data/annotation/keyterms/cn/cn_model_mcipo_20150106
+On 2/4/2015, did the same for cn/cn_model_mcipo_20150204, in order to use phr_feats data with a correction
+that removes parens from tokens.  Previously a bug in Stanford tagger labeled some parens as N, causing them
+to be included in terms.
+
+How many term instances were affected by parens:
+cat  ln-cn-all-600k.all.phr_feats.dat | cut -f3 | grep "[()]" | wc -l
+10089
+Moved the old .dat file (with the parens) into cn/cn_model_mcipo_20150204:
+mv ln-cn-all-600k.all.phr_feats.dat cn/cn_model_mcipo_20150204
+
+Note that in the file name, _mcipo_ indicates which labels were included
+
+Then created new subdirectories cn75 and cn25 in /home/j/anick/patent-classifier/ontology/roles/data/annotation/keyterms
+From that dir, ran 
+{ xargs zcat < files.ln-cn-all-600k.all.phr_feats.filelist ; } > ln-cn-all-600k.all.phr_feats.dat
+
+# Repeated the following steps using the new phr_feats data
+# put the subsets into subdirectories cn75 and cn25
+head -1736 cn.annotate.inventions.lab.txt.mcipo > cn75/cn.annotate.inventions.lab.txt.mcipo
+tail -675 cn.annotate.inventions.lab.txt.mcipo > cn25/cn.annotate.inventions.lab.txt.mcipo
+
+# Do the same for phr_feats data
+grep -n CN101060929A ln-cn-all-600k.all.phr_feats.dat | head -2
+head -89468 ln-cn-all-600k.all.phr_feats.dat > cn75/ln-cn-all-600k.all.phr_feats.dat
+tail -21070 ln-cn-all-600k.all.phr_feats.dat > cn25/ln-cn-all-600k.all.phr_feats.dat
+# in python, train a model using 75 docs
+cd /home/j/anick/patent-classifier/ontology/creation
+python2.7
+>>> import invention
+>>> invention.cmtf_cn75() 
+>>> invention.itrain_cn75()  
+# create an iclassify file for the 25 test docs
+invention.cmcf_cn25() 
+# note that there may be a message indicating a count mismatch between the 2 files.  As long as this 
+# is small, it can be ignored, since we discard a few annotations from .mcipo which don't fall into the 
+# set of labels used.
+
+# copy the model into the cn25 directory before running classification there
+cd /home/j/anick/patent-classifier/ontology/roles/data/annotation/keyterms/cn25
+# from cn25 directory:
+cp ../cn75/itrain.model .
+# run classifier in python to create iclassify.MaxEnt.out
+>>> invention.class_cn25()  
+
+# to create .label from .out                                                                                                             
+# run this in workspace directory (cn25)                                                                                                              
+# cat iclassify.MaxEnt.out | egrep -v '^name' | egrep '\|.*\|' | python /home/j/anick/patent-classifier/ontology/creation/invention_top_scores.py > iclassify.MaxEnt.label
+
+This gives us a .label file of the form:
+2007|CN101060929A.xml_0|改性_催化剂_载体        i       0.939536099456
+2007|CN101060929A.xml_2|磨耗性  m       0.536137197147
+...
+
+
+# Now do evaluation
+>>> invention.eval_cn25() 
+# To see the gold-system label pairs and their counts:
+#  cut -f1 iclassify.MaxEnt.label.adj_eval | sort | uniq -c | sort -nr
+
+# Next we run with training data that excludes labels o (other) and p (parse error)
+# move up to directory /home/j/anick/patent-classifier/ontology/roles/data/annotation/keyterms
+# NOTE!!!  The following line has a tab in the grep expression - this cannot be cut and pasted.  Type it in using
+# ctl-V <tab>
+# NOTE 2: The tab was unnecessary and was removed from the grep, so cut and paste will work now.
+cat cn.annotate.inventions.lab.txt.mcipo | egrep -v '^[po]' > cn.annotate.inventions.lab.txt.mci
+# verify it worked using wc.  This file should be smaller than the .mcipo file
+wc -l cn.annotate.inventions.lab.txt.mci2105 cn.annotate.inventions.lab.txt.mci
+
+head -1736 cn.annotate.inventions.lab.txt.mcipo | egrep -v '^[po]' > cn75/cn.annotate.inventions.lab.txt.mci
+tail -675 cn.annotate.inventions.lab.txt.mcipo | egrep -v '^[po]' > cn25/cn.annotate.inventions.lab.txt.mci      
+
+Note that both training and eval files will be smaller than in the mcipo case since certain labels were removed.
+
+cp cn.annotate.inventions.lab.txt.mci cn75
+cp cn.annotate.inventions.lab.txt.mcipo cn25
+[anick@sarpedon keyterms]$ head -89468 ln-cn-all-600k.all.phr_feats.dat > cn75/ln-cn-all-600k.all.phr_feats.dat   
+[anick@sarpedon keyterms]$ tail -21070 ln-cn-all-600k.all.phr_feats.dat > cn25/ln-cn-all-600k.all.phr_feats.dat 
+
+# in python, train a model using 75 docs
+# This will overwrite our previous files (generated for the mcipo model)
+>>> import invention
+>>> invention.cmtf_cn75(train_labels="mci")
+>>> invention.itrain_cn75()  
+///
+
+This creates a gold label file (itrain.mallet) with all labels (of type mcipo).  
+To create a version of the file with just mci labels, we
+will remove the p and o labeled lines with grep 
+[anick@sarpedon cn75]$ cp itrain.mallet itrain.mallet.mcipo
+[anick@sarpedon cn75]$ cat itrain.mallet.mcipo | egrep -v " [po] " > itrain.mallet
+
+Now train the model without the po labels using itrain.mallet
+>>> invention.itrain_cn75()                                                                                               
+# create an iclassify file for the 25 test docs.  Note we leave in the po labels for the test file even
+# though they were not included in training data since we need to include them in the evaluation.
+>>> invention.cmcf_cn25(test_labels="mcipo")
+# note that there may be a message indicating a count mismatch between the 2 files.  As long as this 
+# is small, it can be ignored, since we discard a few annotations from .mcipo which don't fall into the 
+# set of labels used.
+
+# copy the model into the cn25 directory before running classification there
+cd /home/j/anick/patent-classifier/ontology/roles/data/annotation/keyterms/cn25
+# from cn25 directory:
+cp ../cn75/itrain.model .
+# run classifier in python to create iclassify.MaxEnt.out
+>>> invention.class_cn25()  
+
+# to create .label from .out
+# run this in workspace directory (cn25)
+# cat iclassify.MaxEnt.out | egrep -v '^name' | egrep '\|.*\|' | python /home/j/anick/patent-classifier/ontology/creation/invention_top_scores.py > iclassify.MaxEnt.label
+
+# Now do evaluation
+>>> invention.eval_cn25() 
+# To see the gold/system label pairs and their counts:
+#  cut -f1 iclassify.MaxEnt.label.adj_eval | sort | uniq -c | sort -nr
+
+TODO: Check on whether the gold data needs adjustment (setting the label to the value of the first occurrence)
+Fix chunker to split on the tag for parenthesis.  20% of terms contain a paren!
+
+"""
