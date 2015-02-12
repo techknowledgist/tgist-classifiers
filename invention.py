@@ -33,7 +33,6 @@ import commands
 import os
 import sys
 import config
-#import mallet
 import mallet
 import codecs
 from collections import defaultdict
@@ -161,13 +160,14 @@ def create_mallet_training_file(annot_file, phr_feats_file, mallet_training_file
 #    This is a tab separated file with year, full path, year/filename.xml
 # iclassify_dir is where the mallet files will go.  The model must be in this dir.  Intermediate and output
 #    files will be placed here under standard naming conventions.
-def create_mallet_classify_file(root_dir, file_list_file, iclassify_dir, features=None, version="1"):
+def create_mallet_classify_file(root_dir, file_list_file, iclassify_dir,
+                                features=None, version="1", verbose=False):
 
     global chunkid2label_count
     global output_count
 
     num_lines_output = 0
-    mallet_classify_file = iclassify_dir + "iclassify.mallet"
+    mallet_classify_file = os.path.join(iclassify_dir, "iclassify.mallet")
 
     # open output file (this will be the mallet instance file to be classified)
     s_mallet_classify = codecs.open(mallet_classify_file, "w", encoding='utf-8')
@@ -183,8 +183,9 @@ def create_mallet_classify_file(root_dir, file_list_file, iclassify_dir, feature
         # get the date/filename portion of path
         l_line_fields = line.split("\t")
         rel_file = l_line_fields[2]
-        phr_feats_file = root_dir + "data/d3_phr_feats/01/files/" + rel_file
-        print "[invention]opening phr_feats: %s" % phr_feats_file
+        phr_feats_file = os.path.join(root_dir, 'data', 'd3_phr_feats', '01', 'files', rel_file)
+        if verbose:
+            print "[invention]opening phr_feats: %s" % phr_feats_file
         #s_phr_feats = codecs.open(phr_feats_file, encoding='utf-8')
         # handle compressed or uncompressed files
         s_phr_feats = open_input_file(phr_feats_file)
@@ -250,6 +251,7 @@ def patent_invention_train(mallet_file,
     # todo: add the following line
     ###write_training_statistics(stats_file, mtr)
 
+
 def patent_invention_classify(mallet_file, train_dir="", test_dir="",
                            features="invention", version="1",
                            verbose=False, stats_file=None):
@@ -258,22 +260,21 @@ def patent_invention_classify(mallet_file, train_dir="", test_dir="",
         train_dir = os.path.dirname(mallet_file)
     if test_dir == "":
         test_dir = os.path.dirname(mallet_file)
-
     mallet_config = mallet.MalletConfig(config.MALLET_DIR, "itrain", "iclassify",
-                                 version, train_dir, test_dir, classifier_type="MaxEnt")
-
-
+                                        version, train_dir, test_dir, classifier_type="MaxEnt")
     mallet_classifier = mallet.MalletClassifier(mallet_config)
     #mallet_classifier.write_mallet_vectors_file()
     mallet_classifier.mallet_classify()
-    print "[test_ts2]After applying classifier"
+    if verbose:
+        print "[patent_invention_classify]After applying classifier"
     #return(mallet_config)
+
 
 # Retrieve the title of a patent, which is on line 2 of the files in the txt directory.
 # here root_path is the directory for the txt file, up to the year subdirectory.
 # filename is year/file.xml
 def patent_title(root_path, filename):
-    file_path = root_path + filename
+    file_path = os.path.join(root_path, filename)
     # files may be compressed or not
     compressed_file = file_path + ".gz"
     qualifier = ""
@@ -283,7 +284,7 @@ def patent_title(root_path, filename):
     else:
         cat_version = "cat"
     cat_command = cat_version + " " + file_path + qualifier + " | head -2 | tail -1"
-    print "cat_command: %s" % cat_command
+    #print "cat_command: %s" % cat_command
     # note we have to decode the title byte-string into unicode so that it can be
     # appended to a unicode string later and the entire string will be encodable from utf-8.
     title = commands.getoutput(cat_command).decode('utf-8')
@@ -352,10 +353,12 @@ def output_adj_eval_summary(last_doc, l_iclassify_first, d_key2chunkinfo_manual,
 # creates iclassify.<classifier>.label.merged
 # and iclassify.<classifier>.label.cat
 # invention.merge_scores  
-                            
+
 def merge_scores(source_path, iclassify_path, label_file, lang="en"):
     if lang == "en":
-        l_invention_type = ['assembly', 'means', 'compositions', 'composition', 'method', 'methods', 'apparatus', 'system', 'use', 'process', 'device', 'technique']
+        l_invention_type = ['assembly', 'means', 'compositions', 'composition',
+                            'method', 'methods', 'apparatus', 'system', 'use',
+                            'process', 'device', 'technique']
     elif lang == "cn":
         l_invention_type = ["系统", "装置", "方法", "特点", "特征", "包括", "基于", "属于"]
     else:
@@ -371,10 +374,11 @@ def merge_scores(source_path, iclassify_path, label_file, lang="en"):
 
     # todo: This should be set to the proper location for invention data
     # once we decide where that should be.  Use the workspace dir for now.
-    iclassify_dir = iclassify_path + "data/workspace/"
-    label_path = iclassify_dir + label_file
-    output_path = iclassify_dir + label_file + ".merged"
-    cat_path = iclassify_dir + label_file + ".cat"
+    # MV: this first one used to have data/workspace appended
+    iclassify_dir = iclassify_path
+    label_path = os.path.join(iclassify_dir, label_file)
+    output_path = os.path.join(iclassify_dir, label_file + ".merged")
+    cat_path = os.path.join(iclassify_dir, label_file + ".cat")
 
     s_labels = codecs.open(label_path, encoding='utf-8')
     s_merged = codecs.open(output_path, "w", encoding='utf-8')
@@ -416,10 +420,11 @@ def merge_scores(source_path, iclassify_path, label_file, lang="en"):
             # print out the summary
             # Don't include the year if it has defaulted to 9999 (meaning no year subdirectory exists)
             if last_year == "9999":
-                txt_path = source_path + "data/d1_txt/01/files/"
+                txt_path = os.path.join(source_path, 'data', 'd1_txt', '01', 'files')
             else:
                 # include the year in the directory path for the txt files
-                txt_path = source_path + "data/d1_txt/01/files/" + last_year + "/"
+                txt_path = os.path.join(source_path,
+                                        'data', 'd1_txt', '01', 'files', last_year)
             title = patent_title(txt_path, last_doc)
             if last_doc != "":
                 output_doc_summary(last_doc, title, d_label2terms, s_merged)
@@ -440,11 +445,10 @@ def merge_scores(source_path, iclassify_path, label_file, lang="en"):
 
     # for end of file...
     if last_year == "9999":
-        txt_path = source_path + "data/d1_txt/01/files/"
+        txt_path = os.path.join(source_path, 'data', 'd1_txt', '01', 'files')
     else:
         # include the year in the directory path for the txt files
-        txt_path = source_path + "data/d1_txt/01/files/" + last_year + "/"
-
+        txt_path = os.path.join(source_path, 'data', 'd1_txt', '01', 'files', last_year)
 
     title = patent_title(txt_path, last_doc)
     output_doc_summary(last_doc, title, d_label2terms, s_merged)
@@ -453,6 +457,7 @@ def merge_scores(source_path, iclassify_path, label_file, lang="en"):
     s_labels.close()
     s_merged.close()
     s_cat.close()
+
 
 # read in data from manual and iclassify files, index by key (file + chunk-id)
 # generate raw comparison of categories for chunks.
