@@ -150,8 +150,8 @@ def run_iclassifier(corpus, filelist, model, classification,
     ensure_path(classification)
     create_info_files(corpus, model, filelist, classification)
     # create classification/iclassify.mallet from given files in the corpus
-    # NOTE: got rid of verbose argument
-    invention.create_mallet_classify_file(corpus, filelist, classification, "invention", "1")
+    invention.create_mallet_classify_file(corpus, filelist, classification,
+                                          "invention", "1", verbose=True)
     t2 = time.time()
     # create result files in the classification
     invention.patent_invention_classify(None, train_dir=model, test_dir=classification)
@@ -280,15 +280,13 @@ def generate_relations(classification, verbose=False):
 # with check_regexp_on_index()
 PATENT_ID_EXP = re.compile('^(US)?(\D*)(\d+)')
 
-
 def get_patent_id_from_filename(fname):
     fname = os.path.basename(fname)
     result = PATENT_ID_EXP.search(fname)
     if result is None:
         return None
     return result.group(2) + result.group(3)
-    
-    
+
 def check_regexp_on_index():
     """Check whether the regular expression is the one used for generating the
     index file. Print a line if the id in the file does not match the one

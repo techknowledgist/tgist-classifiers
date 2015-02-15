@@ -178,14 +178,16 @@ def create_mallet_classify_file(root_dir, file_list_file, iclassify_dir,
     # keep track of the number of annotations we throw away because they are beyond the first 30
     overflow = 0
 
+    filecount = 0
     for line in s_file_list:
+        filecount += 1
         line = line.strip("\n")
         # get the date/filename portion of path
         l_line_fields = line.split("\t")
         rel_file = l_line_fields[2]
         phr_feats_file = os.path.join(root_dir, 'data', 'd3_phr_feats', '01', 'files', rel_file)
         if verbose:
-            print "[invention]opening phr_feats: %s" % phr_feats_file
+            print "[invention] %05d %s" % (filecount, phr_feats_file)
         #s_phr_feats = codecs.open(phr_feats_file, encoding='utf-8')
         # handle compressed or uncompressed files
         s_phr_feats = open_input_file(phr_feats_file)
@@ -205,13 +207,10 @@ def create_mallet_classify_file(root_dir, file_list_file, iclassify_dir,
                     phrase = l_data[2]
                     l_feats = l_data[3:]
                     key = make_instance_key(chunkid, year, phrase)
-
                     # add dummy "n" as class label
                     instance_line = key + " n " + " ".join(l_feats) + "\n"
                     output_count += 1
                     s_mallet_classify.write(instance_line)
-
-
                     num_chunks += 1
                     num_lines_output += 1
 
