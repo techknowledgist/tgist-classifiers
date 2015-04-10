@@ -6,8 +6,6 @@ Usage:
 
    $ python run_tclassify.py --classify OPTIONS
    $ python run_tclassify.py --evaluate OPTIONS
-   $ python run_tclassify.py --show-data --corpus PATH
-   $ python run_tclassify.py --show-pipeline --corpus PATH
 
 For the first form, we have the following options:
 
@@ -43,14 +41,6 @@ gold standard. The first three options are required, the fourth is optional:
 
    --filter FILENAME - a file with terms to be ignored in the evaluation,
        typically the file with annotated terms for creating the training data
-
-There are two forms that are there purely to print information about the corpus:
-
-  --show-data        print available datasets, then exit
-  --show-pipelines   print defined pipelines, then exit
-
-Both these options require the --corpus option but nothing else, all other
-options handed in will be ignored.
 
 
 Examples.
@@ -120,6 +110,10 @@ from ontology.utils.git import get_git_commit
 
 
 VERBOSE = False
+
+# We now just hand in MaxEnt as the classifier type because that is what we
+# always use, but this should really be a command line option
+CLASSIFIER_TYPE = 'MaxEnt'
 
 
 class TrainerClassifier(object):
@@ -373,8 +367,8 @@ def term_filter_as_short_string(term_filter):
 
 
 def read_opts():
-    longopts = ['classify', 'evaluate', 'show-data', 'show-pipelines',
-                'corpus=', 'language=', 'pipeline=', 'filelist=',
+    longopts = ['classify', 'evaluate',
+                'corpus=', 'view=', 'language=', 'pipeline=', 'filelist=',
                 'mallet-dir=', 
                 'output=', 'features=', 'xval=', 'model=', 'eval-on-unseen-terms',
                 'verbose', 'eval-id=', 'gold-standard=', 'threshold=', 'filter=', 'logfile=']
@@ -389,10 +383,10 @@ if __name__ == '__main__':
 
     # default values of options
     corpus_path = None
+    view_path = None
     file_list = 'files.txt'
     pipeline_config = 'pipeline-default.txt'
     classify_p, evaluate_p = False, False
-    show_data_p, show_pipelines_p = False, False
     model, output, xval, = None, None, "0"
     use_all_chunks = True
     eval_id = None
@@ -406,14 +400,14 @@ if __name__ == '__main__':
 
         if opt == '--evaluate': evaluate_p = True
         elif opt == '--classify': classify_p = True
-        elif opt == '--show-data': show_data_p = True
-        elif opt == '--show-pipelines': show_pipelines_p = True
+
         elif opt == '--mallet-dir':
             if os.path.isdir(val):
                 config.MALLET_DIR = val
             else:
                 exit("WARNING: non-existing directory for --mallet-dir")
 
+        elif opt in ['-v', '--view']: view_path = val
         elif opt in ['-c', '--corpus']: corpus_path = val
         elif opt in ['-m', '--model']: model = val
         elif opt in ['-b', '--output']: output = val
@@ -427,7 +421,7 @@ if __name__ == '__main__':
         elif opt == '--threshold': threshold = float(val)
         elif opt == '--filter': filter_terms = val
 
-        elif opt in ['-v', '--verbose']: VERBOSE = True
+        elif opt == '--verbose': VERBOSE = True
         elif opt == '--eval-on-unseen-terms': use_all_chunks = False
 
     # there is no language to hand in to the runtime config, but it will be
@@ -435,29 +429,20 @@ if __name__ == '__main__':
     if not evaluate_p:
         rconfig = RuntimeConfig(corpus_path, model, output, None, None, pipeline_config)
 
-    if show_data_p and corpus_path:
-        show_datasets(rconfig, config.DATA_TYPES, VERBOSE)
-
-    elif show_pipelines_p and corpus_path:
-        show_pipelines(rconfig)
-
-    elif evaluate_p:
+    if evaluate_p:
         evaluate(output, gold_standard, filter_terms, eval_id)
 
-    elif classify_p:
+    elif classify_p and model and corpus_path:
         if VERBOSE: rconfig.pp()
-        # allow for the file_list to be just the filename in the config
-        # directory of the corpus
         if model is None:
             exit("ERROR: no model given")
         if not os.path.exists(model):
             exit("ERROR: model does not exist: '%s'" % model)
         if not os.path.exists(file_list):
+            # allow for the file_list to be just the filename in the config
+            # directory of the corpus
             file_list = os.path.join(corpus_path, 'config', file_list)
-        # TODO: we now just hand in MaxEnt as the classifier type because that
-        # is what we always use, but really the model info should store the
-        # classifier type selected and the classifier should just use that
-        classifier = Classifier(rconfig, file_list, model, 'MaxEnt', output,
+        classifier = Classifier(rconfig, file_list, model, CLASSIFIER_TYPE, output,
                                 use_all_chunks_p=use_all_chunks)
         if corpus_path is not None:
             classifier.run_on_corpus()
@@ -465,9 +450,7 @@ if __name__ == '__main__':
             classifier.run_on_files()
 
     else:
-        print "\nWARNING: cannot run classifier\n"
+        print "\nWARNING: nothing to do\n"
         print "Usage:"
         print "   $ python run_tclassify.py --classify OPTIONS"
         print "   $ python run_tclassify.py --evaluate OPTIONS"
-        print "   $ python run_tclassify.py --show-data --corpus PATH"
-        print "   $ python run_tclassify.py --show-pipeline --corpus PATH"
