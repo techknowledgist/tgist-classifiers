@@ -15,17 +15,10 @@
 
 import os
 import sys
-import mallet
-import config
 import codecs
 
-script_path = os.path.abspath(sys.argv[0])
-script_dir = os.path.dirname(script_path)
-os.chdir(script_dir)
-os.chdir('../..')
-sys.path.insert(0, os.getcwd())
-os.chdir(script_dir)
-
+import mallet
+import config
 from lib.utils.batch import generate_doc_feats
 from lib.utils.path import get_year_and_docid, open_input_file
 

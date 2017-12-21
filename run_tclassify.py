@@ -99,8 +99,6 @@ import evaluation
 import train
 import mallet
 
-sys.path.append(os.path.abspath('../..'))
-
 from utils.find_mallet_field_value_column import find_column
 from utils.sum_scores import sum_scores
 from lib.utils.batch import RuntimeConfig, show_datasets, show_pipelines

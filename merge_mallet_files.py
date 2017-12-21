@@ -56,8 +56,6 @@ Examples:
 
 import os, sys, glob, time
 
-sys.path.append(os.path.abspath('../..'))
-
 from lib.utils.path import ensure_path
 from lib.utils.git import get_git_commit
 

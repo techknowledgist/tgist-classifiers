@@ -29,7 +29,6 @@ Example:
 
 import os, sys, getopt, time, codecs
 
-sys.path.append(os.path.abspath('../..'))
 from lib.utils.git import get_git_commit
 
 

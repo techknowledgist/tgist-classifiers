@@ -69,10 +69,7 @@ Wishlist:
 
 import os, sys, shutil, getopt, codecs, time
 
-sys.path.append(os.path.abspath('../..'))
-
 import mallet
-
 from lib.utils.batch import RuntimeConfig
 from lib.utils.batch import find_input_dataset, check_file_availability
 from lib.utils.path import filename_generator, ensure_path

@@ -48,9 +48,6 @@ Wishlist:
 import os, sys, getopt, time, random, codecs
 
 from mallet import MalletTraining
-
-sys.path.append(os.path.abspath('../..'))
-
 from lib.utils.git import get_git_commit
 
 

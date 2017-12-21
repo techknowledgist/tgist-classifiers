@@ -2,7 +2,6 @@
 
 Merges summed classifier outputs.
 
-
 Usage:
 
    $ python merge_classifier_results.py OUTPUT_DIRECTORY CLASSIFIER_RESULT+
@@ -17,10 +16,8 @@ CLASSIFIER_RESULT is a summed classifier result, typically a file with the base
 name classify.MaxEnt.out.s3.scores.sum, but it can also be an expression with
 unix wild cards.
 
-This script contains code based on classifier/utils/merge.py as well as on
-classifier/utils/split_terms_on_frequency.py. Unlike the first it does not do
-any term filtering.
-
+This script contains code based on utils/split_terms_on_frequency.py and
+utils/merge.py. Unlike the latter it does not do any term filtering.
 
 Example:
 
@@ -33,7 +30,6 @@ $ python merge_classifier_results.py data/merged_terms /home/j/corpuswork/fuse/F
 
 
 import os, sys, glob, codecs, gzip
-sys.path.append(os.path.abspath('../..'))
 from lib.utils.path import ensure_path
 from lib.utils.git import get_git_commit
 
