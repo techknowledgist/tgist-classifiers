@@ -84,8 +84,8 @@ import mallet
 import invention
 
 # this works because the mallet import has already amended the path
-from ontology.utils.file import get_year_and_docid, open_input_file, ensure_path
-from ontology.utils.git import get_git_commit
+from lib.utils.path import get_year_and_docid, open_input_file, ensure_path
+from lib.utils.git import get_git_commit
 
 
 # Ignore SIG_PIPE and don't throw exceptions on it... (http://docs.python.org/library/signal.html)

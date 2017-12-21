@@ -101,12 +101,12 @@ import mallet
 
 sys.path.append(os.path.abspath('../..'))
 
-from ontology.classifier.utils.find_mallet_field_value_column import find_column
-from ontology.classifier.utils.sum_scores import sum_scores
-from ontology.utils.batch import RuntimeConfig, show_datasets, show_pipelines
-from ontology.utils.batch import find_input_dataset, check_file_availability, Profiler
-from ontology.utils.file import filename_generator, ensure_path, open_output_file, compress
-from ontology.utils.git import get_git_commit
+from utils.find_mallet_field_value_column import find_column
+from utils.sum_scores import sum_scores
+from lib.utils.batch import RuntimeConfig, show_datasets, show_pipelines
+from lib.utils.batch import find_input_dataset, check_file_availability, Profiler
+from lib.utils.path import filename_generator, ensure_path, open_output_file, compress
+from lib.utils.git import get_git_commit
 
 
 VERBOSE = False

@@ -36,7 +36,7 @@ import config
 import mallet
 import codecs
 from collections import defaultdict
-from ontology.utils.file import get_year_and_docid, open_input_file
+from lib.utils.path import get_year_and_docid, open_input_file
 
 from signal import signal, SIGPIPE, SIG_DFL 
 

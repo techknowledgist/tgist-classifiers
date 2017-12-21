@@ -58,8 +58,8 @@ import os, sys, glob, time
 
 sys.path.append(os.path.abspath('../..'))
 
-from ontology.utils.file import ensure_path
-from ontology.utils.git import get_git_commit
+from lib.utils.path import ensure_path
+from lib.utils.git import get_git_commit
 
 
 def merge_mallet_files(target_dir, mallet_files):

@@ -51,7 +51,7 @@ from mallet import MalletTraining
 
 sys.path.append(os.path.abspath('../..'))
 
-from ontology.utils.git import get_git_commit
+from lib.utils.git import get_git_commit
 
 
 VERBOSE = False

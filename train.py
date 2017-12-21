@@ -26,8 +26,8 @@ os.chdir('../..')
 sys.path.insert(0, os.getcwd())
 os.chdir(script_dir)
 
-from ontology.utils.batch import generate_doc_feats
-from ontology.utils.file import get_year_and_docid, open_input_file
+from lib.utils.batch import generate_doc_feats
+from lib.utils.path import get_year_and_docid, open_input_file
 
 
 def unique_list(non_unique_list):

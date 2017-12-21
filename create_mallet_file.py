@@ -73,10 +73,10 @@ sys.path.append(os.path.abspath('../..'))
 
 import mallet
 
-from ontology.utils.batch import RuntimeConfig
-from ontology.utils.batch import find_input_dataset, check_file_availability
-from ontology.utils.file import filename_generator, ensure_path
-from ontology.utils.git import get_git_commit
+from lib.utils.batch import RuntimeConfig
+from lib.utils.batch import find_input_dataset, check_file_availability
+from lib.utils.path import filename_generator, ensure_path
+from lib.utils.git import get_git_commit
 
 
 VERBOSE = False

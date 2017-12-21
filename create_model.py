@@ -52,8 +52,8 @@ from mallet import SimpleMalletTrainer, run_command
 
 sys.path.append(os.path.abspath('../..'))
 
-from ontology.utils.git import get_git_commit
-from ontology.utils.file import ensure_path
+from lib.utils.git import get_git_commit
+from lib.utils.path import ensure_path
 
 VERBOSE = False
 

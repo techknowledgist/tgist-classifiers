@@ -35,12 +35,12 @@ script_dir = os.path.dirname(script_path)
 current_dir = os.getcwd()
 os.chdir(script_dir)
 os.chdir('../..')
-sys.path.insert(0, os.getcwd())
+#sys.path.insert(0, os.getcwd())
 os.chdir(current_dir)
 
-from ontology.utils.batch import generate_doc_feats
-from ontology.utils.file import compress, uncompress, get_year_and_docid
-from ontology.utils.file import open_input_file
+from lib.utils.batch import generate_doc_feats
+from lib.utils.path import compress, uncompress, get_year_and_docid
+from lib.utils.path import open_input_file
 
 
 
