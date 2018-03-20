@@ -1,0 +1,10 @@
+$ python main.py -f data/lists/sample-us.txt -c data/sample-us
+
+timestamp    =  03/20/18 12:50:17
+language     =  en
+datasource   =  ln
+source_file  =  data/lists/sample-us.txt
+source_path  =  None
+target_path  =  data/sample-us
+shuffle      =  None
+git_commit   =  0deefb0

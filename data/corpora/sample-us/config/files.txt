@@ -1,0 +1,4 @@
+1980	data/patents/sources/sample-us/1980/US4192770A.xml	1980/US4192770A.xml
+1980	data/patents/sources/sample-us/1980/US4236596A.xml	1980/US4236596A.xml
+1981	data/patents/sources/sample-us/1981/US4246708A.xml	1981/US4246708A.xml
+1981	data/patents/sources/sample-us/1981/US4254395A.xml	1981/US4254395A.xml

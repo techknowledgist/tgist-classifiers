@@ -1,0 +1,255 @@
+<html>
+
+<head>
+<title>Techknowledgist - Technology Classifier</title>
+<link rel="stylesheet" href="main.css" type="text/css" />
+</head>
+
+<body>
+
+<h1>Techknowledgist - Technology Classifier</h1>
+
+<p class="abstract">The technology classifier takes feature files created by the
+document processing code and generates technology scores for all terms in those
+documents. It runs off a corpus or a list of files, generates a technology score
+for each term in each document, and then summarizes the score over the corpus or
+list of files.</p>
+
+<p>
+[ <a href="#installation">installation</a>
+| <a href="#input">input description</a> 
+| <a href="#howto">classifying terms</a> 
+| <a href="#output">output description</a> ]
+</p>
+
+
+<a name="installation"></a>
+<h2>Installation</h2>
+
+<p>Requirements for running the code:</p>
+
+<ol>
+<li>Python 2.7
+<li>Java 1.8 (Java 1.6 or 1.7 will probably also work)
+<li>Git (needed only if you want to get the code via a git clone)
+</ol>
+
+<p>The code has been tested on Linux RHEL 6 and recent Mac OS 10 systems. The
+code has not been tested on Windows, but there are no major reasons that would
+prevent this code from running on it.</p>
+
+
+<p>Installation is a matter of getting the code, installing the MALLET tools,
+downloading the classifier models, and setting up your configuration.</p>
+
+
+<ol>
+
+<li>Getting and installing the code.
+
+<p>If you downloaded the code as an archive then all you need to do is unpack it
+  somewhere in a directory without spaces in its path. If you do not have the
+  full archive, you obtain the code by cloning
+  the <a href="https://github.com/techknowledgist/tgist-classifiers"
+  target="_blank">git repository</a>:
+
+<pre class="example">
+$ git clone https://github.com/techknowledgist/tgist-classifiers
+</pre>
+
+<p>After getting the clone, you need to initialize and update the submodules
+used by the repository:</p>
+
+<pre class="example">
+$ cd tgist-classifiers
+$ git submodule init
+$ git submodule update 
+</pre>
+
+<!-- NOTE: this does not seem to be needed for the technology classifier. -->
+
+<li>Installing MALLET. The code uses version 2.0.7 of the Mallet
+toolkit<sup>1</sup>, available at <a href="http://mallet.cs.umass.edu/"
+target="_blank">http://mallet.cs.umass.edu/</a>. Other versions will most likely
+work as well, but were not tested. You can get the version we use at
+
+<blockquote>
+<a href="http://www.cs.brandeis.edu/~marc/fuse/downloads/tools/"
+target="_blank">http://www.cs.brandeis.edu/~marc/fuse/downloads/tools/</a>
+</blockquote>
+
+<li>Classifier models. There are small classifer models (for technology
+classification and key term extraction) bundled in with the code, which is
+sufficient when you just try to see if the code runs, but eventually you will
+want to get a better model. Technology classifier models are available at:
+
+<blockquote>
+<a href="http://www.cs.brandeis.edu/~marc/fuse/downloads/models/"
+target="_blank">http://www.cs.brandeis.edu/~marc/fuse/downloads/models/</a>
+</blockquote>
+
+<p>NOTE: need to add models</p>
+
+<p>There is currently only one model available. You can create as many models as
+  you want by following directions in the <a href="../../00-readme.txt">readme
+  file</a> in the classifier directory.</p>
+
+</li>
+
+<li>Configuration. Copy the configuration file <code>config-sample.py</code>
+into <code>config.py</code> and edit as needed. The only thing needed in the
+configuration file is the location of Mallet. Note that this step is not
+strictly necessary since the location of Mallet can be handed in to the main
+script with an command line option (see below).</li>
+    
+</ol>
+
+
+
+<a name="input"></a>
+<h2>Input requirements</h2>
+
+<p>The input to the classifier is taken from the feature files that are the
+endpoint of processing by the Technowledgist feature extraction code
+at <a href="https://github.com/techknowledgist/tgist-features">https://github.com/techknowledgist/tgist-features</a>. Input
+can be given as a complete corpus as created by the feature extraction code or
+as a list of files. In the former case the code picks out the right files from
+the corpus. The input files have lines in the following format:</p>
+
+<pre class="example">
+term_id year term feature+
+</pre>
+
+<p>All fields, including the features, are tab-separated. The
+<code>term_id</code> is the name of an input file followed by an underscore and
+a number. Each feature is made up of a name and a value, for
+example <code>next2_tags=IN_NN</code>. An example corpus is included in this
+repository at <a href="../../data/corpora/sample-us">data/corpora/sample-us</a>
+and a few lines from one of the feature files in there are
+in <a href="features.txt">features.txt</a>.
+
+
+<a name="howto"></a>
+<h2>Running the classifier</h2>
+
+<p>The top-level script for running the technology classifier is</p>
+
+<pre class="example">
+run_tclassify.py
+</pre>
+
+<p>The classifier needs to be run from the directory it is in and as mentioned
+before it can take either a corpus or a list of files as input.</p>
+
+
+<h3>Running on a corpus</h3>
+
+<p>To run the classifier on a corpus, you can do something like the following.</p>
+
+<pre class="example">
+$ python run_tclassify.py 
+    --classify 
+    --corpus data/corpora/sample-us
+    --model data/models/technologies-010-20140911/train.model 
+    --output data/sample-us 
+</pre>
+
+<p>Note that this should be a one-line command, it is spread out over several
+lines here for clarity. Change the <code>--corpus</code> option depending on
+where your corpus lives. The corpus used in this example is the sample corpus
+included in the distribution. Use
+the <code><span class="nowrap">--output</span></code> option to specify what
+directory classification results are written to.  The <code>--model</code>
+option here uses the model that is shipped with the code. This model is
+sufficient when you just try to see if the code runs, but eventually you will
+want to get a better model. Example out put that should be similar to what's
+created by the command above is
+in <a href="../../data/classifications/sample-us">data/classifications/sample-us</a>.</p>
+
+<p>The command above assumes that Mallet is installed at the location specified
+in <code>config.py</code>, you can override this location with
+the <code>--mallet-dir</code> option:</p>
+
+<pre class="example">
+$ python run_tclassify.py 
+    --classify 
+    --corpus data/corpora/sample-us
+    --model data/models/technologies-010-20140911/train.model 
+    --output data/sample-us
+    --mallet-dir /tools/mallet/mallet-2.0.7/bin  
+</pre>
+
+<p>Use the <code>--verbose</code> option to print verbose messages, which
+includes writing all files read by the classifier.</p>
+
+<p>It takes about 2-3 minutes to classify 1000 patents on a regular
+desktop. Processing time scales linearly.</p>
+
+
+<h3>Running on a list of files</h3>
+
+<p>You do not need an actual corpus to run the classifier. Instead you can provide
+a file that contains a list of input files that need to be classified.</p>
+
+<pre class="example">
+$ python run_tclassify.py
+    --classify
+    --filelist lists/list-sample-us
+    --model data/models/technologies-010-20140911/train.model
+    --output data/classifications/list-sample-us.txt
+</pre>
+
+<p>This command uses an example file list
+in <a href="../../ontology/classifier/lists/list-sample-us.txt"
+target="_blank">list-sample-us.txt</a>, which refers to the feature files in
+the <code>sample-us</code> example corpus. One thing to note about this list is
+that the file paths do not include the .gz extenson. The code itself figures out
+whether the file is compressed or not. Again, change <code>--output</code>
+and <code>--filelist</code> as needed and add <code>--mallet-dir</code> if
+Mallet is not installed on a default location.</p>
+
+
+<a name="output"></a>
+<h2>Output description</h2>
+
+<p>The classification results for the files in the corpus or file list are
+concatenated and put in the output directory, which has the following
+content:</p>
+
+<pre class="example">
+classify.MaxEnt.out.gz
+classify.MaxEnt.out.s1.all_scores.gz
+classify.MaxEnt.out.s2.y_scores
+classify.MaxEnt.out.s3.scores.sum
+classify.MaxEnt.out.s4.scores.sum.az
+classify.MaxEnt.out.s4.scores.sum.nr
+classify.MaxEnt.stderr
+classify.info.filelist.txt
+classify.info.general.txt
+classify.mallet.gz
+</pre>
+
+<p>The last file is the file with the input to the classifier. The first file
+contains the raw results of the classifier and the second just the yes scores
+from the raw results. The results have scores not for each term occurrence but
+for each term in a document.  The file that one is most likely to use
+is <code>classify.MaxEnt.out.s3.scores.sum</code>, which has lines as
+follows:</p>
+
+<pre class="example">
+senses flag	0.439934	1	0.439934	0.439934
+text message	0.342870	2	0.225453	0.460288
+</pre>
+
+<p>The columns contain: the term, the technology score over the entire corpus or
+list of files, the number of documents in the corpus or file list that the term
+occurs in, the lowest score, and the highest score.</p>
+
+
+<hr/>
+
+<sup>1</sup> Andrew Kachites McCallum. "MALLET: A Machine Learning for Language
+Toolkit." http://mallet.cs.umass.edu. 2002.
+
+</body>
+</html>

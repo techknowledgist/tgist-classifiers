@@ -76,7 +76,7 @@ standard was manually created over the same files as the one in the output. When
 evaluated.
 
 You can also run the classifier on a list of files. Note that these files have
-to be feature files, which in a corpus would reside in the data/d3_phr_feats
+to be feature files, which in a corpus would reside in the data/d3_feats
 directory.
 
    $ python run_tclassify.py \
@@ -121,7 +121,7 @@ class TrainerClassifier(object):
     
     def _find_datasets(self):
         """Select data sets and check whether all files are available."""
-        self.input_dataset = find_input_dataset(self.rconfig, 'd3_phr_feats')
+        self.input_dataset = find_input_dataset(self.rconfig, 'd3_feats')
         check_file_availability(self.input_dataset, self.file_list)
 
     def _find_filelist(self, file_list):
