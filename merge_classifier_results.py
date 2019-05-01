@@ -30,8 +30,8 @@ $ python merge_classifier_results.py data/merged_terms /home/j/corpuswork/fuse/F
 
 
 import os, sys, glob, codecs, gzip
-from lib.utils.path import ensure_path
-from lib.utils.git import get_git_commit
+from utils.path import ensure_path
+from utils.git import get_git_commit
 
 
 def open_input_file(fname):

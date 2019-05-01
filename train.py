@@ -19,8 +19,8 @@ import codecs
 
 import mallet
 import config
-from lib.utils.batch import generate_doc_feats
-from lib.utils.path import get_year_and_docid, open_input_file
+from utils.batch import generate_doc_feats
+from utils.path import get_year_and_docid, open_input_file
 
 
 def unique_list(non_unique_list):

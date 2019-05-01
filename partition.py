@@ -29,7 +29,7 @@ Example:
 
 import os, sys, getopt, time, codecs
 
-from lib.utils.git import get_git_commit
+from utils.git import get_git_commit
 
 
 VERBOSE = False

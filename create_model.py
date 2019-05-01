@@ -49,8 +49,8 @@ import os, sys, getopt, time
 
 import config
 from mallet import SimpleMalletTrainer, run_command
-from lib.utils.git import get_git_commit
-from lib.utils.path import ensure_path
+from utils.git import get_git_commit
+from utils.path import ensure_path
 
 VERBOSE = False
 

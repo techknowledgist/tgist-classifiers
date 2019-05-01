@@ -56,8 +56,8 @@ Examples:
 
 import os, sys, glob, time
 
-from lib.utils.path import ensure_path
-from lib.utils.git import get_git_commit
+from utils.path import ensure_path
+from utils.git import get_git_commit
 
 
 def merge_mallet_files(target_dir, mallet_files):

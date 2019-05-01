@@ -31,12 +31,11 @@
 
 import commands
 import os
-import sys
 import config
 import mallet
 import codecs
 from collections import defaultdict
-from lib.utils.path import get_year_and_docid, open_input_file
+from utils.path import get_year_and_docid, open_input_file
 
 from signal import signal, SIGPIPE, SIG_DFL 
 

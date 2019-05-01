@@ -101,10 +101,10 @@ import mallet
 
 from utils.find_mallet_field_value_column import find_column
 from utils.sum_scores import sum_scores
-from lib.utils.batch import RuntimeConfig, show_datasets, show_pipelines
-from lib.utils.batch import find_input_dataset, check_file_availability, Profiler
-from lib.utils.path import filename_generator, ensure_path, open_output_file, compress
-from lib.utils.git import get_git_commit
+from utils.batch import RuntimeConfig
+from utils.batch import find_input_dataset, check_file_availability
+from utils.path import filename_generator, ensure_path, open_output_file, compress
+from utils.git import get_git_commit
 
 
 VERBOSE = False
@@ -147,10 +147,10 @@ class Classifier(TrainerClassifier):
         self.info_file_config = os.path.join(self.output, "classify.info.config.txt")
         self.info_file_filelist = os.path.join(self.output, "classify.info.filelist.txt")
 
-        self.results_file = os.path.join(self.output, "classify.%s.out" % (self.classifier))
-        self.stderr_file = os.path.join(self.output, "classify.%s.stderr" % (self.classifier))
+        self.results_file = os.path.join(self.output, "classify.%s.out" % self.classifier)
+        self.stderr_file = os.path.join(self.output, "classify.%s.stderr" % self.classifier)
 
-        base = os.path.join(self.output, "classify.%s.out" % (self.classifier))
+        base = os.path.join(self.output, "classify.%s.out" % self.classifier)
         self.classifier_output = base
         self.scores_s1 = base + ".s1.all_scores"
         self.scores_s2 = base + ".s2.y_scores"
@@ -183,7 +183,6 @@ class Classifier(TrainerClassifier):
         if os.path.exists(self.info_file_general):
             sys.exit("WARNING: already have classifier results in %s" % self.output)
 
-    
     def _calculate_scores(self):
         """Use the clasifier output files to generate a sorted list of technology terms
         with their probabilities. This is an alternative way of using the commands in
@@ -255,9 +254,9 @@ class Classifier(TrainerClassifier):
         fh = open_output_file(self.mallet_file, compress=False)
         self._set_features()
         if VERBOSE:
-            print "[create_mallet_file] features: %s" % (self.features)
-        features = dict([(f,True) for f in self.features])
-        stats = { 'labeled_count': 0, 'unlabeled_count': 0, 'total_count': 0 }
+            print "[create_mallet_file] features: %s" % self.features
+        features = dict([(f, True) for f in self.features])
+        stats = {'labeled_count': 0, 'unlabeled_count': 0, 'total_count': 0}
         count = 0
         for fname in fnames:
             count += 1
@@ -294,7 +293,7 @@ class Classifier(TrainerClassifier):
             model_dir = os.path.dirname(self.model)
             info_file = os.path.join(model_dir, 'info', 'train.info.general.txt')
         features = parse_info_file(info_file)
-        if features.has_key('features'):
+        if 'features' in features:
             feature_set = frozenset(features['features'].split())
             self.features = sorted(list(feature_set))
         else:
@@ -321,6 +320,7 @@ def parse_info_file(fname):
         print "[parse_info_file] WARNING: no such file '%s'" % fname
     return features
 
+
 def get_features():
     """Returns the list of features in the all.features file."""
     # TODO: this is a copy of a method in create_mallet_file (except that the
@@ -337,7 +337,7 @@ def evaluate(output, gold_standard, tfilter, id):
     to the system results."""
     print "Evaluating system results in %s" % output
     system_file = os.path.join(output, 'classify.MaxEnt.out.s4.scores.sum.nr')
-    command =  "python %s" % ' '.join(sys.argv)
+    command = "python %s" % ' '.join(sys.argv)
     for term_type in ('all', 'single-token-terms', 'multi-token-terms'):
         ttstring = term_type_as_short_string(term_type)
         tfstring = term_filter_as_short_string(tfilter)
@@ -345,7 +345,7 @@ def evaluate(output, gold_standard, tfilter, id):
         summary_fh = codecs.open(summary_file, 'w', encoding='utf-8')
         for threshold in (0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9):
             if threshold == 0.5:
-                log_file = os.path.join(output, "eval-%s-%s-%s-%.1f.txt" \
+                log_file = os.path.join(output, "eval-%s-%s-%s-%.1f.txt"
                                         % (id, ttstring, tfstring, threshold))
             else:
                 log_file = None
@@ -356,9 +356,12 @@ def evaluate(output, gold_standard, tfilter, id):
 
 
 def term_type_as_short_string(term_type):
-    if term_type == 'all': return 'all'
-    if term_type == 'single-token-terms': return 'stt'
-    if term_type == 'multi-token-terms': return 'mtt'
+    abbrevs = {'all': 'all', 'single-token-terms': 'stt', 'multi-token-terms': 'mtt'}
+    return abbrevs.get(term_type)
+    # if term_type == 'all': return 'all'
+    # if term_type == 'single-token-terms': return 'stt'
+    # if term_type == 'multi-token-terms': return 'mtt'
+
 
 def term_filter_as_short_string(term_filter):
     return 'ntf' if term_filter is None else 'ytf'
@@ -374,7 +377,6 @@ def read_opts():
         return getopt.getopt(sys.argv[1:], 'c:m:b:f:v', longopts)
     except getopt.GetoptError as e:
         sys.exit("ERROR: " + str(e))
-
 
 
 if __name__ == '__main__':

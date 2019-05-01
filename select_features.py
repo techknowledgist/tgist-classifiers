@@ -36,7 +36,7 @@ Example:
         --features standard
 
 
-Wishlist:
+Wish list:
 
 1- Add a way to keep all features, this is now only possible by specifying each
    feature generated for the phr_feats files.
@@ -48,7 +48,7 @@ Wishlist:
 import os, sys, getopt, time, random, codecs
 
 from mallet import MalletTraining
-from lib.utils.git import get_git_commit
+from utils.git import get_git_commit
 
 
 VERBOSE = False

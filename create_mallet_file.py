@@ -70,10 +70,10 @@ Wishlist:
 import os, sys, shutil, getopt, codecs, time
 
 import mallet
-from lib.utils.batch import RuntimeConfig
-from lib.utils.batch import find_input_dataset, check_file_availability
-from lib.utils.path import filename_generator, ensure_path
-from lib.utils.git import get_git_commit
+from utils.batch import RuntimeConfig
+from utils.batch import find_input_dataset, check_file_availability
+from utils.path import filename_generator, ensure_path
+from utils.git import get_git_commit
 
 
 VERBOSE = False

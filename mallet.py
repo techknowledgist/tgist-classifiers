@@ -27,9 +27,9 @@ from collections import defaultdict
 import config
 import inspect
 
-from lib.utils.batch import generate_doc_feats
-from lib.utils.path import compress, uncompress, get_year_and_docid
-from lib.utils.path import open_input_file
+from utils.batch import generate_doc_feats
+from utils.path import compress, get_year_and_docid
+from utils.path import open_input_file
 
 
 def parse_doc_feats_line(line):
