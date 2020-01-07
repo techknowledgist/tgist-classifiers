@@ -39,7 +39,7 @@ code has not been tested on Windows, but there are no major reasons that would
 prevent this code from running on it.</p>
 
 
-<p>Installation is a matter of getting the code, installing the MALLET tools,
+<p>Installation is a matter of getting the code, installing the MALLET tool,
 downloading the classifier models, and setting up your configuration.</p>
 
 
@@ -57,17 +57,6 @@ downloading the classifier models, and setting up your configuration.</p>
 $ git clone https://github.com/techknowledgist/tgist-classifiers
 </pre>
 
-<p>After getting the clone, you need to initialize and update the submodules
-used by the repository:</p>
-
-<pre class="example">
-$ cd tgist-classifiers
-$ git submodule init
-$ git submodule update 
-</pre>
-
-<!-- NOTE: this does not seem to be needed for the technology classifier. -->
-
 <li>Installing MALLET. The code uses version 2.0.7 of the Mallet
 toolkit<sup>1</sup>, available at <a href="http://mallet.cs.umass.edu/"
 target="_blank">http://mallet.cs.umass.edu/</a>. Other versions will most likely
@@ -77,6 +66,13 @@ work as well, but were not tested. You can get the version we use at
 <a href="http://www.cs.brandeis.edu/~marc/fuse/downloads/tools/"
 target="_blank">http://www.cs.brandeis.edu/~marc/fuse/downloads/tools/</a>
 </blockquote>
+
+<!--
+
+TODO: some little changes were made to the Mallet download, figure this out and
+document it.
+
+-->
 
 <li>Classifier models. There are small classifer models (for technology
 classification and key term extraction) bundled in with the code, which is
@@ -88,7 +84,7 @@ want to get a better model. Technology classifier models are available at:
 target="_blank">http://www.cs.brandeis.edu/~marc/fuse/downloads/models/</a>
 </blockquote>
 
-<p>NOTE: need to add models</p>
+<p>NOTE: need to add models to that download site</p>
 
 <p>There is currently only one model available. You can create as many models as
   you want by following directions in the <a href="../../00-readme.txt">readme

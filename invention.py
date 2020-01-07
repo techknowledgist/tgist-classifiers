@@ -76,7 +76,8 @@ def populate_feature_dictionary(features):
     except IOError as e:
         print "[MalletTraining] No features file found: %s" % filter_filename
 
-    return(d_filter_feat)
+    return d_filter_feat
+
 
 def remove_filtered_feats(feats, d_filter_feat):
     """Given a list of features, return a line with all non-filtered features removed
@@ -87,13 +88,13 @@ def remove_filtered_feats(feats, d_filter_feat):
     return [f for f in feats if d_filter_feat.has_key(f.split("=")[0])]
 
 
-
 # NOTE: since we use | as a separator, we cannot allow a phrase to contain a "|"
 # We replace it with "!".  Of course it would be better to have checked for this case
 # earlier in the process and dealt with it there.
 def make_instance_key(chunkid, year, phrase):
-    key = year + "|" + chunkid + "|" +  phrase.replace(" ", "_").replace("|", "!")
-    return(key)
+    key = year + "|" + chunkid + "|" + phrase.replace(" ", "_").replace("|", "!")
+    return key
+
 
 # Note that it is a good idea after creating the training file to check the feature counts to
 # make sure that there are no misspellings among them.  e.g. list a sorted count:
@@ -117,18 +118,18 @@ def create_mallet_training_file(annot_file, phr_feats_file, mallet_training_file
     if features is not None:
         d_filter_feat = populate_feature_dictionary(features)
 
-    #print "chunkid2label_count: %i" % chunkid2label_count
+    # print "chunkid2label_count: %i" % chunkid2label_count
 
     # Create a dictionary storing each non-empty label by chunkid
     for line in s_annot:
-        #print "[invention] label line is: %s" % line
+        # print "[invention] label line is: %s" % line
         line = line.strip("\n")
         (label, chunkid, year, phrase, sentence) = line.split("\t")
         if label != "":
             d_chunkid2label[chunkid] = label
             chunkid2label_count += 1
 
-    #print "[invention]Found %i labels." % (chunkid2label_count)
+    # print "[invention]Found %i labels." % (chunkid2label_count)
 
     # Now output a mallet training features instance for each labeled feature instance in phr_feats file
     for line in s_feats:
@@ -142,7 +143,7 @@ def create_mallet_training_file(annot_file, phr_feats_file, mallet_training_file
 
         key = make_instance_key(chunkid, year, phrase)
         if d_chunkid2label.has_key(chunkid):
-            #print "[invention]chunkid: %s, label: %s" % (chunkid, d_chunkid2label[chunkid])
+            # print "[invention]chunkid: %s, label: %s" % (chunkid, d_chunkid2label[chunkid])
             instance_line = key + " " + d_chunkid2label[chunkid] + " " + " ".join(l_feats) + "\n"
             output_count += 1
             s_mallet_training.write(instance_line)
@@ -153,6 +154,7 @@ def create_mallet_training_file(annot_file, phr_feats_file, mallet_training_file
     s_annot.close()
     s_feats.close()
     s_mallet_training.close()
+
 
 # root_dir specifies where the pipeline processed files are located (ie. the d3_phr_feats dir)
 # file_list_file provides a list of the files (in the root_dir/) that we want to classify.
@@ -184,10 +186,10 @@ def create_mallet_classify_file(root_dir, file_list_file, iclassify_dir,
         # get the date/filename portion of path
         l_line_fields = line.split("\t")
         rel_file = l_line_fields[2]
-        phr_feats_file = os.path.join(root_dir, 'data', 'd3_phr_feats', '01', 'files', rel_file)
+        phr_feats_file = os.path.join(root_dir, 'data', 'd3_feats', '01', 'files', rel_file)
         if verbose:
             print "[invention] %05d %s" % (filecount, phr_feats_file)
-        #s_phr_feats = codecs.open(phr_feats_file, encoding='utf-8')
+        # s_phr_feats = codecs.open(phr_feats_file, encoding='utf-8')
         # handle compressed or uncompressed files
         s_phr_feats = open_input_file(phr_feats_file)
         # keep first 30 chunks, if they are from title/abstract
@@ -237,7 +239,7 @@ def patent_invention_train(mallet_file,
     creating the model.
     """
 
-    #d_phr2label = load_phrase_labels3(annotation_file, annotation_count)
+    # d_phr2label = load_phrase_labels3(annotation_file, annotation_count)
     train_output_dir = os.path.dirname(mallet_file)
     mconfig = mallet.MalletConfig(
         config.MALLET_DIR, 'itrain', 'iclassify', version, train_output_dir, '/tmp',
@@ -247,7 +249,7 @@ def patent_invention_train(mallet_file,
     mtr.write_train_mallet_vectors_file()
     mtr.mallet_train_classifier()
     # todo: add the following line
-    ###write_training_statistics(stats_file, mtr)
+    # write_training_statistics(stats_file, mtr)
 
 
 def patent_invention_classify(mallet_file, train_dir="", test_dir="",
@@ -261,7 +263,7 @@ def patent_invention_classify(mallet_file, train_dir="", test_dir="",
     mallet_config = mallet.MalletConfig(config.MALLET_DIR, "itrain", "iclassify",
                                         version, train_dir, test_dir, classifier_type="MaxEnt")
     mallet_classifier = mallet.MalletClassifier(mallet_config)
-    #mallet_classifier.write_mallet_vectors_file()
+    # mallet_classifier.write_mallet_vectors_file()
     mallet_classifier.mallet_classify()
     if verbose:
         print "[patent_invention_classify]After applying classifier"
@@ -282,48 +284,53 @@ def patent_title(root_path, filename):
     else:
         cat_version = "cat"
     cat_command = cat_version + " " + file_path + qualifier + " | head -2 | tail -1"
-    #print "cat_command: %s" % cat_command
+    # print "cat_command: %s" % cat_command
     # note we have to decode the title byte-string into unicode so that it can be
     # appended to a unicode string later and the entire string will be encodable from utf-8.
     title = commands.getoutput(cat_command).decode('utf-8')
-    #print "title: %s" % title
-    return(title)
+    # print "title: %s" % title
+    return title
+
 
 # take a list and create a string separated by "," with "_" replaced by blank.
 def list_to_csv_string(l_items):
-    return( ", ".join(l_items).replace("_", " "))
+    return ", ".join(l_items).replace("_", " ")
+
 
 # Output a human readable summary of title and keyterms for a patent to an open stream
 def output_doc_summary(doc, title, d_label2terms, s_merged):
-    s_merged.write(  "title: [%s]%s\n" % (doc, title))
-    s_merged.write(  "invention type: %s\n" % list_to_csv_string(d_label2terms["t"]))
-    s_merged.write( "invention descriptors: %s\n" % list_to_csv_string(d_label2terms["i"]))
-    s_merged.write( "contextual terms: %s\n" % list_to_csv_string(d_label2terms["m"]))
-    s_merged.write( "components/attributes: %s\n" % list_to_csv_string(d_label2terms["c"]))
-    #s_merged.write( "related: %s\n" % list_to_csv_string(d_label2terms["r"]))
-    s_merged.write(  "\n" )
+    s_merged.write("title: [%s]%s\n" % (doc, title))
+    s_merged.write("invention type: %s\n" % list_to_csv_string(d_label2terms["t"]))
+    s_merged.write("invention descriptors: %s\n" % list_to_csv_string(d_label2terms["i"]))
+    s_merged.write("contextual terms: %s\n" % list_to_csv_string(d_label2terms["m"]))
+    s_merged.write("components/attributes: %s\n" % list_to_csv_string(d_label2terms["c"]))
+    # s_merged.write( "related: %s\n" % list_to_csv_string(d_label2terms["r"]))
+    s_merged.write("\n")
+
 
 def output_cat_summary(doc, d_label2terms, s_cat):
     for cat in ["t", "i", "m", "c", "r"]:
         if d_label2terms.has_key(cat):
             for phr in d_label2terms[cat]:
-                #print "cat: %s" % cat
-                #print "phr: %s" % ( phr)
+                # print "cat: %s" % cat
+                # print "phr: %s" % ( phr)
                 s_cat.write("%s\t%s\n" % (phr, cat))
+
 
 def output_raw_eval_summary(last_doc, l_iclassify_all, d_key2chunkinfo_manual, s_raw_eval):
     for ci_iclassify in l_iclassify_all:
         # There may be docs in the system data output that are not included in the manual evaluation set,
         # so check that the chunk id exists before trying to include it in the output
         if d_key2chunkinfo_manual.has_key(ci_iclassify.key):
-            #print "output_raw: key found: %s: " % ci_iclassify.key
+            # print "output_raw: key found: %s: " % ci_iclassify.key
             ci_manual = d_key2chunkinfo_manual[ci_iclassify.key]
-
             # adjust the manual category for i(nvention) if the adjusted cat is "t(ype)"
             if ci_iclassify.cat == "t":
                 ci_manual.cat = "t"
+            s_raw_eval.write("%s %s\t%s\t%s\t%s\n" %
+                             (ci_manual.cat, ci_iclassify.cat, ci_manual.key,
+                              ci_manual.chunk, ci_manual.sentence))
 
-            s_raw_eval.write("%s %s\t%s\t%s\t%s\n" % (ci_manual.cat, ci_iclassify.cat, ci_manual.key, ci_manual.chunk , ci_manual.sentence))
 
 # outputs the summary info but only for the first occurrence of a term in each doc
 def output_adj_eval_summary(last_doc, l_iclassify_first, d_key2chunkinfo_manual,  s_adj_eval):
@@ -337,8 +344,9 @@ def output_adj_eval_summary(last_doc, l_iclassify_first, d_key2chunkinfo_manual,
             # adjust the manual category for i(nvention) if the adjusted cat is "t(ype)"
             if ci_iclassify.cat == "t":
                 ci_manual.cat = "t"
-            s_adj_eval.write("%s %s\t%s\t%s\t%s\n" % (ci_manual.cat, ci_iclassify.cat, ci_manual.key, ci_manual.chunk , ci_manual.sentence))
-
+            s_adj_eval.write("%s %s\t%s\t%s\t%s\n" %
+                             (ci_manual.cat, ci_iclassify.cat, ci_manual.key,
+                              ci_manual.chunk , ci_manual.sentence))
 
 
 # Merge keyword info for each doc (in label_file) so that each keyword has only
@@ -362,7 +370,6 @@ def merge_scores(source_path, iclassify_path, label_file, lang="en"):
     else:
         print "[merge_scores]unknown language: %s.  Exiting." % lang
         return()
-
 
     # put invention types into a dictionary for easy testing
     d_invention_type = {}
@@ -404,16 +411,16 @@ def merge_scores(source_path, iclassify_path, label_file, lang="en"):
     # independently.
     line_no = 1
     for line in s_labels:
-        #print "starting line: %i " % line_no
+        # print "starting line: %i " % line_no
         line_no += 1
 
-        #line = line.decode('utf-8').strip("\n")
+        # line = line.decode('utf-8').strip("\n")
         line = line.strip("\n")
         # get out all the pieces
         (key, label, score) = line.split("\t")
         (year, chunkid, term) = key.split("|")
         (doc, chunk_no) = chunkid.split("_")
-        ###print "doc: %s, last_doc: %s, chunk_no: %s" % (doc, last_doc, chunk_no)
+        # print "doc: %s, last_doc: %s, chunk_no: %s" % (doc, last_doc, chunk_no)
         if doc != last_doc:
             # print out the summary
             # Don't include the year if it has defaulted to 9999 (meaning no year subdirectory exists)
@@ -461,7 +468,7 @@ def merge_scores(source_path, iclassify_path, label_file, lang="en"):
 # generate raw comparison of categories for chunks.
 # Then extract invention type terms and post-process the other iclassify chunks by keeping only the first
 # label for each chunk in the file.  Compare these to the manual annotations using the key index.
-                            
+
 class chunkinfo:
     def __init__(self, key, chunk, cat, sentence):
         self.key = key
@@ -485,9 +492,11 @@ class chunkinfo:
 # input for the iclassify_file (system output) is .label, of the form:
 # 9999|US7241624B2.xml_17|tips    m       0.713193784696 
 
+
 def eval_iclassify(manual_path, manual_file, iclassify_path, iclassify_file, lang="en"):
     if lang == "en":
-        l_invention_type = ['assembly', 'means', 'compositions', 'composition', 'method', 'methods', 'apparatus', 'system', 'use', 'process', 'device', 'technique']
+        l_invention_type = ['assembly', 'means', 'compositions', 'composition', 'method',
+                            'methods', 'apparatus', 'system', 'use', 'process', 'device', 'technique']
     elif lang == "cn":
         l_invention_type = ["系统", "装置", "方法", "特点", "特征", "包括", "基于", "属于"]
     else:
@@ -529,23 +538,20 @@ def eval_iclassify(manual_path, manual_file, iclassify_path, iclassify_file, lan
         # make sure line is not blank
         if line != "":
             (cat, key, year, chunk, sent) = line.split("\t")
-            #key = key
-
             if cat != "":
                 ci = chunkinfo(key, chunk, cat, sent)
-                #print "in s_manual: adding key: %s" % key
+                # print "in s_manual: adding key: %s" % key
                 d_key2chunkinfo_manual[key] = ci
                 manual_count += 1
 
     print "%i keys in d_key2chunkinfo_manual:" % manual_count
-    #for key in d_key2chunkinfo_manual.keys():
+    # for key in d_key2chunkinfo_manual.keys():
     #    print key
-
 
     # Now process the system classifications (iclassify)
     # for each doc, track which phrases have been seen
     d_seen = {}
-    #d_key2chunkinfo_iclassify = {}
+    # d_key2chunkinfo_iclassify = {}
     # list of chunkinfo in order for a single doc
     l_iclassify_all = [] 
     l_iclassify_first = [] 
@@ -561,17 +567,17 @@ def eval_iclassify(manual_path, manual_file, iclassify_path, iclassify_file, lan
     # independently.
     line_no = 1
     for line in s_iclassify:
-        #print "starting line: %i " % line_no
+        # print "starting line: %i " % line_no
         line_no += 1
 
-        #line = line.decode('utf-8').strip("\n")
+        # line = line.decode('utf-8').strip("\n")
         line = line.strip("\n")
         # get out all the pieces
-        #print "line in s_iclassify: %s" % line
+        # print "line in s_iclassify: %s" % line
         (key, label, score) = line.split("\t")
         (year, chunkid, term) = key.split("|")
         (doc, chunk_no) = chunkid.split("_")
-        ###print "doc: %s, last_doc: %s, chunk_no: %s" % (doc, last_doc, chunk_no)
+        # print "doc: %s, last_doc: %s, chunk_no: %s" % (doc, last_doc, chunk_no)
         # when we finish all lines in a document, output info for that doc
 
         # switch label from i to t if the invention term is a generic type
@@ -614,6 +620,7 @@ def eval_iclassify(manual_path, manual_file, iclassify_path, iclassify_file, lan
     s_raw_eval.close()
     s_adj_eval.close()
 
+
 def cmtf():
     fa = "/home/j/anick/patent-classifier/ontology/annotation/en/invention/key.ta.20130510.lab"
     ff = "/home/j/anick/patent-classifier/ontology/annotation/en/invention/keyfeats.ta.20130509.dat"
@@ -623,15 +630,12 @@ def cmtf():
     print ("Output: %s" % fo)
 
 
-
 # for cs_2002_subset
-
 def cmtf_cs():
     # new labeled file .lab
     fa = "/home/j/anick/patent-classifier/ontology/annotation/en/invention/cs_2002/key.ta.20130720.lab"
 
-
-    #ff = "/home/j/anick/patent-classifier/ontology/annotation/en/invention/cs_2002/keyfeats.ta.20130812.dat"
+    # ff = "/home/j/anick/patent-classifier/ontology/annotation/en/invention/cs_2002/keyfeats.ta.20130812.dat"
     # modified features and reran the phr_feats step
     # use the new .dat file with updated features (prev_V2)
     ff = "/home/j/anick/patent-classifier/ontology/annotation/en/invention/cs_2002/keyfeats.ta.20130813.dat"
@@ -641,6 +645,7 @@ def cmtf_cs():
     features_file = "invention"
     create_mallet_training_file(fa, ff, fo, features_file)
     print ("Output: %s" % fo)
+
 
 # test functions on sample data
 def cmcf():
@@ -665,7 +670,7 @@ def cmcf():
 # Copy the mallet training files to the new target directory:
 # cp itrain.* /home/j/anick/patent-classifier/ontology/creation/data/patents/speech_subset/data/workspace
 
-# 
+
 def cmcf_speech():
     root_dir = "/home/j/marc/Desktop/fuse/code/patent-classifier/ontology/creation/data/patents/201306-speech-recognition/"
 
@@ -675,6 +680,7 @@ def cmcf_speech():
 
     iclassify_dir = "/home/j/anick/patent-classifier/ontology/creation/data/patents/speech_subset/data/workspace/"
     create_mallet_classify_file(root_dir, file_list_file, iclassify_dir, "invention", "1")
+
 
 # TBD
 def cmcf_chinese():
@@ -698,6 +704,7 @@ def cmcf_cs():
     iclassify_dir = "/home/j/anick/patent-classifier/ontology/creation/data/patents/cs_2002_subset/data/workspace/"
     create_mallet_classify_file(root_dir, file_list_file, iclassify_dir, "invention", "1")
 
+
 # parallel corpus
 def cmcf_par():
     root_dir = "/home/j/anick/patent-classifier/ontology/creation/data/patents/parallel/us/"
@@ -709,8 +716,10 @@ def cmcf_par():
     iclassify_dir = "/home/j/anick/patent-classifier/ontology/creation/data/patents/parallel/us/data/workspace/"
     create_mallet_classify_file(root_dir, file_list_file, iclassify_dir, "invention", "1")
 
+
 def itrain():
     patent_invention_train("/home/j/anick/patent-classifier/ontology/creation/data/patents/ts500/data/workspace/itrain.mallet")
+
 
 def itrain_cs():
     patent_invention_train("/home/j/anick/patent-classifier/ontology/creation/data/patents/cs_2002_subset/data/workspace/itrain.mallet")
@@ -722,20 +731,25 @@ def itrain_cs():
 def iclassify_cs():
     patent_invention_classify("/home/j/anick/patent-classifier/ontology/creation/data/patents/cs_2002_subset/data/workspace/iclassify.mallet")
 
+
 def iclassify_par():
     patent_invention_classify("/home/j/anick/patent-classifier/ontology/creation/data/patents/parallel/us/data/workspace/iclassify.mallet")
+
 
 def iclassify():
     patent_invention_classify("/home/j/anick/patent-classifier/ontology/creation/data/patents/ts500/data/workspace/iclassify.mallet")
 
+
 def iclassify_speech():
     patent_invention_classify("/home/j/anick/patent-classifier/ontology/creation/data/patents/speech_subset/data/workspace/iclassify.mallet")
+
 
 # obsolete
 def ms():
     root_path = "/home/j/anick/patent-classifier/ontology/creation/data/patents/ts500/"
     label_file = "iclassify.MaxEnt.label"
     merge_scores(root_path, label_file)
+
 
 # Before running this, you need to create the .label file from .out.  See the command line below.
 # import invention
@@ -748,6 +762,7 @@ def ms_speech():
     label_file = "iclassify.MaxEnt.label"
     merge_scores(source_path, iclassify_path, label_file)
 
+
 # invention.ms_cs()
 def ms_cs():
     # path to corpus where the txt files reside (for getting titles)
@@ -757,6 +772,7 @@ def ms_cs():
     iclassify_path = "/home/j/anick/patent-classifier/ontology/creation/data/patents/cs_2002_subset/"
     label_file = "iclassify.MaxEnt.label"
     merge_scores(source_path, iclassify_path, label_file)
+
 
 # invention.ms_par()
 def ms_par():
@@ -783,6 +799,7 @@ def eval_cs():
     manual_file = "key.ta.20130723.lab"
     iclassify_file = "iclassify.MaxEnt.label"
     eval_iclassify(manual_path, manual_file, iclassify_path, iclassify_file)
+
 
 # evaluate the parallel corpus output (4 docs)
 def eval_para():
@@ -813,7 +830,7 @@ def test_encoding():
     d_test = {}
 
     for line in s_in:
-        #line = line.decode('utf-8').strip("\n")
+        # line = line.decode('utf-8').strip("\n")
         line = line.strip("\n")
         l_line = line.split("\t")
         oline = " ".join(l_line) + "the end"
@@ -831,7 +848,8 @@ def test_encoding():
 # (/home/j/anick/patent-classifier/ontology/roles/data/annotation/keyterms/):
 # { xargs zcat < files.ln-cn-all-600k.all.phr_feats.filelist ; } > ln-cn-all-600k.all.phr_feats.dat
 
-#This creates in out_path a list of the full paths for the source phr_feats files in the fuse corpus directory
+
+# This creates in out_path a list of the full paths for the source phr_feats files in the fuse corpus directory
 def get_cn_phr_feats_data():
     # list of 100 files to be used in annotation
     in_path = "/home/j/anick/patent-classifier/ontology/roles/data/annotation/keyterms/files.ln-cn-all-600k.all.tail.20"
@@ -842,7 +860,6 @@ def get_cn_phr_feats_data():
     file_path_prefix = "/home/j/corpuswork/fuse/FUSEData/corpora/ln-cn-all-600k/subcorpora/"
     file_path_infix = "/data/d3_phr_feats/01/files/"
 
-    
     s_in = codecs.open(in_path, encoding='utf-8')
     s_out = codecs.open(out_path, "w", encoding='utf-8')
 
@@ -858,10 +875,10 @@ def get_cn_phr_feats_data():
     s_in.close()
     s_out.close()
 
-# create a mallet training file by merging annotation file and phr_feats data 
+
+# create a mallet training file by merging annotation file and phr_feats data
 # cmtf = create mallet training file
 # .mcipo is the subset of the annotated data labeled mcipo, leaving out any ambiguous labels.
-
 def cmtf_chinese():
     fa = "/home/j/anick/patent-classifier/ontology/roles/data/annotation/keyterms/cn/cn.annotate.inventions.lab.txt.mcipo"
     ff = "/home/j/anick/patent-classifier/ontology/roles/data/annotation/keyterms/cn/ln-cn-all-600k.all.phr_feats.dat"
@@ -870,10 +887,12 @@ def cmtf_chinese():
     create_mallet_training_file(fa, ff, fo, features_file)
     print ("Output: %s" % fo)
 
+
 # invention.itrain_chinese()
 def itrain_chinese():
     mallet_file = "/home/j/anick/patent-classifier/ontology/roles/data/annotation/keyterms/cn/itrain.mallet"
     patent_invention_train(mallet_file, training_portion=.75)
+
 
 """
 # To do Chinese evaluation
@@ -924,6 +943,7 @@ cp ../cn75/itrain.model .
 #  cut -f1 iclassify.MaxEnt.label.adj_eval | sort | uniq -c | sort -nr
 """
 
+
 # invention.cmtf_cn75(train_labels="mci"):
 # assume there is an annotation file whose extension is the set of labels to be used (e.g. mcipo or mci) for training 
 def cmtf_cn75(train_labels="mcipo"):
@@ -934,10 +954,12 @@ def cmtf_cn75(train_labels="mcipo"):
     create_mallet_training_file(fa, ff, fo, features_file)
     print ("Output: %s" % fo)
 
+
 # invention.itrain_cn75()
 def itrain_cn75():
     mallet_file = "/home/j/anick/patent-classifier/ontology/roles/data/annotation/keyterms/cn75/itrain.mallet"
     patent_invention_train(mallet_file, training_portion=0)
+
 
 # invention.cmcf_cn25(test_labels="mcipo"):
 # assume there is an annotation file whose extension is the set of labels to be used (e.g. mcipo or mci) for testing 
@@ -954,8 +976,9 @@ def cmcf_cn25(test_labels="mcipo"):
 def class_cn25():
     mallet_file = "/home/j/anick/patent-classifier/ontology/roles/data/annotation/keyterms/cn25/iclassify.mallet"
     patent_invention_classify(mallet_file, train_dir="", test_dir="",
-                           features="invention", version="1",
-                           verbose=False, stats_file=None)
+                              features="invention", version="1",
+                              verbose=False, stats_file=None)
+
 
 # invention.eval_cn25()
 def eval_cn25():
@@ -965,7 +988,8 @@ def eval_cn25():
     iclassify_file = "iclassify.MaxEnt.label"
     language = "cn"
     eval_iclassify(manual_path, manual_file, iclassify_path, iclassify_file, lang=language)
-    
+
+
 """
 On 1/9/15 PGA moved the cn75 and cn25 directories created before fixing the double last_word bug into
 /home/j/anick/patent-classifier/ontology/roles/data/annotation/keyterms/cn/cn_model_mcipo_20150106

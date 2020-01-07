@@ -81,6 +81,8 @@ from signal import signal, SIGPIPE, SIG_DFL
 import config
 import mallet
 import invention
+from invention import create_mallet_training_file
+
 
 # this works because the mallet import has already amended the path
 from utils.path import get_year_and_docid, open_input_file, ensure_path
@@ -89,7 +91,7 @@ from utils.git import get_git_commit
 
 # Ignore SIG_PIPE and don't throw exceptions on it... (http://docs.python.org/library/signal.html)
 # Without this, we get some "broken pipe" messages in the output.
-signal(SIGPIPE,SIG_DFL) 
+signal(SIGPIPE, SIG_DFL)
 
 
 # Given a mallet training file, create a model
@@ -107,7 +109,7 @@ def patent_invention_train(mallet_file,
     rest: creating the .vectors file from the mallet file, and creating the
     model."""
 
-    #d_phr2label = load_phrase_labels3(annotation_file, annotation_count)
+    # d_phr2label = load_phrase_labels3(annotation_file, annotation_count)
     train_output_dir = os.path.dirname(mallet_file)
     mconfig = mallet.MalletConfig(
         config.MALLET_DIR, 'itrain', 'iclassify', version, train_output_dir, '/tmp',
@@ -115,13 +117,11 @@ def patent_invention_train(mallet_file,
         prune_p=False, infogain_pruning="5000", count_pruning="3")
     mtr = mallet.MalletTraining(mconfig, features)
     # we can't use make_utraining_file3 since we do not base our annotations on doc_feats.
-    #mtr.make_utraining_file3(fnames, d_phr2label, features=features)
+    # mtr.make_utraining_file3(fnames, d_phr2label, features=features)
     mtr.write_train_mallet_vectors_file()
     mtr.mallet_train_classifier()
     # todo: add the following line
-    ###write_training_statistics(stats_file, mtr)
-
-
+    # write_training_statistics(stats_file, mtr)
 
 
 def read_opts():
@@ -129,7 +129,7 @@ def read_opts():
     longopts = ['corpus=', 'language=', 'train', 'classify', 'evaluate',
                 'pipeline=', 'filelist=', 'annotation-file=',
                 'batch=', 'features=', 'xval=', 'model=', 'eval-on-unseen-terms',
-                'verbose' ]
+                'verbose']
     try:
         return getopt.getopt(sys.argv[1:], '', longopts)
     except getopt.GetoptError as e:
@@ -178,9 +178,10 @@ def create_info_files(corpus, model, filelist, classification):
         fh.write("git_commit      =  %s\n" % get_git_commit())
     shutil.copyfile(filelist, os.path.join(classification, 'iclassify.info.files'))
 
+
 def create_processing_time_file(classification, t1, t2, t3, t4):
     now = time.time()
-    with open(os.path.join(classification, 'iclassify.info.processing_time'),'w') as fh:
+    with open(os.path.join(classification, 'iclassify.info.processing_time'), 'w') as fh:
         fh.write("Processing time in seconds:\n\n")
         fh.write("   total                      %6d\n\n" % (now - t1))
         fh.write("   creating mallet file       %6d\n" % (t2 - t1))
@@ -192,7 +193,7 @@ def process_label_file(corpus, classification, label_file, verbose):
     """Takes the file with the labels and generates various derived data."""
     if verbose:
         print "[process_label_file] processing the label file"
-    invention.merge_scores(corpus, classification, label_file) # has lang=en keyword
+    invention.merge_scores(corpus, classification, label_file)  # has lang=en keyword
     generate_tab_format(classification, verbose)
     generate_relations(classification, verbose)
 
@@ -202,10 +203,10 @@ def generate_tab_format(classification, verbose=False):
     merged file. It has the same information as the merged file except that it
     does not print the title of the patent."""
 
-    fields =  [('invention type', 't'),
-               ('invention descriptors', 'i'),
-               ('contextual terms', 'ct'),
-               ('components/attributes', 'ca')]
+    fields = [('invention type', 't'),
+              ('invention descriptors', 'i'),
+              ('contextual terms', 'ct'),
+              ('components/attributes', 'ca')]
 
     infile = os.path.join(classification, 'iclassify.MaxEnt.label.merged')
     outfile = os.path.join(classification, 'iclassify.MaxEnt.label.merged.tab')
@@ -216,8 +217,9 @@ def generate_tab_format(classification, verbose=False):
     c = 0
     for line in fh_in:
         c += 1
-        if c % 10000 == 0: print c
-        #if c > 10000: break
+        if c % 10000 == 0:
+            print c
+        # if c > 10000: break
         if line.startswith('title: ['):
             idx = line.find(']')
             filename = line[8:idx]
@@ -228,10 +230,9 @@ def generate_tab_format(classification, verbose=False):
             for field, abbrev in fields:
                 if line.startswith(field):
                     vals = line[len(field)+1:].strip()
-                    #print '>>>', patent_id, abbrev, vals
                     if patent_id is not None and vals:
                         for val in vals.split(', '):
-                            fh_out.write("%s\t%s\t%s\t%s\n" \
+                            fh_out.write("%s\t%s\t%s\t%s\n"
                                          % (patent_id, filename, abbrev, val))
 
 
@@ -247,8 +248,10 @@ def generate_relations(classification, verbose=False):
         ca_terms = sorted(terms['ca'])
         ct_terms = sorted(terms['ct'])
         for i in i_terms:
-            for ca in ca_terms: fh.write("%s\t%s\t%s\n" % ('i-ca', i, ca))
-            for ct in ct_terms: fh.write("%s\t%s\t%s\n" % ('i-ct', i, ct))
+            for ca in ca_terms:
+                fh.write("%s\t%s\t%s\n" % ('i-ca', i, ca))
+            for ct in ct_terms:
+                fh.write("%s\t%s\t%s\n" % ('i-ct', i, ct))
         for ca1 in ca_terms:
             for ca2 in ca_terms:
                 if ca1 < ca2:
@@ -261,15 +264,14 @@ def generate_relations(classification, verbose=False):
 
     rels = ['i', 'ca', 'ct']
     current_patent_id = None
-    current_terms = { 'i':[], 'ct':[], 'ca':[] }
+    current_terms = {'i': [], 'ct': [], 'ca': []}
 
     for line in fh_in:
         patent_id, fname, rel, term = line.rstrip("\n\r").split("\t")
-        #print (patent_id, fname, rel, term)
         if patent_id != current_patent_id:
             print_rels(current_terms, fh_out)
             current_patent_id = patent_id
-            current_terms = { 'i':[], 'ct':[], 'ca':[] }
+            current_terms = {'i': [], 'ct': [], 'ca': []}
         if rel in rels:
             current_terms[rel].append(term)
     print_rels(current_terms, fh_out)
@@ -279,12 +281,14 @@ def generate_relations(classification, verbose=False):
 # with check_regexp_on_index()
 PATENT_ID_EXP = re.compile('^(US)?(\D*)(\d+)')
 
+
 def get_patent_id_from_filename(fname):
     fname = os.path.basename(fname)
     result = PATENT_ID_EXP.search(fname)
     if result is None:
         return None
     return result.group(2) + result.group(3)
+
 
 def check_regexp_on_index():
     """Check whether the regular expression is the one used for generating the
@@ -329,6 +333,7 @@ def _itrainer_create_info_file(corpus, model, filelist, features, annotation):
     shutil.copyfile(annotation, os.path.join(model, 'itrain.info.annotations'))
     shutil.copyfile(filelist, os.path.join(model, 'itrain.info.files'))
 
+
 def _itrainer_create_dat_file(phr_feats_file, corpus, filelist):
     """Create the keyfeats.ta.dat file, which is a concatenation of all the
     files in filelist, but using only the first 100 terms in each file (because
@@ -340,29 +345,21 @@ def _itrainer_create_dat_file(phr_feats_file, corpus, filelist):
         (year, full_path, short_path) = line.split()
         # TODO: this is a hack, change this to use the filename generator and
         # the default_config and such
-        fname = os.path.join(corpus, 'data/d3_phr_feats/01/files', short_path) # + '.gz')
+        fname = os.path.join(corpus, 'data/d3_feats/01/files', short_path)  # + '.gz')
         fh = open_input_file(fname)
         for line in fh:
             term_no = int(line.split()[0].split('_')[1])
             # no need to get too far into the file
-            if term_no > 100: break
+            if term_no > 100:
+                break
             phr_feats_fh.write(line)
     phr_feats_fh.close()
+
 
 def _itrainer_create_mallet_file(annot_file, phr_feats_file, mallet_file):
     print "[_itrainer_create_mallet_file] creating", mallet_file
     print "[_itrainer_create_mallet_file] using annotations in", os.path.basename(annot_file)
     create_mallet_training_file(annot_file, phr_feats_file, mallet_file)
-
-def _itrainer_create_mallet_file_old(annot_file):
-    # this is how Peter used to create a mallet file from a dat file, which was
-    # created from phr_feats files
-    annotation_dir = "/home/j/anick/patent-classifier/ontology/annotation"
-    phr_feats_file = os.path.join(annotation_dir, "en/invention/general/keyfeats.ta.20130509.dat")
-    mallet_training_file  = "data/models/itrain.mallet"
-    create_mallet_training_file(annot_file, phr_feats_file, mallet_training_file)
-
-
 
 
 if __name__ == '__main__':
